@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --surface: #1a1916;
+    --border: #2e2c28;
+    --text: #f0ece3;
+    --muted: #7a7669;
+    --accent: #e8d5a3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(15,14,12,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    padding: 14rem 3rem 6rem;
+    max-width: 900px;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    margin-bottom: 2rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* SEARCH */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.9rem 1.4rem;
+    max-width: 480px;
+    gap: 0.8rem;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 1rem; }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    gap: 3rem;
+    padding: 3rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .stat-item {}
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* SECTION */
+  .section {
+    padding: 5rem 3rem;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+  .filter-row {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* TOPIC GRID */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .topic-card {
+    background: var(--bg);
+    padding: 2.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .topic-card:hover { background: var(--surface); }
+  .topic-card:hover .card-arrow { transform: translate(4px, -4px); opacity: 1; }
+
+  .card-accent-bar {
+    width: 3px;
+    height: 2rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .badge-new { background: rgba(232,213,163,0.15); color: var(--accent); }
+  .badge-updated { background: rgba(100,180,100,0.15); color: #88d888; }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin-bottom: 0.7rem;
+    line-height: 1.2;
+  }
+  .card-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .card-meta {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 1.2rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: all 0.2s;
+  }
+
+  /* FEATURED / BIG CARD */
+  .topic-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 3rem;
+  }
+  @media (max-width: 700px) {
+    .topic-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  }
+
+  .featured-visual {
+    height: 160px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    opacity: 0.8;
+  }
+
+  /* GETTING STARTED */
+  .getting-started {
+    padding: 5rem 3rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .gs-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .gs-title {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+  .gs-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .gs-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .gs-step:first-child { border-top: 1px solid var(--border); }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: 300;
+  }
+  .step-info h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .step-info p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* DECORATIVE BG */
+  .bg-orb {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.04;
+    pointer-events: none;
+  }
+  .orb1 { background: #e8d5a3; top: -200px; right: -200px; }
+  .orb2 { background: #a3c4e8; bottom: 0; left: -200px; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero { animation: fadeUp 0.7s ease both; }
+  .stats { animation: fadeUp 0.7s 0.15s ease both; }
+  .section { animation: fadeUp 0.7s 0.25s ease both; }
+</style>
+</head>
+<body>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+<nav>
+  <div class="logo">Læringsportalen</div>
+  <ul class="nav-links">
+    <li><a href="#">Alle temaer</a></li>
+    <li><a href="#">Kom i gang</a></li>
+    <li><a href="#">Om siden</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Din samling av læringsressurser</p>
+  <h1>Utforsk og <em>lær</em><br>hva som helst.</h1>
+  <p>En samling interaktive temaguider bygget for å gjøre det enkelt å gå i dybden på det du er nysgjerrig på.</p>
+
+  <div class="search-bar">
+    <span class="search-icon">⌕</span>
+    <input type="text" placeholder="Søk i alle temaer...">
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-number">8</div>
+    <div class="stat-label">Temaer</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">120+</div>
+    <div class="stat-label">Fakta</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">24</div>
+    <div class="stat-label">Quizer</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">6</div>
+    <div class="stat-label">Tidslinjer</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Alle temaer</h2>
+    <div class="filter-row">
+      <button class="filter-btn active">Alle</button>
+      <button class="filter-btn">Historie</button>
+      <button class="filter-btn">Vitenskap</button>
+      <button class="filter-btn">Kultur</button>
+    </div>
+  </div>
+
+  <div class="topic-grid">
+
+    <!-- Featured card -->
+    <a class="topic-card featured" href="#" style="--c:#e8d5a3">
+      <div>
+        <div class="card-accent-bar" style="background:#e8d5a3"></div>
+        <div class="card-badge badge-new">Ny</div>
+        <div class="card-title" style="font-size:1.8rem">Norgeshistorie<br>fra vikingtiden</div>
+        <div class="card-desc">En grundig gjennomgang av norsk historie – fra de første bosetningene til et moderne demokrati. Med tidslinje, kart og quizer.</div>
+        <div class="card-meta">
+          <span>📖 18 seksjoner</span>
+          <span>🧩 5 quizer</span>
+          <span>🗺 2 kart</span>
+        </div>
+      </div>
+      <div class="featured-visual" style="background: rgba(232,213,163,0.08)">🏔</div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <!-- Regular cards -->
+    <a class="topic-card" href="#">
+      <div class="card-accent-bar" style="background:#a3c4e8"></div>
+      <div class="card-icon">🧬</div>
+      <div class="card-title">DNA og genetikk</div>
+      <div class="card-desc">Hvordan arvemateriale fungerer, fra dobbeltheliks til genredigering.</div>
+      <div class="card-meta">
+        <span>📖 12 seksjoner</span>
+        <span>🧩 3 quizer</span>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <a class="topic-card" href="#">
+      <div class="card-accent-bar" style="background:#c4a3e8"></div>
+      <div class="card-badge badge-updated">Oppdatert</div>
+      <div class="card-icon">🌌</div>
+      <div class="card-title">Verdensrommet</div>
+      <div class="card-desc">Fra solsystemet til mørk materie – universet forklart.</div>
+      <div class="card-meta">
+        <span>📖 15 seksjoner</span>
+        <span>🧩 4 quizer</span>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <a class="topic-card" href="#">
+      <div class="card-accent-bar" style="background:#a3e8b4"></div>
+      <div class="card-icon">🌿</div>
+      <div class="card-title">Klimaet og naturen</div>
+      <div class="card-desc">Klimaendringer, økosystemer og hva vi kan gjøre.</div>
+      <div class="card-meta">
+        <span>📖 10 seksjoner</span>
+        <span>🧩 2 quizer</span>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <a class="topic-card" href="#">
+      <div class="card-accent-bar" style="background:#e8a3a3"></div>
+      <div class="card-icon">🏛</div>
+      <div class="card-title">Antikkens Hellas</div>
+      <div class="card-desc">Filosofi, demokrati og mytologi fra sivilisasjonens vugge.</div>
+      <div class="card-meta">
+        <span>📖 9 seksjoner</span>
+        <span>🧩 3 quizer</span>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <a class="topic-card" href="#">
+      <div class="card-accent-bar" style="background:#e8c9a3"></div>
+      <div class="card-badge badge-new">Ny</div>
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Kunstig intelligens</div>
+      <div class="card-desc">Hvordan AI fungerer, historikken og hva fremtiden kan bringe.</div>
+      <div class="card-meta">
+        <span>📖 11 seksjoner</span>
+        <span>🧩 3 quizer</span>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<div class="getting-started">
+  <div>
+    <p class="gs-label">Ny her?</p>
+    <h3 class="gs-title">Slik kommer<br>du i gang</h3>
+  </div>
+  <div class="gs-steps">
+    <div class="gs-step">
+      <div class="step-num">01</div>
+      <div class="step-info">
+        <h4>Velg et tema</h4>
+        <p>Bla gjennom kortene over og velg noe du er nysgjerrig på.</p>
+      </div>
+    </div>
+    <div class="gs-step">
+      <div class="step-num">02</div>
+      <div class="step-info">
+        <h4>Les og utforsk</h4>
+        <p>Hvert tema er delt inn i seksjoner med fakta, tidslinjer og interaktivt innhold.</p>
+      </div>
+    </div>
+    <div class="gs-step">
+      <div class="step-num">03</div>
+      <div class="step-info">
+        <h4>Test deg selv</h4>
+        <p>Ta quizene underveis for å se hva du har lært.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Læringsportalen</span>
+  <span>Laget med nysgjerrighet ✦</span>
+</footer>
+
+</body>
+</html>

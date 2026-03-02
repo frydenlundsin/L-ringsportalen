@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gladiatorer – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a0f00;
+  --surface: #2a1a05;
+  --surface2: #3a2510;
+  --border: #5a3a15;
+  --text: #f5e8c8;
+  --muted: #b09060;
+  --gold: #f0b840;
+  --red: #d64530;
+  --sand: #e8d090;
+  --green: #5a9060;
+  --blue: #4070c0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(26,15,0,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--border);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a {
+  display: block;
+  padding: 1.1rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(214,69,48,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(240,184,64,0.08) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 40px,
+    rgba(90,58,21,0.15) 40px,
+    rgba(90,58,21,0.15) 41px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 40px,
+    rgba(90,58,21,0.15) 40px,
+    rgba(90,58,21,0.15) 41px
+  );
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--gold);
+  text-shadow: 0 4px 30px rgba(240,184,64,0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+.hero-sub {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+.hero-desc {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0 auto 2.5rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(58,37,16,0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  font-weight: 700;
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--gold);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.section-intro {
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== FACT BOXES ===== */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.fact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.fact-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* DID YOU KNOW */
+.did-you-know {
+  background: linear-gradient(135deg, rgba(240,184,64,0.12), rgba(214,69,48,0.08));
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.did-you-know::before {
+  content: "💡";
+  font-size: 3rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  opacity: 0.3;
+}
+.dyk-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+/* MYTH VS FACT */
+.myth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid;
+}
+.myth-card.myth {
+  background: rgba(214,69,48,0.1);
+  border-color: var(--red);
+}
+.myth-card.fact {
+  background: rgba(90,144,96,0.1);
+  border-color: var(--green);
+}
+.myth-card .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--gold), var(--red), var(--border));
+  border-radius: 3px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  cursor: pointer;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.45rem;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--bg);
+  transition: transform 0.2s;
+}
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+/* ===== GLADIATOR TYPES ===== */
+.gladiator-picker {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.gladiator-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gladiator-btn:hover { border-color: var(--gold); color: var(--gold); }
+.gladiator-btn.active {
+  border-color: var(--gold);
+  background: rgba(240,184,64,0.12);
+  color: var(--gold);
+}
+.gladiator-display {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  transition: all 0.3s;
+  min-height: 280px;
+}
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag {
+  background: rgba(240,184,64,0.1);
+  border: 1px solid rgba(240,184,64,0.3);
+  color: var(--sand);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 80px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--gold); transition: width 0.6s ease; }
+
+/* ===== LIFE SECTION ===== */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  border-left: 4px solid var(--gold);
+}
+.day-time {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* ===== ARENA ===== */
+.colosseum-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.colo-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+.colo-stat .big {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: var(--red);
+  font-weight: 700;
+  display: block;
+}
+.colo-stat .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+/* ===== SOCIETY ===== */
+.society-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+}
+.society-card h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+.deity-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.deity {
+  background: rgba(64,112,192,0.15);
+  border: 1px solid rgba(64,112,192,0.3);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.deity span { display: block; font-size: 0.7rem; color: var(--muted); }
+
+/* ===== FILM NOTE ===== */
+.film-note {
+  background: linear-gradient(135deg, rgba(64,112,192,0.12), rgba(90,58,21,0.3));
+  border: 1px solid rgba(64,112,192,0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 3rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--blue);
+  margin-bottom: 0.5rem;
+}
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* ===== QUIZ ===== */
+.quiz-container {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+.quiz-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-dot {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--gold); }
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-option {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem 1.3rem;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.quiz-option.correct { border-color: var(--green); background: rgba(90,144,96,0.2); color: #88d888; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(214,69,48,0.15); color: #ff8870; }
+.quiz-feedback {
+  padding: 1rem 1.3rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.quiz-feedback.correct { background: rgba(90,144,96,0.15); border: 1px solid var(--green); color: #88d888; }
+.quiz-feedback.wrong { background: rgba(214,69,48,0.1); border: 1px solid var(--red); color: #ff8870; }
+.quiz-btn {
+  background: var(--gold);
+  color: #1a0f00;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+.quiz-btn:hover { background: var(--sand); transform: translateY(-1px); }
+.quiz-result {
+  text-align: center;
+  display: none;
+}
+.quiz-result .score {
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  color: var(--gold);
+  display: block;
+  margin: 1rem 0;
+}
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart {
+  background: var(--red);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.quiz-restart:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * {
+  animation: fadeUp 0.6s ease both;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">⚔ Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hvem var de?</a></li>
+      <li><a href="#historie">Historie</a></li>
+      <li><a href="#typer">Typer</a></li>
+      <li><a href="#livet">Livet</a></li>
+      <li><a href="#arenaen">Arenaen</a></li>
+      <li><a href="#samfunn">Samfunn</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏛 Romerriket</div>
+    <h1>GLADIATORER</h1>
+    <p class="hero-sub">Kampens mestre i det gamle Roma</p>
+    <p class="hero-desc">Hvem var egentlig gladiatorene? Sultne slaver? Friviktige krigere? Kjendiser? Lær alt om menneskene bak hjelmene!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">268 f.Kr.</span><span class="lbl">Første kamp</span></div>
+      <div class="hero-stat"><span class="num">7+</span><span class="lbl">Typer gladiatorer</span></div>
+      <div class="hero-stat"><span class="num">50 000</span><span class="lbl">Tilskuere i Colosseum</span></div>
+      <div class="hero-stat"><span class="num">~400</span><span class="lbl">År dette varte</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hvem var egentlig gladiatorene?</h2>
+  <p class="section-intro">Du har sikkert sett gladiatorer i filmer og spill – men hva var de egentlig? La oss finne ut av sannheten!</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">⚔️</div>
+      <h3>Trente krigere</h3>
+      <p>Gladiatorer var profesjonelle kjempere som trente hardt i spesielle gladiatorskoler kalt <em>ludus</em>. Mange var like gode som idrettsstjerner i dag!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🔗</div>
+      <h3>Hvem ble gladiator?</h3>
+      <p>De fleste var slaver eller krigsfanger. Men noen meldte seg faktisk frivillig – fordi de ønsket berømmelse, penger eller et bedre liv!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">⭐</div>
+      <h3>Kjendiser i Roma</h3>
+      <p>Dyktige gladiatorer var kjendiser! Folk elsket dem, tegnet dem på vegger og kjøpte suvenirer med bildene deres – litt som fotballspillere i dag.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🩺</div>
+      <h3>Tatt godt vare på</h3>
+      <p>Gladiatorer fikk god mat, legebehandling og trening. De var dyre å utdanne, så eierne sørget for at de holdt seg friske!</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Ordet <strong>"gladiator"</strong> kommer fra det latinske ordet <em>gladius</em>, som betyr <strong>kort sverd</strong>. Det var et av de vanligste våpnene i arenaen!</p>
+  </div>
+
+  <h3 style="font-family:'Cinzel',serif; color:var(--sand); margin-bottom:1rem; font-size:1.3rem;">Myter og fakta</h3>
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Gladiatorer kjempet alltid til døden"</h4>
+      <p>Slett ikke! De fleste kamper endte ikke med at noen døde. Å drepe en gladiator var dyrt – det var som å ødelegge en dyr idrettsstjerne!</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Taperen ba ofte om nåde</h4>
+      <p>Når en gladiator tapte, kunne han legge ned skjoldet og løfte fingeren for å be om nåde. Det var ofte publikum – og ikke keiseren – som bestemte skjebnen!</p>
+    </div>
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Tommel ned betød alltid død"</h4>
+      <p>Vi vet faktisk ikke sikkert hva romerne mente med håndbevegelsene. "Tommel ned" som dødsdom er mest sannsynlig oppfunnet av en maler på 1800-tallet!</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Kvinner kjempet også!</h4>
+      <p>Det fantes faktiske kvinnelige gladiatorer kalt <em>gladiatrices</em>! Det var uvanlig, men det skjedde – og publikum elsket det.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HISTORIE -->
+<section id="historie">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Gladiatorenes historie</h2>
+  <p class="section-intro">Fra de første kampene i 264 f.Kr. til slutten av en hel epoke – her er de viktigste hendelsene!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">264 f.Kr.</div>
+      <h4>De første gladiatorkampene</h4>
+      <p>De aller første kampene ble holdt i begravelsesseremonier for å ære avdøde. Det var tre par som kjempet i Roma – og tradisjonen vokste derfra.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">100 f.Kr.</div>
+      <h4>Gladiatorskoler åpner</h4>
+      <p>Egne skoler kalt <em>ludus</em> ble opprettet der trente instruksjonene (kalt <em>lanista</em>) lærte gladiatorer alle taktikker og kampteknikker.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">73 f.Kr.</div>
+      <h4>Spartacus-opprøret</h4>
+      <p>Gladiatoren Spartacus ledet et massivt slaveopprør med over 70 000 tilhengere! Han kjempet mot Romas mektige hær i nesten to år.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">80 e.Kr.</div>
+      <h4>Colosseum åpner</h4>
+      <p>Keiser Titus åpner det enorme Colosseum i Roma. 100 dager med kamper og festivaler ble arrangert for å feire åpningen!</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">177 e.Kr.</div>
+      <h4>Keiser Marcus Aurelius begrenser kampene</h4>
+      <p>Den filosofiske keiseren innfører regler som gjør kampene litt mildere – gladiatorer skulle nå helst kjempe med stumpe våpen i visse kamper.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">~400 e.Kr.</div>
+      <h4>Gladiatorkampene slutter</h4>
+      <p>Kristendommen sprer seg i Romerriket og kampene anses som brutale. Keiser Honorius forbyr gladiatorkamper, og en 700 år lang tradisjon er over.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TYPER GLADIATORER -->
+<section id="typer">
+  <p class="section-label">Klasserom</p>
+  <h2 class="section-title">Typer gladiatorer</h2>
+  <p class="section-intro">Det fantes mange forskjellige typer gladiatorer, alle med ulikt utstyr og kampstilar. Klikk for å lære om hver type!</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showGladiator('murmillo')">Murmillo</button>
+    <button class="gladiator-btn" onclick="showGladiator('retiarius')">Retiarius</button>
+    <button class="gladiator-btn" onclick="showGladiator('secutor')">Secutor</button>
+    <button class="gladiator-btn" onclick="showGladiator('thraex')">Thraex</button>
+    <button class="gladiator-btn" onclick="showGladiator('dimachaerus')">Dimachaerus</button>
+  </div>
+
+  <div class="gladiator-display" id="gladiator-display">
+    <div class="gladiator-emoji" id="g-emoji">🛡️</div>
+    <div class="gladiator-info">
+      <h3 id="g-name">Murmillo</h3>
+      <p class="gladiator-latin" id="g-latin">Latin: "fisken"</p>
+      <p id="g-desc">Murmillo er en av de mest klassiske gladiatortypene. De bar tungt skjold og hjelm med en høy kam på toppen – noen mener hjelmen lignet en fisk, derav navnet. De var tunge og kraftige, og kjempet gjerne mot Retiarius (nettfiskeren).</p>
+      <div class="gear-tags" id="g-gear">
+        <span class="gear-tag">🗡 Gladius (kort sverd)</span>
+        <span class="gear-tag">🛡 Stort rektangulært skjold</span>
+        <span class="gear-tag">⛑ Stor hjelm</span>
+        <span class="gear-tag">🦵 Benbeskyttere</span>
+      </div>
+      <div class="strength-bars" id="g-bars">
+        <div class="bar-row"><span class="bar-label">Styrke</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Forsvar</span><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Hurtighet</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LIVET -->
+<section id="livet">
+  <p class="section-label">En dag i livet</p>
+  <h2 class="section-title">Livet som gladiator</h2>
+  <p class="section-intro">Hvordan var hverdagen i gladiatorskolen? Her er en typisk dag i livet til en trende gladiator!</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">⏰ Tidlig morgen</div>
+      <h4>Oppvåkning og frokost</h4>
+      <p>Gladiatorer stod tidlig opp og spiste en rik frokost med korn, bønner og grønnsaker – mat som ga mye energi.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">🌅 Formiddag</div>
+      <h4>Treningsøkt</h4>
+      <p>Timer med hard trening mot treningspæler, øving på teknikker og kamp mot hverandre – men med treningsvåpen for å unngå skader.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">☀️ Middag</div>
+      <h4>Hvile og mat</h4>
+      <p>Midt på dagen var det hvile og et stort måltid. Gladiatorer spiste faktisk mye vegetarmat – studier av beinrester viser mye korn og grønnsaker.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">🌤 Ettermiddag</div>
+      <h4>Mer trening og taktikk</h4>
+      <p>Instruksjonene (lanista) lærte dem spesifikke bevegelser og taktikker. De øvde også på å opptre godt for publikum!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">🌇 Kveld</div>
+      <h4>Legebesøk og bad</h4>
+      <p>Etter trening fikk de legebehandling for skader. Gladiatorer hadde tilgang til gode leger – faktisk bedre enn mange vanlige romere!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">🌙 Natt</div>
+      <h4>Fellesskap og hvile</h4>
+      <p>De sov i enkle rom i gladiatorskolen. Mange ble gode venner – de trente, spiste og bodde sammen, nesten som et fotballag.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Arkeologer har funnet beinrester fra gladiatorer i Tyrkia. Undersøkelser viser at de spiste mye <strong>korn og bønner</strong> – nesten ingen kjøtt! Noen historikere kaller dem spøkefullt "bønne-spederne".</p>
+  </div>
+
+  <div class="myth-grid" style="margin-top:2rem;">
+    <div class="fact-card">
+      <div class="fact-icon">🏆</div>
+      <h3>Friheten som belønning</h3>
+      <p>En gladiator som vant nok kamper kunne bli tildelt en trebeltning kalt <em>rudis</em> – det betød at han var fri! Mange ble likevel trenere fordi det var det de kunne.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">💰</div>
+      <h3>Penger og berømmelse</h3>
+      <p>Dyktige gladiatorer tjente gode penger. Noen ble så kjente at velstående romere betalte dem store summer for å delta i private show.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ARENAEN -->
+<section id="arenaen">
+  <p class="section-label">Kamparenaen</p>
+  <h2 class="section-title">Colosseum og arenaen</h2>
+  <p class="section-intro">Det store Colosseum i Roma er kanskje verdens mest kjente bygning. Men hva skjedde egentlig der inne?</p>
+
+  <div class="colosseum-facts">
+    <div class="colo-stat">
+      <span class="big">50 000</span>
+      <span class="desc">Tilskuere fikk plass</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">188m</span>
+      <span class="desc">Lang (fotballbane er 105m)</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">80</span>
+      <span class="desc">Innganger å velge mellom</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">Gratis</span>
+      <span class="desc">Inngang for vanlige folk</span>
+    </div>
+  </div>
+
+  <div class="fact-grid" style="margin-top:1.5rem;">
+    <div class="fact-card">
+      <div class="fact-icon">🎭</div>
+      <h3>En hel dag med show</h3>
+      <p>Det var ikke bare gladiatorkamper! Dagen startet med dyrejakt, så offentlige henrettelser midt på dagen, og gladiatorkamper på ettermiddagen.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🍞</div>
+      <h3>"Brød og sirkus"</h3>
+      <p>Keiserne ga folket gratis mat og gratis underholdning for å holde dem glade og rolige. Romerne kalte det <em>panem et circenses</em> – "brød og sirkus".</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌊</div>
+      <h3>Arenaen ble fylt med vann!</h3>
+      <p>Noen ganger ble arenaen fylt med vann for å simulere sjøslag – med ordentlige båter! Det het <em>naumachia</em> og var et spektakulært show.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">👑</div>
+      <h3>De beste plassene</h3>
+      <p>Keiseren og senatorene satt fremst. Vanlige folk satt bak. Kvinner satt lengst bak og øverst. Jo viktigere du var, jo nærmere kampen satt du!</p>
+    </div>
+  </div>
+
+  <!-- Film note -->
+  <div class="film-note">
+    <div class="film-emoji">🎬</div>
+    <div>
+      <h4>Om filmen "Gladiator" (2000 og 2024)</h4>
+      <p>Filmen "Gladiator" med Russell Crowe er veldig spennende – men den tar seg noen friheter med historien! Maximus er en oppfunnet person, og keiser Commodus (som faktisk eksisterte) er litt annerledes enn i filmen. Men Colosseum, gladiatortypene og atmosfæren er ganske bra gjenskapt. En fin film, men ikke en historiebok! 😄</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SAMFUNN OG RELIGION -->
+<section id="samfunn">
+  <p class="section-label">Romerriket</p>
+  <h2 class="section-title">Samfunn og religion i Roma</h2>
+  <p class="section-intro">For å forstå gladiatorene, må vi forstå verden de levde i. Romerriket var et fascinerende – og komplisert – samfunn.</p>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>🏛 Hvem bestemte?</h4>
+      <p>Roma ble styrt av en keiser som hadde nesten ubegrenset makt. Under ham var det senatorer, militære ledere og andre rike menn. Nedst på rangstigen var slaver, som ikke hadde noen rettigheter i det hele tatt.</p>
+    </div>
+    <div class="society-card">
+      <h4>⚖️ Romernes lover</h4>
+      <p>Roma hadde et avansert rettssystem med skrevne lover. Mange av lovene vi har i dag er faktisk inspirert av romerske lover! Men lovene gjaldt ikke likt for alle – slaver hadde ingen beskyttelse.</p>
+    </div>
+    <div class="society-card">
+      <h4>🏘 Livet i Roma</h4>
+      <p>Roma var en enorm by med over en million innbyggere. Folk bodde trangt i leilighetsbygninger. Det fantes bad, markeder, templer og teatre overalt. Romerne var veldig glad i komfort og underholdning.</p>
+    </div>
+    <div class="society-card">
+      <h4>🗡 Krig og ekspansjon</h4>
+      <p>Roma bygde sitt imperium gjennom krig. Hæren var enorm og disiplinert. Mange av gladiatorene var opprinnelig krigsfanger fra land Roma hadde erobret – fra Gallia, Britannia, Hellas og Nord-Afrika.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Romerne trodde faktisk at de første gladiatorkampene hadde et <strong>religiøst formål</strong>: Blodet som ble utgytt skulle tilfredsstille de avdødes ånd og hjelpe dem til etterlivet. Etterhvert ble det ren underholdning – men det begynte som en begravelsesritual.</p>
+  </div>
+
+  <h3 style="font-family:'Cinzel',serif; color:var(--sand); margin:2rem 0 1rem; font-size:1.3rem;">Romernes guder</h3>
+  <div class="society-card">
+    <h4>⚡ De mange gudene</h4>
+    <p>Romerne hadde mange guder som de ba til for hjelp i hverdagen. Gladiatorer ba gjerne til Mars (krigsguden) og Fortuna (lykkeegudinnen) før en kamp. Templene var viktige steder i Roma, og ofringer til gudene var en daglig aktivitet.</p>
+    <div class="deity-row">
+      <div class="deity">⚡ Jupiter <span>Kongenes konge</span></div>
+      <div class="deity">⚔️ Mars <span>Krigsgud</span></div>
+      <div class="deity">🎲 Fortuna <span>Lykke og skjebne</span></div>
+      <div class="deity">☀️ Apollo <span>Solen og kunsten</span></div>
+      <div class="deity">❤️ Venus <span>Kjærlighet</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- QUIZ -->
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Gladiatorquizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din med disse spørsmålene!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>⚔️ <strong style="color:var(--gold)">Gladiatorer</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på historiske kilder • Laget for nysgjerrige elever 🏛</p>
+</footer>
+
+<script>
+// ===== GLADIATOR DATA =====
+const gladiators = {
+  murmillo: {
+    emoji: "🛡️",
+    name: "Murmillo",
+    latin: 'Latin: trolig "fisken" – fra hjelm-designet',
+    desc: "Murmillo er en av de mest klassiske gladiatortypene. De bar tungt skjold og en stor hjelm med en høy kam på toppen. Tunge og kraftige – ikke raske, men nesten umulige å slå gjennom forsvarsmuren. Kjempet gjerne mot Retiarius (nettfiskeren).",
+    gear: ["🗡 Gladius (kort sverd)", "🛡 Stort rektangulært skjold", "⛑ Stor hjelm med kam", "🦵 Benbeskyttere"],
+    bars: [85, 90, 40]
+  },
+  retiarius: {
+    emoji: "🕸️",
+    name: "Retiarius",
+    latin: 'Latin: "nettbæreren"',
+    desc: "Retiarius var den raskeste og letteste gladiatortypen – men også den mest sårbare. De kjempet med et kastenettverk og en trebenet spydstav (trident). Strategien var å fange motstanderen i nettet og deretter stikke med tridenten. Ingen hjelm – men mye fart!",
+    gear: ["🔱 Trident (tregrenset spyd)", "🕸 Kastenet", "🦾 Skulderplate (galerus)", "🗡 Kort dolk som backup"],
+    bars: [55, 30, 95]
+  },
+  secutor: {
+    emoji: "⚔️",
+    name: "Secutor",
+    latin: 'Latin: "jegeren" – den som jager',
+    desc: "Secutor ble spesielt laget for å kjempe mot Retiarius! Hjelmen hadde bare to små hull til øynene – slik at nettet til Retiarius ikke kunne hekte seg fast. De 'jagde' Retiarius rundt arenaen mens Retiarius prøvde å holde avstand.",
+    gear: ["🗡 Gladius (kort sverd)", "🛡 Ovalt skjold", "⛑ Glatt, rund hjelm", "🦵 Benbeskyttere"],
+    bars: [80, 85, 60]
+  },
+  thraex: {
+    emoji: "🗡️",
+    name: "Thraex",
+    latin: 'Latin: "thrakeren" – fra Thrakia (i dag Bulgaria)',
+    desc: "Thraex representerte krigerne fra Thrakia, et land Roma hadde erobret. De hadde et lite, bøyd sverd kalt sica og et lite rektangulært skjold. Veldig manøvredyktige og raske. Kjempet ofte mot Murmillo eller Hoplomachus.",
+    gear: ["⚔️ Sica (bøyd, kort sverd)", "🛡 Lite rektangulært skjold", "⛑ Hjelm med griffinhodekam", "🦵 Høye benbeskyttere"],
+    bars: [65, 55, 80]
+  },
+  dimachaerus: {
+    emoji: "🌀",
+    name: "Dimachaerus",
+    latin: 'Gresk: "den med to sverd"',
+    desc: "Den sjeldneste og mest imponerende av alle! Dimachaerus kjempet med to sverd – ett i hver hånd. Ingen skjold – bare rå aggresjon og fart. De var et publikumsfavoritt fordi kampstilen var spektakulær. Det krevde enormt mange år med trening!",
+    gear: ["🗡 To korte sverd", "🦾 Armbeskyytere", "⛑ Hjelm (varierer)", "💨 Ingen skjold!"],
+    bars: [90, 35, 88]
+  }
+};
+
+function showGladiator(key) {
+  const g = gladiators[key];
+  document.getElementById('g-emoji').textContent = g.emoji;
+  document.getElementById('g-name').textContent = g.name;
+  document.getElementById('g-latin').textContent = g.latin;
+  document.getElementById('g-desc').textContent = g.desc;
+  document.getElementById('g-gear').innerHTML = g.gear.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Styrke','Forsvar','Hurtighet'];
+  document.getElementById('g-bars').innerHTML = g.bars.map((v,i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ===== QUIZ =====
+const questions = [
+  {
+    q: "Hva betyr ordet 'gladiator'?",
+    opts: ["Den sterke", "Sverdmannen", "Den tapre", "Krigerkongen"],
+    correct: 1,
+    explanation: "Gladiator kommer fra 'gladius' – det latinske ordet for kort sverd!"
+  },
+  {
+    q: "I hvilket år åpnet Colosseum i Roma?",
+    opts: ["264 f.Kr.", "73 f.Kr.", "80 e.Kr.", "400 e.Kr."],
+    correct: 2,
+    explanation: "Colosseum åpnet i år 80 e.Kr. under keiser Titus, med 100 dager med festivaler!"
+  },
+  {
+    q: "Hva het gladiatorskolene i Roma?",
+    opts: ["Arena", "Ludus", "Circus", "Forum"],
+    correct: 1,
+    explanation: "Gladiatorskolene het 'ludus'. Instruksjonene som lærte dem opp het 'lanista'."
+  },
+  {
+    q: "Hvilken gladiatortype kjempet med et kastenet og treforgrenset spyd?",
+    opts: ["Murmillo", "Thraex", "Secutor", "Retiarius"],
+    correct: 3,
+    explanation: "Retiarius – 'nettbæreren' – kjempet med nett og trident (treforgrenset spyd)!"
+  },
+  {
+    q: "Hva fikk en gladiator som symbol på frihet når han hadde kjempet nok?",
+    opts: ["En gullring", "En trebeltning (rudis)", "Et sverd", "En hjelm"],
+    correct: 1,
+    explanation: "En trebeltning kalt 'rudis' var symbolet på frihet – gladiatoren var nå en fri mann!"
+  },
+  {
+    q: "Hvem ledet det store slaveopprøret i 73 f.Kr.?",
+    opts: ["Julius Caesar", "Maximus", "Spartacus", "Marcus Aurelius"],
+    correct: 2,
+    explanation: "Spartacus ledet opprøret med over 70 000 tilhengere i nesten to år!"
+  },
+  {
+    q: "Hva spiste gladiatorer mest av, ifølge funn av beinrester?",
+    opts: ["Kjøtt og fisk", "Korn og bønner", "Frukt og nøtter", "Brød og ost"],
+    correct: 1,
+    explanation: "Arkeologer har funnet at gladiatorer spiste overraskende mye korn og bønner – og lite kjøtt!"
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function buildProgress() {
+  const p = document.getElementById('quiz-progress');
+  p.innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`
+  ).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current+1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o,i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`
+  ).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) {
+    score++;
+    opts[idx].classList.add('correct');
+    fb.textContent = "✅ Riktig! " + q.explanation;
+    fb.className = 'quiz-feedback correct';
+  } else {
+    opts[idx].classList.add('wrong');
+    fb.textContent = "❌ Ikke helt! " + q.explanation;
+    fb.className = 'quiz-feedback wrong';
+  }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+
+document.getElementById('quiz-next').onclick = function() {
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+};
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  const res = document.getElementById('quiz-result');
+  res.style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  const msgs = [
+    "Ikke gi opp – en gladiator trener, prøver og vinner til slutt! 💪",
+    "Bra start! Du vet en del, men det er mer å lære. Prøv igjen!",
+    "Veldig bra! Du har lært masse om gladiatorer!",
+    "Imponerende! Du er en ekte gladiator-ekspert! 🏆"
+  ];
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? msgs[0] : pct < 0.6 ? msgs[1] : pct < 0.9 ? msgs[2] : msgs[3];
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+
+renderQuestion();
+
+// ===== NAV ACTIVE ON SCROLL =====
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutankhamon – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0c07;
+  --surface: #1e1608;
+  --surface2: #2e2210;
+  --border: #4a3a18;
+  --text: #f5ead0;
+  --muted: #a08855;
+  --primary: #e8b840;
+  --secondary: #2ab8a0;
+  --highlight: #f0d88a;
+  --red: #c84028;
+  --lapis: #2848a8;
+  --green: #5a9060;
+  --gold: #e8b840;
+  --sand: #f0d88a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(15,12,7,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+}
+.nav-logo {
+  font-family: 'Philosopher', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--border);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a {
+  display: block;
+  padding: 1.1rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,64,40,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(232,184,64,0.10) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 20px,
+    rgba(74,58,24,0.12) 20px, rgba(74,58,24,0.12) 21px
+  );
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Philosopher', serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+  text-shadow: 0 4px 30px rgba(232,184,64,0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+.hero-sub {
+  font-family: 'Philosopher', serif;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.08em;
+}
+.hero-desc {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0 auto 2.5rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(46,34,16,0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'Philosopher', serif;
+  font-size: 1.3rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* SECTIONS */
+section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Philosopher', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.section-intro {
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* FACT BOXES */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.fact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.fact-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 {
+  font-family: 'Philosopher', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* DID YOU KNOW */
+.did-you-know {
+  background: linear-gradient(135deg, rgba(232,184,64,0.12), rgba(200,64,40,0.08));
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.did-you-know::before {
+  content: "💡";
+  font-size: 3rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  opacity: 0.3;
+}
+.dyk-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+/* MYTH VS FACT */
+.myth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid;
+}
+.myth-card.myth {
+  background: rgba(200,64,40,0.1);
+  border-color: var(--red);
+}
+.myth-card.fact {
+  background: rgba(90,144,96,0.1);
+  border-color: var(--green);
+}
+.myth-card .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--red), var(--border));
+  border-radius: 3px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  cursor: pointer;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.45rem;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--bg);
+  transition: transform 0.2s;
+}
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year {
+  font-family: 'Philosopher', serif;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+/* PICKER */
+.gladiator-picker {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.gladiator-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gladiator-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gladiator-btn.active {
+  border-color: var(--primary);
+  background: rgba(232,184,64,0.12);
+  color: var(--primary);
+}
+.gladiator-display {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  transition: all 0.3s;
+  min-height: 280px;
+}
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 {
+  font-family: 'Philosopher', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag {
+  background: rgba(232,184,64,0.1);
+  border: 1px solid rgba(232,184,64,0.3);
+  color: var(--sand);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 130px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--primary); transition: width 0.6s ease; }
+
+/* COLOSSEUM STATS */
+.colosseum-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.colo-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+.colo-stat .big {
+  font-family: 'Philosopher', serif;
+  font-size: 2rem;
+  color: var(--red);
+  font-weight: 700;
+  display: block;
+}
+.colo-stat .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+/* DAY GRID */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  border-left: 4px solid var(--primary);
+}
+.day-time {
+  font-family: 'Philosopher', serif;
+  font-size: 0.8rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* SOCIETY GRID */
+.society-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+}
+.society-card h4 {
+  font-family: 'Philosopher', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* FILM NOTE */
+.film-note {
+  background: linear-gradient(135deg, rgba(40,72,168,0.12), rgba(46,34,16,0.8));
+  border: 1px solid rgba(40,72,168,0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 3rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 {
+  font-family: 'Philosopher', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6080e0;
+  margin-bottom: 0.5rem;
+}
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* QUIZ */
+.quiz-container {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+.quiz-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-dot {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--primary); }
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-option {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem 1.3rem;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.quiz-option.correct { border-color: var(--green); background: rgba(90,144,96,0.2); color: #88d888; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(200,64,40,0.15); color: #ff8870; }
+.quiz-feedback {
+  padding: 1rem 1.3rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.quiz-feedback.correct { background: rgba(90,144,96,0.15); border: 1px solid var(--green); color: #88d888; }
+.quiz-feedback.wrong { background: rgba(200,64,40,0.1); border: 1px solid var(--red); color: #ff8870; }
+.quiz-btn {
+  background: var(--primary);
+  color: #0f0c07;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+.quiz-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.quiz-result { text-align: center; display: none; }
+.quiz-result .score {
+  font-family: 'Philosopher', serif;
+  font-size: 4rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+  margin: 1rem 0;
+}
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart {
+  background: var(--red);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.quiz-restart:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a { color: var(--primary); text-decoration: none; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * { animation: fadeUp 0.6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">🏺 Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hvem var Tut?</a></li>
+      <li><a href="#livet">Livet hans</a></li>
+      <li><a href="#egypt">Det gamle Egypt</a></li>
+      <li><a href="#graven">Graven</a></li>
+      <li><a href="#skatter">Skattkammeret</a></li>
+      <li><a href="#mysteriet">Mysteriet</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏺 Det gamle Egypt</div>
+    <h1>TUTANKHAMON</h1>
+    <p class="hero-sub">Den glemte faraoen som forandret historien</p>
+    <p class="hero-desc">Han var bare et barn da han ble farao – og bare 19 år gammel da han døde. Men funnet av graven hans i 1922 forandret arkeologien for alltid!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">~1341 f.Kr.</span><span class="lbl">Født</span></div>
+      <div class="hero-stat"><span class="num">9 år</span><span class="lbl">Ble farao</span></div>
+      <div class="hero-stat"><span class="num">5 398</span><span class="lbl">Gjenstander i graven</span></div>
+      <div class="hero-stat"><span class="num">3 300</span><span class="lbl">År graven var forseglet</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hvem var Tutankhamon?</h2>
+  <p class="section-intro">Han er verdens mest kjente farao – men i sin egen tid ble han nesten glemt. Her er historien!</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">👦</div>
+      <h3>Et barn som farao</h3>
+      <p>Tutankhamon ble farao i en alder av bare 9 år. Han regjerte i ca. 10 år, frem til han døde som 19-åring. Rådgivere hjalp den unge kongen med å styre Egypt.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">📜</div>
+      <h3>Det glemte navnet</h3>
+      <p>Etter hans død prøvde etterfølgerne å slette ham fra historien – de fjernet hans navn fra monumenter. Men graven overlevde uskadd i 3 300 år!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">✏️</div>
+      <h3>Tutankhaten → Tutankhamon</h3>
+      <p>Han ble født Tutankhaten ("levende bilde av Aten"). Da han ble farao byttet han navn til Tutankhamon for å markere en religiøs endring tilbake til den gamle troen.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🔍</div>
+      <h3>Arkeologiens stjerne</h3>
+      <p>I dag er Tutankhamon kanskje verdens mest kjente farao – ikke fordi han var mektigst, men fordi graven hans var den eneste kongelige graven som overlevde nesten urørt!</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Selv om Tutankhamon er verdens mest kjente farao, var han ganske <strong>uviktig i sin egen tid</strong>! Han var ung, regjerte kortfattet og ble kjapt glemt. Ironisk nok er nettopp glemsel grunnen til at graven hans ble bevart – den var for uviktig til å bli plyndret!</p>
+  </div>
+
+  <h3 style="font-family:'Philosopher',serif; color:var(--sand); margin-bottom:1rem; font-size:1.3rem;">Myter og fakta</h3>
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Tutankhamon var Egypts mektigste farao"</h4>
+      <p>Han var faktisk en relativt svak og ung farao. Ramses II og Thutmose III var langt mektigere og regjerte mye lenger.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Han ble sannsynligvis ikke myrdet</h4>
+      <p>De fleste eksperter tror i dag at han døde av naturlige årsaker – sannsynligvis sykdom og skader fra et benbrudd i foten.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LIVET -->
+<section id="livet">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Livet til Tutankhamon</h2>
+  <p class="section-intro">Fra fødsel i et kongelig hoff til graven som forandret alt – her er tidslisten!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1341 f.Kr.</div>
+      <h4>Tutankhaton blir født</h4>
+      <p>Han er trolig sønn av farao Akhenaton – den "kjetterske" faraoen som forsøkte å endre Egypts religion. Moren er fortsatt ukjent.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1332 f.Kr.</div>
+      <h4>Blir farao som 9-åring</h4>
+      <p>Etter sin fars død krones Tutankhaton som farao. Han gifter seg med Ankhesenamun. Rådgivere styrer i det meste i starten.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1332 f.Kr.</div>
+      <h4>Bytter navn til Tutankhamon</h4>
+      <p>Det nye regimet tar avstand fra farens religiøse revolusjon. Guden Amon gjeninnføres og den unge faraoen skifter navn.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1325 f.Kr.</div>
+      <h4>Reformer og restaurering</h4>
+      <p>Tutankhamon og hans rådgivere restaurerer templer og gudstjenester som farens revolusjon hadde stanset. Egypt begynner å komme seg.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1323 f.Kr.</div>
+      <h4>Tutankhamon dør, kun 19 år gammel</h4>
+      <p>DNA-analyser fra 2010 viste tegn på malaria og et beinbrudd i foten. Sannsynligvis døde han av en kombinasjon av sykdom og skader.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1323 f.Kr.</div>
+      <h4>Begravd i Kongenes Dal</h4>
+      <p>Han begraves i en relativt liten grav ved Luxor. Den lille graven tyder på at begravelsen ble hastegjort – faraoen hadde normalt tiår til å planlegge sin grav.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1922 e.Kr.</div>
+      <h4>Howard Carter finner graven</h4>
+      <p>Den britiske arkeologen Howard Carter, finansiert av Lord Carnarvon, bryter forseglingen. En av historiens største arkeologiske oppdagelser!</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Tutankhamon giftet seg med sin halvsøster Ankhesenamun. Det høres rart ut for oss i dag, men i det gamle Egypt var det vanlig blant kongefamilier – de trodde <strong>guddommelig blod måtte holdes rent innenfor familien</strong>.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DET GAMLE EGYPT -->
+<section id="egypt">
+  <p class="section-label">Sivilisasjonen</p>
+  <h2 class="section-title">Det gamle Egypt</h2>
+  <p class="section-intro">For å forstå Tutankhamon, må vi forstå verden han levde i. Velg et element for å utforske!</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showEgypt('farao')">Faraoen</button>
+    <button class="gladiator-btn" onclick="showEgypt('hieroglyfer')">Hieroglyfer</button>
+    <button class="gladiator-btn" onclick="showEgypt('mumifisering')">Mumifisering</button>
+    <button class="gladiator-btn" onclick="showEgypt('pyramider')">Pyramidene</button>
+    <button class="gladiator-btn" onclick="showEgypt('guder')">Gudene</button>
+  </div>
+
+  <div class="gladiator-display" id="egypt-display">
+    <div class="gladiator-emoji" id="e-emoji">👑</div>
+    <div class="gladiator-info">
+      <h3 id="e-name">Faraoen</h3>
+      <p class="gladiator-latin" id="e-undertittel">Guddommelig hersker på jord</p>
+      <p id="e-desc">Faraoen var ikke bare en kongelig leder – egypterne trodde han var en levende gud! Han var jordens representant for guden Horus, og etter døden ble han en del av guden Osiris. Alt i Egypt tilhørte teknisk sett faraoen. Hans ord var lov.</p>
+      <div class="gear-tags" id="e-fakta">
+        <span class="gear-tag">👁 Representerte guden Horus</span>
+        <span class="gear-tag">🏛 Eide alt i Egypt</span>
+        <span class="gear-tag">⚖️ Øverste dommer</span>
+        <span class="gear-tag">☀️ Ansvarlig for Nilen</span>
+      </div>
+      <div class="strength-bars" id="e-bars">
+        <div class="bar-row"><span class="bar-label">Makt</span><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Religiøs bet.</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Kulturell innfl.</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GRAVEN -->
+<section id="graven">
+  <p class="section-label">1922 – Det store funnet</p>
+  <h2 class="section-title">Oppdagelsen av graven</h2>
+  <p class="section-intro">November 1922 – etter fem år med leting finner Howard Carter noe som vil forandre arkeologien for alltid!</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">Bakgrunn</div>
+      <h4>Howard Carter leter i 5 år</h4>
+      <p>Lord Carnarvon finansierer utgravningen. Carter søker etter Tutankhamons grav, som mange tror er plyndret for lenge siden.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">4. november 1922</div>
+      <h4>En trapp!</h4>
+      <p>En arbeider snubler over noe hardt i sanden. Det er en trapp nedover. Carter finner 16 trappetrinn ned til en forseglet dør.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">26. november 1922</div>
+      <h4>"Fantastiske ting!"</h4>
+      <p>Carter lager et hull i den andre forseglingen og holder et lys inn. Carnarvon spør: "Kan du se noe?" – Carter svarer: "Ja, fantastiske ting!"</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Første rom</div>
+      <h4>Forværelset er fullt!</h4>
+      <p>Det første rommet er overfylt med gjenstander – vogner, statuer, senger, skrin – alt i gull og juveler. Det tar måneder å dokumentere alt.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">1923</div>
+      <h4>Gravkammeret åpnes</h4>
+      <p>Det tar måneder å fotografere alt grundig. Til slutt åpnes det innerste rommet med selve sarkofagen som inneholder mumien.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Tre kister</div>
+      <h4>Gullmasken avdekkes</h4>
+      <p>Tutankhamons mumie lå i tre kister stablet inni hverandre. Den ytterste gullmasken er i dag verdens mest kjente arkeologiske gjenstand.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Da Howard Carter omsider åpnet den innerste kisten og så mumien, sa han at han ble overveldet av respekt. Tutankhamon hadde ligget der urørt i over <strong>3 000 år</strong> – og Carter var den første levende personen som så ham.</p>
+  </div>
+
+  <h3 style="font-family:'Philosopher',serif; color:var(--sand); margin-bottom:1rem; font-size:1.3rem;">Faraokurbanken – myte eller virkelighet?</h3>
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Forbannelsen drepte alle som åpnet graven"</h4>
+      <p>Av de 58 personene tilstede ved åpningen i 1922, døde bare 8 innen de neste 12 årene – statistisk sett helt normalt for folk i den alderen.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Lord Carnarvon døde 5 måneder etter – men...</h4>
+      <p>Han døde av et infisert myggestikk – ingen forbannelse, bare en ulykke. Pressen laget storyen mye større enn den var!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKATTKAMMERET -->
+<section id="skatter">
+  <p class="section-label">5 398 gjenstander</p>
+  <h2 class="section-title">Skattkammeret</h2>
+  <p class="section-intro">Graven var fylt til randen med skatter. Her er de mest oppsiktsvekkende!</p>
+
+  <div class="colosseum-facts">
+    <div class="colo-stat">
+      <span class="big">5 398</span>
+      <span class="desc">Gjenstander funnet i graven</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">110 kg</span>
+      <span class="desc">Gull i den innerste kisten</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">350 L</span>
+      <span class="desc">Oljer og parfymer i krukker</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">10 år</span>
+      <span class="desc">Tok Carter å dokumentere alt</span>
+    </div>
+  </div>
+
+  <div class="fact-grid" style="margin-top:1.5rem;">
+    <div class="fact-card">
+      <div class="fact-icon">😮</div>
+      <h3>Gullmasken</h3>
+      <p>10,23 kg rent gull, med inlay av lapis lazuli og turkis. Ansiktet er et portrett av Tut og er blitt et ikon for hele det gamle Egypt.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">⚰️</div>
+      <h3>Den innerste kisten</h3>
+      <p>110 kg rent gull, 187 cm lang. Innvendig er det dekorert med innskrifter fra Dødeboken – tekster som skulle hjelpe Tut i etterlivet.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🐺</div>
+      <h3>Anubis-statuen</h3>
+      <p>En svart sjakal (guden Anubis) som vokter inngangspartiet til gravkammeret. En av de mest dramatiske funnene og en vokter av de døde.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">👑</div>
+      <h3>Soltronen</h3>
+      <p>En gyllen trone med vakre dekorasjoner som viser Tutankhamon og kona Ankhesenamun i nydelige hverdagsscener.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🚗</div>
+      <h3>Vogner og staver</h3>
+      <p>Tut hadde 130 staver og stokker i graven – noe som tyder på at han hadde problemer med gangen. Og seks fullstendige vogner!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🪆</div>
+      <h3>Shabtis (over 400 stk!)</h3>
+      <p>Små figurer ment å arbeide for Tut i etterlivet – én for hver dag i året pluss ekstra. Egypterne tenkte nøye på hva man trengte etter døden.</p>
+    </div>
+  </div>
+
+  <div class="film-note">
+    <div class="film-emoji">🏛️</div>
+    <div>
+      <h4>Gullmasken – verdens mest reiste gjenstand?</h4>
+      <p>Gullmasken er normalt utstilt på Egyptisk Museum i Kairo. I 2016 ble den reparert etter at skjegget ble skadet av uforsiktig håndtering – reparasjonen skapte internasjonal nyhetssak! I 2022, nøyaktig 100 år etter oppdagelsen, åpnet et nytt, stort museum i Giza dedikert til Tutankhamon og hans skatter.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MYSTERIET -->
+<section id="mysteriet">
+  <p class="section-label">Ubesvarte spørsmål</p>
+  <h2 class="section-title">Mysteriene rundt Tutankhamon</h2>
+  <p class="section-intro">Over 100 år etter at graven ble funnet er det fortsatt mye vi ikke vet. Her er de store spørsmålene!</p>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>👪 Hvem var foreldrene hans?</h4>
+      <p>DNA-analyser peker mot at Akhenaton var faren, men moren er fortsatt usikker. Var det Nefertiti? En annen av Akhenatins koner? Forskning pågår fortsatt med moderne DNA-teknologi.</p>
+    </div>
+    <div class="society-card">
+      <h4>⚕️ Hva døde han av?</h4>
+      <p>2010-analyser fant malaria og beinbrudd i foten. Noen mener han falt av en vogn. Var det en ulykke? Sykdom? De fleste eksperter avviser mordet som årsak.</p>
+    </div>
+    <div class="society-card">
+      <h4>🚪 Finnes det et hemmelig rom?</h4>
+      <p>I 2015 trodde forskere radar-skanning viste skjulte rom bak veggene i gravkammeret. Kanskje Nefertitis grav? Senere analyser er mer usikre på dette.</p>
+    </div>
+    <div class="society-card">
+      <h4>👸 Hva skjedde med kona?</h4>
+      <p>Ankhesenamun forsvant fra historien kort tid etter Tuts død. Et mystisk brev fra en egyptisk dronning ber om en ny ektemann fra en fremmed konges hoff – er det henne?</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Egyptologer bruker stadig ny teknologi på Tutankhamon – CT-skanning, DNA-analyse, radar. <strong>Hvert tiår lærer vi noe nytt om ham.</strong> I 2022, nøyaktig 100 år etter oppdagelsen, åpnet et nytt, gigantisk museum i Giza dedikert til ham.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- QUIZ -->
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Tutankhamon-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din om den berømte faraoen!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>🏺 <strong style="color:var(--primary)">Tutankhamon</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på egyptologisk forskning • Laget for nysgjerrige elever 🏛</p>
+</footer>
+
+<script>
+// ===== EGYPT DATA =====
+const egyptElements = {
+  farao: {
+    emoji: "👑",
+    name: "Faraoen",
+    undertittel: "Guddommelig hersker på jord",
+    desc: "Faraoen var ikke bare en kongelig leder – egypterne trodde han var en levende gud! Han var jordens representant for guden Horus, og etter døden ble han en del av guden Osiris. Alt i Egypt tilhørte teknisk sett faraoen. Hans ord var lov.",
+    fakta: ["👁 Representerte guden Horus", "🏛 Eide alt i Egypt", "⚖️ Øverste dommer", "☀️ Ansvarlig for Nilen"],
+    bars: [95, 100, 80]
+  },
+  hieroglyfer: {
+    emoji: "📜",
+    name: "Hieroglyfer",
+    undertittel: "Bildeskrift som varte i 3 500 år",
+    desc: "Hieroglyfer er et av verdens eldste skriftsystem – over 3 500 år gammelt! Hvert tegn kan representere en lyd, et ord, eller en idé. Det fantes over 700 ulike tegn. Bare spesielt utdannede skrivere (skribenter) kunne lese og skrive dem.",
+    fakta: ["📖 Over 700 ulike tegn", "🎓 Bare skribenter kunne skrive", "🗿 Risset inn i stein i 3 500 år", "🔑 Rosettasteinen hjalp oss å tyde dem"],
+    bars: [40, 85, 90]
+  },
+  mumifisering: {
+    emoji: "⚰️",
+    name: "Mumifisering",
+    undertittel: "Veien til det evige liv",
+    desc: "Egypterne trodde at for å leve evig i etterlivet, måtte kroppen bevares. Mumifiseringsprosessen tok 70 dager og var ekstremt detaljert. Organene ble fjernet og lagt i spesielle kanopekrukker. Deretter ble kroppen tørket med natron-salt og pakket inn i hundrevis av meter med bandasjer.",
+    fakta: ["🧂 70 dager lang prosess", "🏺 Organer i kanopekrukker", "🧻 Hundrevis av meter bandasjer", "🐾 Katter ble også mumifisert"],
+    bars: [30, 90, 75]
+  },
+  pyramider: {
+    emoji: "🔺",
+    name: "Pyramidene",
+    undertittel: "Gravene til de mektigste faraoene",
+    desc: "Pyramidene ble bygget som enorme graver for de mektigste faraoene. Kheopspyramiden inneholder over 2,3 millioner steinblokker og tok ca. 20 år å bygge! Den var verdens høyeste menneskeskapte struktur i over 3 800 år. Tutankhamon fikk ikke pyramide – hans grav var langt mer beskjeden.",
+    fakta: ["⛏️ Bygget av tusenvis av arbeidere", "📐 Utrolig nøyaktig konstruksjon", "🌟 Fasaden var hvit kalkstein opprinnelig", "🔭 Orientert mot stjernene"],
+    bars: [85, 70, 95]
+  },
+  guder: {
+    emoji: "🦅",
+    name: "De egyptiske gudene",
+    undertittel: "Over 2 000 guder og gudinner",
+    desc: "Det gamle Egypt hadde over 2 000 guder! Mange hadde dyrehoder – Ra (solguden) hadde falkehode, Anubis (dødsguden) hadde sjakalhode, Thoth (visdomsguden) hadde ibis-hode. Gudene representerte naturkrefter og aspekter av livet. Tutankhamon var spesielt knyttet til guden Amon.",
+    fakta: ["☀️ Ra – solguden, viktigst av alle", "🐺 Anubis – vokter av dødsriket", "🦅 Horus – faraoen som levende gud", "🌿 Osiris – gud for gjenfødelse"],
+    bars: [80, 95, 70]
+  }
+};
+
+function showEgypt(key) {
+  const e = egyptElements[key];
+  document.getElementById('e-emoji').textContent = e.emoji;
+  document.getElementById('e-name').textContent = e.name;
+  document.getElementById('e-undertittel').textContent = e.undertittel;
+  document.getElementById('e-desc').textContent = e.desc;
+  document.getElementById('e-fakta').innerHTML = e.fakta.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Makt', 'Religiøs bet.', 'Kulturell innfl.'];
+  document.getElementById('e-bars').innerHTML = e.bars.map((v, i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ===== QUIZ =====
+const questions = [
+  {
+    q: "Hvor gammel var Tutankhamon da han ble farao?",
+    opts: ["5 år", "9 år", "14 år", "18 år"],
+    correct: 1,
+    explanation: "Tutankhamon ble farao som ca. 9-åring! Han hadde rådgivere som hjalp ham med å styre Egypt."
+  },
+  {
+    q: "Hvem fant Tutankhamons grav i 1922?",
+    opts: ["Indiana Jones", "Howard Carter", "Lord Carnarvon", "Jean-François Champollion"],
+    correct: 1,
+    explanation: "Den britiske arkeologen Howard Carter fant graven 4. november 1922, finansiert av Lord Carnarvon. Indiana Jones er dessverre bare en filmfigur!"
+  },
+  {
+    q: "Hva sa Howard Carter da han ble spurt hva han kunne se inne i graven?",
+    opts: ["'Ingenting, det er tomt!'", "'Gull, overalt!'", "'Ja, fantastiske ting!'", "'En mumie!'"],
+    correct: 2,
+    explanation: "Da Carnarvon spurte 'Kan du se noe?', svarte Carter det berømte 'Ja, fantastiske ting!' – en av historiens mest siterte arkeologiske øyeblikk."
+  },
+  {
+    q: "Hva veier den innerste gullkisten til Tutankhamon?",
+    opts: ["10 kg", "50 kg", "110 kg", "500 kg"],
+    correct: 2,
+    explanation: "Den innerste kisten er laget av 110 kg rent gull! Det er et utrolig stykke håndverk fra over 3 000 år siden."
+  },
+  {
+    q: "Hva betyr det å mumifisere en kropp?",
+    opts: ["Å begrave den i pyramiden", "Å bevare kroppen slik at den varer evig", "Å pakke den inn i bandasjer bare for pynt", "Å legge den i Nilen"],
+    correct: 1,
+    explanation: "Mumifisering handler om å bevare kroppen for etterlivet – egypterne trodde kroppen måtte eksistere for at sjelen skulle leve videre. Prosessen tok 70 dager!"
+  },
+  {
+    q: "Hva er hieroglyfer?",
+    opts: ["Egyptiske mynter", "Dekorasjoner uten betydning", "Et skriftsystem med bildetegn som representerer lyder og ord", "Et type smykke"],
+    correct: 2,
+    explanation: "Hieroglyfer er et av verdens eldste skriftsystem – over 3 500 år gammelt! Hvert tegn representerer lyder, ord eller ideer. Bare utdannede skribenter kunne lese dem."
+  },
+  {
+    q: "Hvor mange gjenstander ble funnet i Tutankhamons grav?",
+    opts: ["Omtrent 100", "Omtrent 1 000", "Over 5 000", "Over 50 000"],
+    correct: 2,
+    explanation: "Nøyaktig 5 398 gjenstander ble katalogisert fra graven – fra gullmasken til enkle staver og sandaler. Det tok Carter 10 år å dokumentere alt!"
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function buildProgress() {
+  document.getElementById('quiz-progress').innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`
+  ).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current + 1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`
+  ).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) {
+    score++;
+    opts[idx].classList.add('correct');
+    fb.textContent = "✅ Riktig! " + q.explanation;
+    fb.className = 'quiz-feedback correct';
+  } else {
+    opts[idx].classList.add('wrong');
+    fb.textContent = "❌ Ikke helt! " + q.explanation;
+    fb.className = 'quiz-feedback wrong';
+  }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+
+document.getElementById('quiz-next').onclick = function () {
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQuestion();
+};
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? "Ikke gi opp – egyptologi er et stort fag! Les gjennom sidene og prøv igjen. 📜" :
+    pct < 0.6 ? "Bra start! Du vet en del om det gamle Egypt!" :
+    pct < 0.9 ? "Imponerende! Du er en ekte egyptolog-spire! 🏺" :
+    "Fantastiske ting! Du er en ekte Tutankhamon-ekspert! 👑";
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+
+renderQuestion();
+
+// NAV ACTIVE ON SCROLL
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+});
+</script>
+
+</body>
+</html>

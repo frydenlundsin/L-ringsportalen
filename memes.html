@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internettmemer – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0a14;
+  --surface: #1a1528;
+  --surface2: #241e38;
+  --border: #3d3060;
+  --text: #f0eaff;
+  --muted: #8a7aaa;
+  --primary: #c850f0;
+  --secondary: #00e5cc;
+  --highlight: #ffe040;
+  --blue: #5090ff;
+  --green: #50d090;
+  --red: #e05060;
+  --gold: #c850f0;
+  --sand: #d4b8ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(13,10,20,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+}
+.nav-logo {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1rem;
+  color: var(--primary);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--border);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a {
+  display: block;
+  padding: 1.1rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,80,240,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(0,229,204,0.08) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(61,48,96,0.4) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--primary);
+  text-shadow: 0 4px 30px rgba(200,80,240,0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+.hero-sub {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.hero-desc {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0 auto 2.5rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(36,30,56,0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.4rem;
+  color: var(--primary);
+  font-weight: 400;
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* SECTIONS */
+section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.section-intro {
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* FACT BOXES */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.fact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.fact-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1rem;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* DID YOU KNOW */
+.did-you-know {
+  background: linear-gradient(135deg, rgba(200,80,240,0.12), rgba(0,229,204,0.08));
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.did-you-know::before {
+  content: "💡";
+  font-size: 3rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  opacity: 0.3;
+}
+.dyk-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+/* TERM NOTE */
+.term-note {
+  background: linear-gradient(135deg, rgba(80,144,255,0.12), rgba(36,30,56,0.8));
+  border: 1px solid rgba(80,144,255,0.4);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+.term-emoji { font-size: 2.5rem; }
+.term-note h4 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1rem;
+  color: var(--blue);
+  margin-bottom: 0.4rem;
+}
+.term-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* MYTH VS FACT */
+.myth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid;
+}
+.myth-card.myth {
+  background: rgba(224,80,96,0.1);
+  border-color: var(--red);
+}
+.myth-card.fact {
+  background: rgba(80,208,144,0.1);
+  border-color: var(--green);
+}
+.myth-card .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--border));
+  border-radius: 3px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  cursor: pointer;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.45rem;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--bg);
+  transition: transform 0.2s;
+}
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+/* PICKER */
+.gladiator-picker {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.gladiator-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gladiator-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gladiator-btn.active {
+  border-color: var(--primary);
+  background: rgba(200,80,240,0.12);
+  color: var(--primary);
+}
+.gladiator-display {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  transition: all 0.3s;
+  min-height: 280px;
+}
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag {
+  background: rgba(200,80,240,0.1);
+  border: 1px solid rgba(200,80,240,0.3);
+  color: var(--sand);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 120px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--primary); transition: width 0.6s ease; }
+
+/* DAY GRID */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  border-left: 4px solid var(--primary);
+}
+.day-time {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 0.8rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* SOCIETY GRID */
+.society-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+}
+.society-card h4 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* FILM NOTE */
+.film-note {
+  background: linear-gradient(135deg, rgba(80,144,255,0.12), rgba(36,30,56,0.8));
+  border: 1px solid rgba(80,144,255,0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 3rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.1rem;
+  color: var(--blue);
+  margin-bottom: 0.5rem;
+}
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* QUIZ */
+.quiz-container {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+.quiz-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-dot {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--primary); }
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-option {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem 1.3rem;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.quiz-option.correct { border-color: var(--green); background: rgba(80,208,144,0.2); color: #88ffcc; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(224,80,96,0.15); color: #ff8890; }
+.quiz-feedback {
+  padding: 1rem 1.3rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.quiz-feedback.correct { background: rgba(80,208,144,0.15); border: 1px solid var(--green); color: #88ffcc; }
+.quiz-feedback.wrong { background: rgba(224,80,96,0.1); border: 1px solid var(--red); color: #ff8890; }
+.quiz-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+.quiz-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.quiz-result {
+  text-align: center;
+  display: none;
+}
+.quiz-result .score {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 4rem;
+  color: var(--primary);
+  display: block;
+  margin: 1rem 0;
+}
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart {
+  background: var(--secondary);
+  color: #0d0a14;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.quiz-restart:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a { color: var(--primary); text-decoration: none; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * { animation: fadeUp 0.6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">😂 Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hva er et meme?</a></li>
+      <li><a href="#historie">Historien</a></li>
+      <li><a href="#typer">Typer memer</a></li>
+      <li><a href="#spredning">Spredning</a></li>
+      <li><a href="#kjente">Kjente memer</a></li>
+      <li><a href="#kultur">Memekultur</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">💻 Internett & Kultur</div>
+    <h1>MEMER</h1>
+    <p class="hero-sub">Internettets morsomste språk</p>
+    <p class="hero-desc">Hva er egentlig et meme? Hvor kom de fra – og hvorfor er de så umulige å stoppe? Bli ekspert på internettkultur!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">1976</span><span class="lbl">Ordet ble funnet opp</span></div>
+      <div class="hero-stat"><span class="num">1990-t.</span><span class="lbl">Internettmemer starter</span></div>
+      <div class="hero-stat"><span class="num">Mill.</span><span class="lbl">Memer lages hver dag</span></div>
+      <div class="hero-stat"><span class="num">Alle</span><span class="lbl">Kan lage et meme</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hva er et meme?</h2>
+  <p class="section-intro">Du har garantert sett dem – men vet du egentlig hva et meme er og hvor det kom fra?</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🤔</div>
+      <h3>Hva er et meme?</h3>
+      <p>En idé, vits eller et bilde som kopieres og spres fra person til person. Det er som en kulturell smitte – men morsom!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">📚</div>
+      <h3>Hvor kom ordet fra?</h3>
+      <p>Biologen Richard Dawkins fant det opp i 1976 i boken "The Selfish Gene". Han brukte det om kulturelle ideer som sprer seg som virus.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌐</div>
+      <h3>Internettmemer</h3>
+      <p>På internett betyr det gjerne et bilde, video eller tekst som folk deler og tilpasser med sine egne vrier og varianter.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🎨</div>
+      <h3>Alle deltar</h3>
+      <p>Det fine med memer er at alle kan lage og endre dem – det er skaperglede for alle! Du trenger bare en idé og et bilde.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Ordet <strong>"meme"</strong> (uttales <em>"meem"</em>) er basert på det greske ordet <em>mimeme</em>, som betyr "noe som etterligner". Dawkins forkortet det til "meme" fordi det klinget bra med "gene" (gen)!</p>
+  </div>
+
+  <div class="term-note">
+    <div class="term-emoji">📖</div>
+    <div>
+      <h4>Ord å lære: "Viral"</h4>
+      <p>Når noe "går viralt" betyr det at det spres enormt raskt på internett – akkurat som et virus sprer seg fra person til person. Et viralt meme kan nå millioner av mennesker på bare noen timer!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HISTORIEN -->
+<section id="historie">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Memenes historie</h2>
+  <p class="section-intro">Fra en biologibok i 1976 til TikTok i dag – her er reisen til memenes verden!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1976</div>
+      <h4>Richard Dawkins finner opp ordet "meme"</h4>
+      <p>I boken "The Selfish Gene" introduseres begrepet for å beskrive kulturell smitte og spredning av ideer.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1993</div>
+      <h4>Første internettmeme: "Godwin's Law"</h4>
+      <p>En av de tidligste kjente internettmemene – en observasjon om at jo lenger en nettdiskusjon varer, jo mer sannsynlig er det at noen sammenligner noe med Hitler. En regel, ikke et bilde.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1996</div>
+      <h4>"Dancing Baby" – det første virale bilde-meme</h4>
+      <p>En animert baby som danser ble delt via e-post og ble den første virale GIF-en noensinne!</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2000-t.</div>
+      <h4>Forums og tidlige memer</h4>
+      <p>Nettsteder som 4chan og Something Awful skapte de første bilde-memene med tekst – som "All Your Base" og "lolcats".</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2007</div>
+      <h4>LOLcats og I Can Has Cheezburger</h4>
+      <p>Katter med morsom tekst i "kitty-pidgin-English" eksploderer på internett. Nettstedet "I Can Has Cheezburger?" ble gigantisk.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2010</div>
+      <h4>Rage Comics</h4>
+      <p>Enkle tegneserie-ansikter (Trollface, Forever Alone, FUUUU) laget i MS Paint ble enormt populære for å fortelle hverdagshistorier.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2012–nå</div>
+      <h4>Memer møter sosiale medier</h4>
+      <p>Instagram, Twitter, TikTok og andre plattformer gjør det mulig å spre memer raskere enn noen gang. Format-memer, dansememer og lydmemer dominerer.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Det første meme-nettstedet, <strong>"I Can Has Cheezburger?"</strong>, ble solgt for over 2 millioner dollar i 2007 – bare ett år etter at det ble startet!</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TYPER MEMER -->
+<section id="typer">
+  <p class="section-label">Velg en type</p>
+  <h2 class="section-title">Typer memer</h2>
+  <p class="section-intro">Det finnes mange forskjellige typer memer! Klikk på en type for å lære mer om den.</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showMeme('bildeTekst')">Bilde+tekst</button>
+    <button class="gladiator-btn" onclick="showMeme('reaksjon')">Reaksjon</button>
+    <button class="gladiator-btn" onclick="showMeme('video')">Video/Lyd</button>
+    <button class="gladiator-btn" onclick="showMeme('tekst')">Tekstmeme</button>
+    <button class="gladiator-btn" onclick="showMeme('deepFried')">Deep-fried</button>
+  </div>
+
+  <div class="gladiator-display" id="meme-display">
+    <div class="gladiator-emoji" id="m-emoji">😂</div>
+    <div class="gladiator-info">
+      <h3 id="m-name">Bilde + tekst-meme</h3>
+      <p class="gladiator-latin" id="m-format">Format: "Impact-tekst" øverst og nederst på et bilde</p>
+      <p id="m-desc">Dette er den klassiske memeformen! Et kjent bilde med hvit Impact-skrift øverst og nederst. Bilder som "Distracted Boyfriend", "Drake" og "Two Buttons" bruker dette formatet. Veldig lett å tilpasse til nye situasjoner!</p>
+      <div class="gear-tags" id="m-eksempler">
+        <span class="gear-tag">📸 Distracted Boyfriend</span>
+        <span class="gear-tag">🎵 Drake ja/nei</span>
+        <span class="gear-tag">🤔 Two Buttons</span>
+        <span class="gear-tag">😤 Angry Woman Cat</span>
+      </div>
+      <div class="strength-bars" id="m-bars">
+        <div class="bar-row"><span class="bar-label">Gjenkjennelse</span><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Tilpasningsevne</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Levetid</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SPREDNING -->
+<section id="spredning">
+  <p class="section-label">Mekanismene</p>
+  <h2 class="section-title">Hvordan sprer memer seg?</h2>
+  <p class="section-intro">Et meme starter som en liten gnist og kan bli et globalt fenomen på bare timer. Men hvordan skjer det egentlig?</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">Steg 1</div>
+      <h4>Noen lager noe morsomt</h4>
+      <p>En person oppdager et morsomt øyeblikk, lager et bilde eller klipper en kort video.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Steg 2</div>
+      <h4>Deling i en liten gruppe</h4>
+      <p>Det deles i en gruppe-chat, en server på Discord, eller på et niche-forum der folk med like interesser møtes.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Steg 3</div>
+      <h4>En stor konto plukker det opp</h4>
+      <p>En populær konto eller influencer deler det til et stort publikum – og plutselig ser millioner det!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Steg 4</div>
+      <h4>Folk lager varianter</h4>
+      <p>Andre tilpasser malen til nye situasjoner – dette er det som gjør det til et ekte meme. Det muterer og vokser!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Steg 5</div>
+      <h4>Mainstream-medier oppdager det</h4>
+      <p>Aviser og TV skriver om meme-et – og da er det gjerne allerede "gammel nyhet" på internett.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Steg 6</div>
+      <h4>Meme-et dør (eller lever videre)</h4>
+      <p>De fleste memer forsvinner etter noen uker. Noen klassikere som Doge og This is Fine lever i årevis.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Forskere har studert hvordan memer sprer seg og funnet at det ligner nøyaktig på <strong>biologiske virus</strong>: De muterer, konkurrerer om oppmerksomhet, og "overlever" bare hvis de passer godt til omgivelsene (plattformen)!</p>
+  </div>
+
+  <h3 style="font-family:'Permanent Marker',cursive; color:var(--sand); margin-bottom:1rem; font-size:1.3rem;">Myter og fakta om memer</h3>
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Memer er bare tull og søppel på internett"</h4>
+      <p>Faktisk nei! Memer er et nytt kulturspråk. De formidler komplekse følelser og situasjoner på brøkdelen av et sekund.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Memer er faktisk et nytt språk</h4>
+      <p>Kulturforskere og lingvister studerer memer seriøst. De er en ny form for kommunikasjon som transcenderer landegrenser og språk.</p>
+    </div>
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Alle memer er originale"</h4>
+      <p>De aller fleste memer er faktisk varianter og remixer av eldre memer. Originalitet i meme-verden er å lage en ny <em>vri</em> på noe kjent.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Gjenbruk er en del av kulturen</h4>
+      <p>Å ta et eksisterende meme-format og tilpasse det er selve kjernen i meme-kulturen. Det er mer skaperglede enn plagiat!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KJENTE MEMER -->
+<section id="kjente">
+  <p class="section-label">Hall of Fame</p>
+  <h2 class="section-title">Kjente memer gjennom tidene</h2>
+  <p class="section-intro">Disse memene har satt varige spor i internett-historien – og noen lever fortsatt i beste velgående!</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🐱</div>
+      <h3>LOLcats (2006–)</h3>
+      <p>Katter med feil stavede undertekster. "I Can Has Cheezburger?" startet en hel bevegelse og ble solgt for 2 millioner dollar.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌈</div>
+      <h3>Nyan Cat (2011)</h3>
+      <p>En pikselert katt med poptart-kropp som fløy gjennom rommet til en catchy sang. Et ikon som fortsatt elskes i dag!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🐕</div>
+      <h3>Doge (2013)</h3>
+      <p>En Shiba Inu-hund med setninger som "Wow", "Much amaze", "Very dog". Et av de mest gjenkjennelige memene noensinne.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">😅</div>
+      <h3>Distracted Boyfriend (2017)</h3>
+      <p>Bildet av en gutt som ser på en annen jente mens kjæresten hans ser på. Brukes til å vise at man foretrekker noe fremfor noe annet.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🔥</div>
+      <h3>This is Fine (2013)</h3>
+      <p>En hund som sitter i et brennende rom og sier "This is fine". Brukes om kaotiske situasjoner der man later som alt er greit.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🤷</div>
+      <h3>Wojak / Chad (2010–)</h3>
+      <p>Enkle strekfigurer som uttrykker følelser. "Crying Wojak", "Chad"-figuren – ekstremt tilpasningsdyktige og fortsatt aktuelle.</p>
+    </div>
+  </div>
+
+  <div class="film-note">
+    <div class="film-emoji">🏛️</div>
+    <div>
+      <h4>Memer i museer?</h4>
+      <p>Ja, det er sant! "Internet Archive" og museer som Museum of Modern Art (MoMA) i New York har begynt å ta vare på memer som kulturarv. Fremtidens historikere vil studere memer for å forstå hva folk i 2020-tallet tenkte og følte!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MEMEKULTUR -->
+<section id="kultur">
+  <p class="section-label">Dypere tenking</p>
+  <h2 class="section-title">Memekultur og samfunn</h2>
+  <p class="section-intro">Memer er ikke bare moro – de er et vindu inn i kulturen vår. La oss tenke litt dypere!</p>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>💬 Memer som kommunikasjon</h4>
+      <p>Et meme kan si på ett sekund det som tar hundre ord å forklare. Det er et universelt språk på tvers av landegrenser – et meme om mandag-morgen-følelsen forstås av alle!</p>
+    </div>
+    <div class="society-card">
+      <h4>⚠️ Kan memer være skadelige?</h4>
+      <p>Ja! Noen memer sprer feil informasjon, mobber enkeltpersoner, eller fremmer negative holdninger. Det er viktig å tenke kritisk om hva du deler og hvem det kan ramme.</p>
+    </div>
+    <div class="society-card">
+      <h4>©️ Opphavsrett og memer</h4>
+      <p>Mange meme-bilder er egentlig noen andres fotografier eller tegninger. Det er en komplisert juridisk diskusjon – hvem eier egentlig et meme?</p>
+    </div>
+    <div class="society-card">
+      <h4>🗳️ Memer og politikk</h4>
+      <p>Politikere og organisasjoner har lenge prøvd å lage memer – med vekslende suksess. Internett er flinke til å avsløre "cringe"-forsøk!</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Det norske ordet "meme" er det samme på alle språk! Det er en av få internasjonale ord som de fleste unge i verden kjenner, uavhengig av morsmål. <strong>Memer er faktisk en global felles kultur!</strong></p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- QUIZ -->
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Meme-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din om internettmemer!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>😂 <strong style="color:var(--primary)">Internettmemer</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på internetthistorie og kulturstudier • Laget for nysgjerrige elever 🌐</p>
+</footer>
+
+<script>
+// ===== MEME TYPE DATA =====
+const memeTypes = {
+  bildeTekst: {
+    emoji: "😂",
+    name: "Bilde + tekst-meme",
+    format: 'Format: "Impact-tekst" øverst og nederst på et bilde',
+    desc: 'Dette er den klassiske memeformen! Et kjent bilde med hvit Impact-skrift øverst og nederst. Bilder som "Distracted Boyfriend", "Drake" og "Two Buttons" bruker dette formatet. Veldig lett å tilpasse til nye situasjoner!',
+    eksempler: ["📸 Distracted Boyfriend", "🎵 Drake ja/nei", "🤔 Two Buttons", "😤 Angry Woman Cat"],
+    bars: [95, 70, 80]
+  },
+  reaksjon: {
+    emoji: "😱",
+    name: "Reaksjonsmeme",
+    format: 'Format: Et uttrykksfullt ansikt brukt som reaksjon',
+    desc: 'Et reaksjonsmeme er et bilde eller GIF av et ansikt – ekte eller tegnet – som du bruker for å vise hvordan du har det. "Surprised Pikachu", "This is fine"-hunden og "Blinking White Guy" er kjente eksempler.',
+    eksempler: ["⚡ Surprised Pikachu", "🔥 This is Fine", "😑 Blinking White Guy", "😭 Jordan Crying"],
+    bars: [90, 60, 65]
+  },
+  video: {
+    emoji: "🎬",
+    name: "Video- og lydmeme",
+    format: 'Format: En kort klipp eller lyd som folk kopierer og varierer',
+    desc: 'På TikTok og Instagram er lydfragmenter og dansebevegelser noen av de mest populære memene. Et utdrag fra en film, en morsom setning eller en sang blir "malen" – og millioner legger til sitt eget innhold.',
+    eksempler: ["💃 Danseutfordringer", "🎵 Lydklipp", "📱 TikTok-trender", "🎭 Lip sync"],
+    bars: [85, 95, 50]
+  },
+  tekst: {
+    emoji: "📝",
+    name: "Tekstmeme",
+    format: 'Format: Bare tekst – en vits, observasjon eller tanke',
+    desc: 'Ikke alle memer trenger bilder! "Shitposting" og absurde tekstposter er sin egen sjanger. "Nobody:", "Me at 3am:", og ulike observasjoner er tekstmemer som florerer på Twitter/X og andre plattformer.',
+    eksempler: ['💬 "Nobody: ..."', '🌙 "Me at 3am"', "📉 Ratio", "🤷 Absurd observasjon"],
+    bars: [70, 85, 40]
+  },
+  deepFried: {
+    emoji: "🍟",
+    name: "Deep-fried meme",
+    format: 'Format: Et bilde med overdrevet filtre og støy – jo styggere, jo bedre',
+    desc: 'Deep-fried memer ser ut som om de har blitt filtrert hundre ganger – overdrevent skarpe farger, støy, og absurd visuell forvrenging. Det er en form for ironisk humor der det styggeste er det morsomste. Et kunstnerisk valg!',
+    eksempler: ["🔆 Overeksponert lys", "📢 Max kontrast", "😵 Støy og artefakter", "👁️ Lasereyes"],
+    bars: [40, 50, 30]
+  }
+};
+
+function showMeme(key) {
+  const m = memeTypes[key];
+  document.getElementById('m-emoji').textContent = m.emoji;
+  document.getElementById('m-name').textContent = m.name;
+  document.getElementById('m-format').textContent = m.format;
+  document.getElementById('m-desc').textContent = m.desc;
+  document.getElementById('m-eksempler').innerHTML = m.eksempler.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Gjenkjennelse', 'Tilpasningsevne', 'Levetid'];
+  document.getElementById('m-bars').innerHTML = m.bars.map((v, i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ===== QUIZ =====
+const questions = [
+  {
+    q: "Hvem fant opp ordet 'meme' i 1976?",
+    opts: ["Bill Gates", "Richard Dawkins", "Tim Berners-Lee", "Steve Jobs"],
+    correct: 1,
+    explanation: "Biologen Richard Dawkins fant opp ordet i boken 'The Selfish Gene' for å beskrive kulturelle ideer som sprer seg som virus!"
+  },
+  {
+    q: "Hva var et av de tidligste og mest kjente internett-memene med katter?",
+    opts: ["Doge", "Nyan Cat", "LOLcats", "Grumpy Cat"],
+    correct: 2,
+    explanation: "LOLcats – katter med feil-stavede tekster – og nettstedet 'I Can Has Cheezburger?' var pionerer fra 2006-2007!"
+  },
+  {
+    q: "Hva betyr det at noe 'går viralt'?",
+    opts: ["Det blir slettet fra internett", "Det sprer seg enormt raskt til mange mennesker", "Det er laget av en virus", "Det er ulovlig å dele"],
+    correct: 1,
+    explanation: "Viralt betyr at noe sprer seg raskt fra person til person – akkurat som et biologisk virus, men med morsomme bilder!"
+  },
+  {
+    q: "Hva er et 'format-meme'?",
+    opts: ["Et meme laget i et spesielt filformat som .gif", "En mal eller situasjon som mange tilpasser til sine egne vrier", "Et meme fra et bestemt nettsted", "Et meme om datamaskiner"],
+    correct: 1,
+    explanation: "Et format-meme er en mal – for eksempel et bestemt bilde eller oppsett – som utallige folk tilpasser til sin egen situasjon!"
+  },
+  {
+    q: "Hvilken hund er kjent for meme-fraser som 'Wow' og 'Much amaze'?",
+    opts: ["Golden Retriever", "Labrador", "Shiba Inu (Doge)", "Corgi"],
+    correct: 2,
+    explanation: "Doge er en Shiba Inu som ble ikonisk i 2013! Hunden med 'Wow, much doge, very amaze' er et av internettets mest gjenkjennelige ansikter."
+  },
+  {
+    q: "Hva er grunnen til at de fleste memer 'dør' raskt?",
+    opts: ["Fordi internett er stengt om natten", "Fordi de konkurrerer om oppmerksomhet og det hele tiden dukker opp nye", "Fordi politiet sletter dem", "Fordi de er for store filer"],
+    correct: 1,
+    explanation: "Internett produserer enorme mengder nytt innhold hele tiden. Memer konkurrerer om oppmerksomhet og de fleste erstattes raskt av noe nyere!"
+  },
+  {
+    q: "Hva studerte Richard Dawkins – det han brukte som inspirasjon for 'meme'-begrepet?",
+    opts: ["Datamaskiner", "Genetikk og biologi", "Psykologi", "Sosiologi"],
+    correct: 1,
+    explanation: "Dawkins var biolog og studerte genetikk. Han sammenlignet kulturelle ideer med gener – begge kopierer seg selv og 'overlever' hvis de er attraktive nok!"
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function buildProgress() {
+  const p = document.getElementById('quiz-progress');
+  p.innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`
+  ).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current + 1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`
+  ).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) {
+    score++;
+    opts[idx].classList.add('correct');
+    fb.textContent = "✅ Riktig! " + q.explanation;
+    fb.className = 'quiz-feedback correct';
+  } else {
+    opts[idx].classList.add('wrong');
+    fb.textContent = "❌ Ikke helt! " + q.explanation;
+    fb.className = 'quiz-feedback wrong';
+  }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+
+document.getElementById('quiz-next').onclick = function () {
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQuestion();
+};
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  const res = document.getElementById('quiz-result');
+  res.style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? "Ikke gi opp – internett er stort og det er mye å lære! Prøv igjen! 🌐" :
+    pct < 0.6 ? "Bra start! Du er på vei til å bli en ekte meme-kjenner!" :
+    pct < 0.9 ? "Imponerende! Du vet masse om internettkultur! 😂" :
+    "Meme-ekspert! Absolutely stonks! 📈🏆";
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+
+renderQuestion();
+
+// NAV ACTIVE ON SCROLL
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+});
+</script>
+
+</body>
+</html>

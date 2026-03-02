@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pirater – Læringsportalen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #040810;
+  --surface: #0a1020;
+  --surface2: #111828;
+  --border: #1e2d4a;
+  --text: #e8dfc8;
+  --muted: #7888a0;
+  --primary: #d4a820;
+  --secondary: #2888d0;
+  --highlight: #e05030;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* ─── NAV ─────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,8,16,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 960px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px; height: 56px;
+}
+.nav-logo {
+  font-family: 'Pirata One', cursive;
+  font-size: 1.1rem; color: var(--primary);
+  text-decoration: none; white-space: nowrap;
+}
+.nav-tabs {
+  display: flex; gap: 4px;
+  overflow-x: auto; flex: 1;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  padding: 6px 14px; border-radius: 20px;
+  font-size: .82rem; font-weight: 700;
+  color: var(--muted); text-decoration: none;
+  white-space: nowrap; transition: all .2s;
+}
+.nav-tab:hover { color: var(--text); background: var(--surface2); }
+.nav-tab.active { color: var(--primary); background: rgba(212,168,32,.15); }
+.back-btn {
+  padding: 6px 14px; border-radius: 20px;
+  font-size: .82rem; font-weight: 700;
+  color: var(--muted); text-decoration: none;
+  white-space: nowrap; transition: all .2s;
+  border: 1px solid var(--border);
+}
+.back-btn:hover { color: var(--text); border-color: var(--primary); }
+
+/* ─── HERO ─────────────────────────────────────────── */
+.hero {
+  position: relative; overflow: hidden;
+  min-height: 92vh;
+  display: flex; align-items: center;
+  justify-content: center; text-align: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,32,.22) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 20% 100%, rgba(40,136,208,.18) 0%, transparent 60%),
+    linear-gradient(180deg, #040810 0%, #060c18 100%);
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: .06;
+  background-image:
+    radial-gradient(circle, var(--primary) 1px, transparent 1px),
+    radial-gradient(circle, var(--secondary) 1px, transparent 1px);
+  background-size: 40px 40px, 80px 80px;
+  background-position: 0 0, 20px 20px;
+}
+.hero-content { position: relative; z-index: 1; padding: 40px 20px; max-width: 760px; }
+.hero-badge {
+  display: inline-block; margin-bottom: 20px;
+  padding: 6px 18px; border-radius: 20px;
+  background: rgba(212,168,32,.15); border: 1px solid rgba(212,168,32,.4);
+  font-size: .82rem; font-weight: 700; letter-spacing: .06em;
+  color: var(--primary); text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Pirata One', cursive;
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  line-height: 1.05; margin-bottom: 20px;
+  color: #fff; text-shadow: 0 0 60px rgba(212,168,32,.4);
+}
+.hero h1 span { color: var(--primary); }
+.hero p {
+  font-size: 1.15rem; color: var(--muted);
+  max-width: 560px; margin: 0 auto 32px;
+}
+.hero-scroll {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--muted); font-size: .85rem; font-weight: 700;
+  text-decoration: none; transition: color .2s;
+}
+.hero-scroll:hover { color: var(--primary); }
+.scroll-arrow { animation: bounce 2s infinite; display: inline-block; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* ─── SECTIONS ─────────────────────────────────────── */
+section { max-width: 960px; margin: 0 auto; padding: 80px 20px; }
+section + section { border-top: 1px solid var(--border); }
+.section-label {
+  font-size: .75rem; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--primary);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Pirata One', cursive;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  margin-bottom: 18px; color: #fff;
+}
+.section-intro { color: var(--muted); font-size: 1.05rem; max-width: 620px; margin-bottom: 40px; }
+
+/* ─── FACT GRID ─────────────────────────────────────── */
+.fact-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 16px; }
+.fact-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 18px;
+  transition: border-color .2s, transform .2s;
+}
+.fact-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+.fact-card .fact-icon { font-size: 2rem; margin-bottom: 10px; }
+.fact-card .fact-title { font-weight: 800; font-size: .95rem; margin-bottom: 6px; color: var(--text); }
+.fact-card .fact-body { font-size: .88rem; color: var(--muted); }
+
+/* ─── DID YOU KNOW ─────────────────────────────────── */
+.did-you-know {
+  background: linear-gradient(135deg, rgba(212,168,32,.12), rgba(40,136,208,.08));
+  border: 1px solid rgba(212,168,32,.3); border-radius: var(--radius);
+  padding: 28px 32px; margin: 40px 0; position: relative;
+}
+.did-you-know::before {
+  content: '💡'; font-size: 1.8rem;
+  position: absolute; top: -16px; left: 28px;
+  background: var(--bg); padding: 0 8px;
+}
+.did-you-know strong { color: var(--primary); }
+
+/* ─── TIMELINE ─────────────────────────────────────── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item {
+  display: grid; grid-template-columns: 80px 1fr;
+  gap: 0 20px; position: relative; padding-bottom: 32px;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: ''; position: absolute;
+  left: 39px; top: 28px; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-year {
+  font-family: 'Pirata One', cursive;
+  font-size: .85rem; font-weight: 700;
+  color: var(--primary); padding-top: 4px;
+  text-align: right; line-height: 1.2;
+}
+.timeline-dot {
+  position: absolute; left: 34px; top: 5px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--primary); border: 2px solid var(--bg);
+  box-shadow: 0 0 8px rgba(212,168,32,.6);
+}
+.timeline-body { padding-left: 16px; }
+.timeline-body strong { display: block; font-size: .95rem; margin-bottom: 4px; color: var(--text); }
+.timeline-body span { font-size: .88rem; color: var(--muted); }
+
+/* ─── PIRATE PICKER ────────────────────────────────── */
+.pirate-picker { display: flex; flex-direction: column; gap: 24px; }
+.pirate-btns {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.pirate-btn {
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--muted); font-family: 'Nunito',sans-serif;
+  font-size: .9rem; font-weight: 700; cursor: pointer;
+  transition: all .2s;
+}
+.pirate-btn:hover { border-color: var(--primary); color: var(--text); }
+.pirate-btn.active { background: rgba(212,168,32,.15); border-color: var(--primary); color: var(--primary); }
+.pirate-display {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px;
+  display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: start;
+}
+@media (max-width: 600px) { .pirate-display { grid-template-columns: 1fr; } }
+.pirate-emoji { font-size: 4rem; line-height: 1; }
+.pirate-info {}
+.pirate-name { font-family: 'Pirata One', cursive; font-size: 1.6rem; color: #fff; margin-bottom: 4px; }
+.pirate-years { font-size: .82rem; color: var(--primary); font-weight: 700; margin-bottom: 12px; letter-spacing: .04em; }
+.pirate-desc { font-size: .95rem; color: var(--muted); margin-bottom: 16px; }
+.pirate-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.pirate-tag {
+  padding: 4px 12px; border-radius: 20px;
+  background: rgba(212,168,32,.12); border: 1px solid rgba(212,168,32,.3);
+  font-size: .78rem; font-weight: 700; color: var(--primary);
+}
+.strength-bars { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { font-size: .8rem; font-weight: 700; color: var(--muted); width: 110px; flex-shrink: 0; }
+.bar-track {
+  flex: 1; height: 8px; background: var(--surface2);
+  border-radius: 4px; overflow: hidden;
+}
+.bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+.bar-value { font-size: .82rem; font-weight: 800; color: var(--primary); width: 36px; text-align: right; }
+
+/* ─── MYTH GRID ─────────────────────────────────────── */
+.myth-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 16px; }
+.myth-card {
+  border-radius: var(--radius); padding: 22px 20px;
+  border: 1px solid var(--border);
+}
+.myth-card.myth {
+  background: rgba(224,80,48,.08);
+  border-color: rgba(224,80,48,.3);
+}
+.myth-card.fact {
+  background: rgba(40,136,208,.08);
+  border-color: rgba(40,136,208,.3);
+}
+.myth-card .myth-tag {
+  font-size: .72rem; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.myth-card.myth .myth-tag { color: var(--highlight); }
+.myth-card.fact .myth-tag { color: var(--secondary); }
+.myth-card .myth-claim { font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.myth-card .myth-reality { font-size: .9rem; color: var(--muted); }
+
+/* ─── SHIP STATS ─────────────────────────────────────── */
+.ship-stats {
+  display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 16px;
+  margin: 32px 0;
+}
+.ship-stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 18px; text-align: center;
+  transition: border-color .2s;
+}
+.ship-stat:hover { border-color: var(--primary); }
+.ship-stat .stat-num { font-family: 'Pirata One', cursive; font-size: 2.2rem; color: var(--primary); }
+.ship-stat .stat-label { font-size: .82rem; color: var(--muted); margin-top: 4px; font-weight: 700; }
+
+/* ─── FLAG GRID ─────────────────────────────────────── */
+.flag-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 20px; }
+.flag-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 20px;
+  transition: border-color .2s, transform .2s;
+}
+.flag-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+.flag-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.flag-title { font-family: 'Pirata One', cursive; font-size: 1.15rem; margin-bottom: 8px; color: #fff; }
+.flag-desc { font-size: .88rem; color: var(--muted); }
+
+/* ─── TERM NOTE ─────────────────────────────────────── */
+.term-note {
+  display: inline-block; margin-top: 6px;
+  background: rgba(212,168,32,.1); border: 1px solid rgba(212,168,32,.25);
+  border-radius: var(--radius-sm); padding: 2px 10px;
+  font-size: .82rem; color: var(--primary); font-weight: 700;
+}
+
+/* ─── QUIZ ───────────────────────────────────────────── */
+.quiz-container {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px; max-width: 660px;
+}
+.quiz-progress { font-size: .82rem; color: var(--muted); margin-bottom: 20px; font-weight: 700; }
+.quiz-q { font-size: 1.15rem; font-weight: 800; margin-bottom: 24px; color: var(--text); }
+.quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt {
+  padding: 14px 18px; border-radius: var(--radius-sm);
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Nunito',sans-serif;
+  font-size: .95rem; font-weight: 600; cursor: pointer;
+  text-align: left; transition: all .2s;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--primary); background: rgba(212,168,32,.08); }
+.quiz-opt.correct { background: rgba(40,200,80,.12); border-color: rgba(40,200,80,.6); color: #4cd080; }
+.quiz-opt.wrong { background: rgba(224,80,48,.12); border-color: rgba(224,80,48,.6); color: #e05030; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-explanation {
+  margin-top: 18px; padding: 14px 18px;
+  background: rgba(212,168,32,.08); border: 1px solid rgba(212,168,32,.2);
+  border-radius: var(--radius-sm); font-size: .9rem; color: var(--muted);
+}
+.quiz-next {
+  margin-top: 20px; padding: 12px 28px;
+  background: var(--primary); border: none; border-radius: var(--radius-sm);
+  color: #000; font-family: 'Nunito',sans-serif;
+  font-size: .95rem; font-weight: 800; cursor: pointer;
+  transition: opacity .2s;
+}
+.quiz-next:hover { opacity: .85; }
+.quiz-result { text-align: center; }
+.quiz-score { font-family: 'Pirata One', cursive; font-size: 3.5rem; color: var(--primary); margin: 16px 0; }
+.quiz-result p { color: var(--muted); margin-bottom: 24px; }
+.quiz-restart {
+  padding: 12px 28px; background: var(--primary); border: none;
+  border-radius: var(--radius-sm); color: #000;
+  font-family: 'Nunito',sans-serif; font-size: .95rem;
+  font-weight: 800; cursor: pointer; transition: opacity .2s;
+}
+.quiz-restart:hover { opacity: .85; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">⚓ Læringsportalen</a>
+    <div class="nav-tabs">
+      <a class="nav-tab" href="#intro">Intro</a>
+      <a class="nav-tab" href="#historien">Historien</a>
+      <a class="nav-tab" href="#beromte">Berømte pirater</a>
+      <a class="nav-tab" href="#livet">Livet om bord</a>
+      <a class="nav-tab" href="#flagg">Flagg og regler</a>
+      <a class="nav-tab" href="#myter">Myter vs. fakta</a>
+      <a class="nav-tab" href="#quiz">Quiz</a>
+    </div>
+    <a class="back-btn" href="hub.html">← Hjem</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌊 Historie &amp; Eventyr</div>
+    <h1>PIRA<span>TER</span></h1>
+    <p>Gullalderen på havet på 1700-tallet – plyndring, frihet og livet på det åpne hav.</p>
+    <a class="hero-scroll" href="#intro">Utforsk <span class="scroll-arrow">↓</span></a>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="section-label">Hvem var de?</div>
+  <h2 class="section-title">Mer enn bare røvere til sjøs</h2>
+  <p class="section-intro">Pirater er noe av det mest spennende og mytomspunne fra historien. Men hvem var de egentlig, og hva drev dem ut på havet?</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🚢</div>
+      <div class="fact-title">Ikke bare kriminelle</div>
+      <div class="fact-body">Mange pirater var tidligere sjøfolk, marinegaster eller handelsmenn som hadde mistet jobben eller flyktet fra harde livsvilkår.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🏴‍☠️</div>
+      <div class="fact-title">Gullalderen</div>
+      <div class="fact-body">1680–1730 regnes som piratenes gullalder, da hundrevis av skip herjet handelsrutene i Karibia, Atlanteren og Det indiske hav.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">⚖️</div>
+      <div class="fact-title">Demokrati om bord</div>
+      <div class="fact-body">Mange piratskip hadde egne lover og regler. Mannskapet stemte over beslutninger – langt mer demokratisk enn på kongens skip!</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌍</div>
+      <div class="fact-title">Hele verden</div>
+      <div class="fact-body">Piratene holdt til overalt – fra Karibia til Madagascar, langs Afrikas kyster og i Middelhavet.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">👩</div>
+      <div class="fact-title">Kvinner som pirater</div>
+      <div class="fact-body">Ikke bare menn! Anne Bonny og Mary Read er blant historiens mest kjente pirater – og begge var kvinner.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">💀</div>
+      <div class="fact-title">Kort karriere</div>
+      <div class="fact-body">De fleste pirater hadde korte karrierer. Mange ble hengt, druknet, drept i kamp – eller tok imot amnesti og ble vanlige folk igjen.</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    Visste du at mange pirater faktisk hadde <strong>forsikring</strong>? Piratreglene ga ofte kompensasjon hvis du mistet en arm eller et ben under kamp – en tidlig form for arbeidslivsforsikring!
+  </div>
+</section>
+
+<!-- HISTORIEN -->
+<section id="historien">
+  <div class="section-label">Tidslinje</div>
+  <h2 class="section-title">Piratenes gullalder</h2>
+  <p class="section-intro">Fra de første bukanérene til slutten av gullalderen – slik utviklet piratlivet seg over to århundrer.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1650-tall</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Bukanérene oppstår</strong>
+        <span>Franske og engelske settlere på Hispaniola begynner å angripe spanske skip. De første karibiske piratene er født.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1680</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Gullalderen starter</strong>
+        <span>Kaperbreve (kongelige tillatelser til å angripe fiendens skip) løper ut. Sjøfolk uten jobb velger piratlivet på eget initiativ.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1695</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Henry Every plyndrer Mogul-skipet</strong>
+        <span>Every tar det rikeste skipet som noensinne er plyndret – lasten tilsvarer milliarder i dagens penger. Han forsvinner og blir aldri fanget.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1701</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Captain Kidd henges</strong>
+        <span>William Kidd, opprinnelig kaper for den engelske kronen, henges i London. Kroppen hans henges i et bur ved Themsen som advarsel.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1716–1718</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Svartskjeggs storhetstid</strong>
+        <span>Edward Teach, kjent som Svartskjegg, terroriserer Karibia og Atlanterhavskysten. Hans skip «Queen Anne's Revenge» er fryktet overalt.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1718</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Woodes Rogers og amnestiet</strong>
+        <span>Den britiske guvernøren Woodes Rogers tilbyr pirater amnesti på Nassau. Mange tar imot – andre nekter og blir jaktet ned.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1720</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Anne Bonny og Mary Read fanges</strong>
+        <span>To av historiens mest kjente pirater blir fanget av britiske marineoffiserer ved Jamaica. Mary dør i fengsel; Anne's skjebne er ukjent.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1722</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Bartholomew Roberts faller</strong>
+        <span>«Black Bart» – den mest produktive piraten i gullalderen med over 400 skip tatt – dør i kamp mot HMS Swallow. Slutten på gullalderen nærmer seg.</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1730</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-body">
+        <strong>Gullalderen slutter</strong>
+        <span>Royal Navy intensiverer jakten. De fleste gjenværende pirater er hengt eller har gitt opp. Piratenes gullalder er over.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BERØMTE PIRATER -->
+<section id="beromte">
+  <div class="section-label">Interaktivt</div>
+  <h2 class="section-title">Historiens berømte pirater</h2>
+  <p class="section-intro">Klikk på en pirat for å lære om deres liv, bragder og hvorfor de fremdeles huskes hundrevis av år senere.</p>
+
+  <div class="pirate-picker">
+    <div class="pirate-btns">
+      <button class="pirate-btn active" onclick="showPirate('svartskjegg', event)">☠ Svartskjegg</button>
+      <button class="pirate-btn" onclick="showPirate('anneBonny', event)">⚔ Anne Bonny</button>
+      <button class="pirate-btn" onclick="showPirate('blackBart', event)">🏴‍☠️ Black Bart</button>
+      <button class="pirate-btn" onclick="showPirate('kiddo', event)">⚓ Captain Kidd</button>
+      <button class="pirate-btn" onclick="showPirate('calico', event)">🦜 Calico Jack</button>
+    </div>
+    <div class="pirate-display">
+      <div class="pirate-emoji" id="p-emoji">☠</div>
+      <div class="pirate-info">
+        <div class="pirate-name" id="p-name">Svartskjegg</div>
+        <div class="pirate-years" id="p-years">ca. 1680–1718</div>
+        <div class="pirate-desc" id="p-desc">Edward Teach – bedre kjent som Svartskjegg – er verdens mest berømte pirat. Han flettet lunter inn i skjegget sitt og tente dem i kamp for å se skremmende ut. Hans skip «Queen Anne's Revenge» var bevæpnet med 40 kanoner.</div>
+        <div class="pirate-tags" id="p-tags">
+          <span class="pirate-tag">Karibia</span>
+          <span class="pirate-tag">40 kanoner</span>
+          <span class="pirate-tag">Queen Anne's Revenge</span>
+        </div>
+        <div class="strength-bars" id="p-bars"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVET OM BORD -->
+<section id="livet">
+  <div class="section-label">Hverdag</div>
+  <h2 class="section-title">Livet om bord</h2>
+  <p class="section-intro">Piratlivet var ikke bare eventyr og skatter. Det var hardt arbeid, trange forhold og konstant fare.</p>
+
+  <div class="ship-stats">
+    <div class="ship-stat">
+      <div class="stat-num">80</div>
+      <div class="stat-label">Menn på et gjennomsnittlig piratskip</div>
+    </div>
+    <div class="ship-stat">
+      <div class="stat-num">30°C</div>
+      <div class="stat-label">Varme nede i skipet om sommeren</div>
+    </div>
+    <div class="ship-stat">
+      <div class="stat-num">4h</div>
+      <div class="stat-label">Vaktskift – jobbet hele døgnet</div>
+    </div>
+    <div class="ship-stat">
+      <div class="stat-num">2–3</div>
+      <div class="stat-label">Måneders proviant av gangen</div>
+    </div>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🍖</div>
+      <div class="fact-title">Maten om bord</div>
+      <div class="fact-body">Tørrmat, saltet kjøtt og hardtbrød («ship's biscuit») var basisføden. Fersk mat ble spist raskt før den råtnet. Skjørbuk (mangel på C-vitamin) var en konstant trussel.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🛏</div>
+      <div class="fact-title">Soveplass</div>
+      <div class="fact-body">Hengekøyer av lerret i trange rom under dekk. Mannskapet sov i skift, og det var aldri nok plass til alle på en gang.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">💰</div>
+      <div class="fact-title">Byttet deles</div>
+      <div class="fact-body">Bytte ble delt etter en fast nøkkel. Kapteinen fikk mer enn andre, men mannskapet stemte over fordelingen. Juks ble strengt straffet.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🎵</div>
+      <div class="fact-title">Musikk og underholdning</div>
+      <div class="fact-body">Musikk var viktig om bord – den holdt moralen oppe og ga rytme til tungt arbeid. Kortspill, fortelling og dans var populære aktiviteter.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🐀</div>
+      <div class="fact-title">Sykdom og skadedyr</div>
+      <div class="fact-body">Rotter, kakerlakker og lopper var konstante ledsagere. Sykdommer som dysenteri, malaria og gul feber tok livet av langt flere pirater enn kamp.</div>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🗳</div>
+      <div class="fact-title">Piratdemokrati</div>
+      <div class="fact-body">Mannskapet valgte kaptein og kunne stemme ham av. Alle regler ble avtalt på forhånd i et dokument alle signerte. Mye mer demokratisk enn vanlige skip!</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    Visste du at mange pirater hadde <strong>lappeteppe</strong> over øyet ikke fordi de manglet et øye, men fordi de var mye i mørklagte rom under dekk og trengte ett øye tilpasset mørket – slik at de raskt kunne se godt i kamp!
+  </div>
+</section>
+
+<!-- FLAGG OG REGLER -->
+<section id="flagg">
+  <div class="section-label">Symboler og lover</div>
+  <h2 class="section-title">Jolly Roger og piratenes regler</h2>
+  <p class="section-intro">Piratflagget og de uskrevne (og skrevne) piratlovene var en viktig del av kulturen – og overlevelsesstrategien.</p>
+
+  <div class="flag-grid">
+    <div class="flag-card">
+      <div class="flag-icon">💀</div>
+      <div class="flag-title">Jolly Roger</div>
+      <div class="flag-desc">Det berømte dødninghode-flagget. Det ble heist for å signalisere at skipet var pirat – og for å skremme fienden til å overgi seg uten kamp.</div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-icon">🔴</div>
+      <div class="flag-title">Det røde flagget</div>
+      <div class="flag-desc">Et helt rødt flagg (Bloody Flag) betydde at ingen nåde ville bli vist. Mot det svarte Jolly Roger, ga det røde flagget et langt hardere ultimatum.</div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-icon">📜</div>
+      <div class="flag-title">Piratartiklene</div>
+      <div class="flag-desc">Skriftlige regler som alle om bord måtte signere. De regulerte bytte, straff, arbeid og rettigheter – en form for piratenes grunnlov.</div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-icon">🤝</div>
+      <div class="flag-title">Kapteinens makt</div>
+      <div class="flag-desc">I kamp hadde kapteinen absolutt myndighet. Men til vanlig hadde mannskapet stemmerett og kunne avsette en kaptein de ikke var fornøyd med.</div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-icon">⚖️</div>
+      <div class="flag-title">Kompensasjon</div>
+      <div class="flag-desc">Mange piratartikler inkluderte kompensasjon for skader. Miste høyre arm ga typisk 600 pieces of eight; venstre arm 500; et øye 100.</div>
+    </div>
+    <div class="flag-card">
+      <div class="flag-icon">🚫</div>
+      <div class="flag-title">Forbudte handlinger</div>
+      <div class="flag-desc">Tyveri fra egne menn, gambling med høy innsats og å ta med kvinner uten tillatelse var typisk forbudt – og straffet strengt.</div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    Visste du at ordet <strong>«Jolly Roger»</strong> trolig kommer fra det franske «Joli Rouge» (vakker rød), som var det opprinnelige farlige flagget? Over tid ble det sortere hodeskalle-designet mer vanlig.
+  </div>
+</section>
+
+<!-- MYTER VS. FAKTA -->
+<section id="myter">
+  <div class="section-label">Myter og sannheter</div>
+  <h2 class="section-title">Hva er sant, og hva er oppdiktet?</h2>
+  <p class="section-intro">Filmer og bøker har skapt mange myter om pirater. La oss skille fakta fra fiksjon.</p>
+
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <div class="myth-tag">✗ Myte</div>
+      <div class="myth-claim">«Gå planken!»</div>
+      <div class="myth-reality">Ingen historiske bevis for at pirater tvang folk til å gå planken. Det er trolig oppfunnet av forfattere på 1800-tallet.</div>
+    </div>
+    <div class="myth-card fact">
+      <div class="myth-tag">✓ Sant</div>
+      <div class="myth-claim">Pirater var demokratiske</div>
+      <div class="myth-reality">Ekte pirater stemte over beslutninger og valgte kapteinen sin – mye mer demokratisk enn kongens sjøfolk.</div>
+    </div>
+    <div class="myth-card myth">
+      <div class="myth-tag">✗ Myte</div>
+      <div class="myth-claim">Pirater gravde ned skatten sin</div>
+      <div class="myth-reality">De fleste pirater brukte byttet raskt på mat, drikke og ny utstyr. Nedgravde skatter er nesten utelukkende fiksjon.</div>
+    </div>
+    <div class="myth-card fact">
+      <div class="myth-tag">✓ Sant</div>
+      <div class="myth-claim">Lappeteppe = nattsynsstrategi</div>
+      <div class="myth-reality">Teorien om at pirater brukte lappeteppe for å tilpasse ett øye til mørket er faktisk plausibel – for å se raskt i mørke rom.</div>
+    </div>
+    <div class="myth-card myth">
+      <div class="myth-tag">✗ Myte</div>
+      <div class="myth-claim">Pirater var grådige monster</div>
+      <div class="myth-reality">Mange pirater unngikk unødvendig vold – de ville at fienden skulle overgi seg frivillig uten kamp, for å spare egne liv.</div>
+    </div>
+    <div class="myth-card fact">
+      <div class="myth-tag">✓ Sant</div>
+      <div class="myth-claim">Papegøyer var ombordværende</div>
+      <div class="myth-reality">Sjøfolk hadde faktisk papegøyer og andre eksotiske dyr som reisefølge og handelsvarer. Det er faktisk historisk belegg for dette.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="section-label">Test deg selv</div>
+  <h2 class="section-title">Pirat-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Ta quizen og finn ut hvor mye du vet om gullalderens pirater!</p>
+
+  <div class="quiz-container" id="quiz-box"></div>
+</section>
+
+<script>
+/* ─── PIRATE PICKER ─────────────────────────────────── */
+const pirates = {
+  svartskjegg: {
+    emoji: '☠',
+    name: 'Svartskjegg',
+    years: 'ca. 1680–1718',
+    desc: 'Edward Teach – bedre kjent som Svartskjegg – er verdens mest berømte pirat. Han flettet brennende lunter inn i skjegget sitt i kamp. Hans skip «Queen Anne\'s Revenge» var bevæpnet med 40 kanoner og sådde frykt i hele Karibia.',
+    tags: ['Karibia', '40 kanoner', 'Queen Anne\'s Revenge'],
+    bars: [90, 65, 95]
+  },
+  anneBonny: {
+    emoji: '⚔',
+    name: 'Anne Bonny',
+    years: 'ca. 1697–1782',
+    desc: 'En av historiens få kjente kvinnelige pirater. Irsk-født Anne Bonny forlot mannen sin for piratlivet og Calico Jack Rackham. Hun var kjent for å slåss hardt i kamp – hardere enn mange av mannskapets menn.',
+    tags: ['Karibia', 'Jamaican coast', 'Calico Jacks mannskap'],
+    bars: [75, 70, 80]
+  },
+  blackBart: {
+    emoji: '🏴‍☠️',
+    name: 'Black Bart (Bartholomew Roberts)',
+    years: '1682–1722',
+    desc: 'Den mest produktive piraten i gullalderen. «Black Bart» tok over 400 skip – et rekord som aldri ble slått. Walisisk av fødsel, var han kjent for å ikke drikke alkohol og for å holde orden på skipet.',
+    tags: ['400+ skip tatt', 'Atlanteren', 'Ikke alkohol'],
+    bars: [85, 80, 70]
+  },
+  kiddo: {
+    emoji: '⚓',
+    name: 'Captain William Kidd',
+    years: '1645–1701',
+    desc: 'En av historiens mest omdiskuterte pirater. Kidd begynte som kaper (lovlig pirat med kongelig tillatelse), men ble hengt som pirat. Mange historikere mener han fikk urettferdig behandling.',
+    tags: ['Kaperbreve', 'Indian Ocean', 'Hengt i London'],
+    bars: [60, 55, 75]
+  },
+  calico: {
+    emoji: '🦜',
+    name: 'Calico Jack Rackham',
+    years: '1682–1720',
+    desc: 'Kjent for sitt fargerike kaliko-klesdrakt og for å ha to av historiens kjente kvinnelige pirater (Anne Bonny og Mary Read) i mannskapet. Hans Jolly Roger – med en hodeskalle og to crossed swords – er et av de mest gjenkjennelige piratflaggene.',
+    tags: ['Karibia', 'Anne Bonny & Mary Read', 'Ikonisk flagg'],
+    bars: [55, 65, 60]
+  }
+};
+
+const barLabels = ['Berømmelse', 'Dyktighet', 'Fryktfaktor'];
+
+function showPirate(key, event) {
+  const p = pirates[key];
+  document.getElementById('p-emoji').textContent = p.emoji;
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-years').textContent = p.years;
+  document.getElementById('p-desc').textContent = p.desc;
+  document.getElementById('p-tags').innerHTML = p.tags.map(t =>
+    `<span class="pirate-tag">${t}</span>`).join('');
+  document.getElementById('p-bars').innerHTML = p.bars.map((v, i) =>
+    `<div class="bar-row">
+      <span class="bar-label">${barLabels[i]}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div>
+      <span class="bar-value">${v}</span>
+    </div>`).join('');
+  document.querySelectorAll('.pirate-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// Initialize bars on load
+window.addEventListener('DOMContentLoaded', () => {
+  const p = pirates.svartskjegg;
+  document.getElementById('p-bars').innerHTML = p.bars.map((v, i) =>
+    `<div class="bar-row">
+      <span class="bar-label">${barLabels[i]}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div>
+      <span class="bar-value">${v}</span>
+    </div>`).join('');
+});
+
+/* ─── NAV SCROLL ACTIVE ─────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
+const tabs = document.querySelectorAll('.nav-tab');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  tabs.forEach(t => {
+    t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+  });
+});
+
+/* ─── QUIZ ───────────────────────────────────────────── */
+const questions = [
+  {
+    q: 'Hvilken periode regnes som piratenes gullalder?',
+    opts: ['1580–1640', '1680–1730', '1750–1800', '1820–1870'],
+    correct: 1,
+    explanation: '1680–1730 er kjent som gullalderen, da piratvirksomheten var på sitt høyeste i Karibia og på Atlanterhavet.'
+  },
+  {
+    q: 'Hva het Svartskjeggs skip?',
+    opts: ['Black Pearl', 'Queen Anne\'s Revenge', 'Flying Dutchman', 'Royal Fortune'],
+    correct: 1,
+    explanation: 'Svartskjeggs berømte skip het «Queen Anne\'s Revenge» og var bevæpnet med 40 kanoner.'
+  },
+  {
+    q: 'Hvor mange skip tok Bartholomew Roberts («Black Bart»)?',
+    opts: ['Over 100', 'Over 200', 'Over 300', 'Over 400'],
+    correct: 3,
+    explanation: 'Black Bart tok over 400 skip – et rekord ingen annen pirat i gullalderen kom i nærheten av.'
+  },
+  {
+    q: 'Hva var Anne Bonny kjent for?',
+    opts: ['Hun var den første piraten i Karibia', 'Hun var en av historiens kjente kvinnelige pirater', 'Hun ble valgt til piratenes dronning', 'Hun beseiret den britiske marinen'],
+    correct: 1,
+    explanation: 'Anne Bonny er en av historiens mest kjente kvinnelige pirater. Hun seilte med Calico Jack Rackham og kjempet hardt i kamp.'
+  },
+  {
+    q: 'Hva er «Jolly Roger»?',
+    opts: ['En berømt pirat fra Skottland', 'Et piratskip fra 1700-tallet', 'Det klassiske piratflagget med hodeskalle', 'En type piratrett'],
+    correct: 2,
+    explanation: 'Jolly Roger er det berømte piratflagget med hodeskallen, brukt for å skremme fienden til å overgi seg uten kamp.'
+  },
+  {
+    q: 'Hva var «å gå planken» egentlig?',
+    opts: ['En vanlig piratstraff for tyveri', 'En myte – det er trolig oppfunnet av forfattere på 1800-tallet', 'Piraters treningsprogram', 'Måten pirater testet nye mannskap'],
+    correct: 1,
+    explanation: 'Det finnes ingen historiske bevis for at pirater tvang folk til å gå planken. Det er trolig en myte skapt av forfattere på 1800-tallet.'
+  },
+  {
+    q: 'Hva er en «kaperbreve» (Letter of Marque)?',
+    opts: ['Et piratkart til skjult skatt', 'En kongelig tillatelse til å angripe fiendens skip', 'En piratenes arrestordre', 'Et handelspass for farlige farvann'],
+    correct: 1,
+    explanation: 'En kaperbreve var en kongelig tillatelse til å angripe og plyndre fiendens skip. Den som hadde dette var «kaper», ikke pirat – teknisk sett lovlig.'
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  const box = document.getElementById('quiz-box');
+  if (current >= questions.length) {
+    const pct = Math.round(score / questions.length * 100);
+    let msg = pct >= 80 ? '🏴‍☠️ Imponerende! Du er en ekte piratekspert!' :
+              pct >= 60 ? '⚓ Bra jobbet! Du vet mye om pirater.' :
+              '🌊 Les gjennom sidene igjen – pirater er fascinerende!';
+    box.innerHTML = `
+      <div class="quiz-result">
+        <div class="quiz-progress">Quiz fullført!</div>
+        <div class="quiz-score">${score}/${questions.length}</div>
+        <p>${msg}</p>
+        <button class="quiz-restart" onclick="restartQuiz()">Prøv igjen</button>
+      </div>`;
+    return;
+  }
+  const q = questions[current];
+  box.innerHTML = `
+    <div class="quiz-progress">Spørsmål ${current + 1} av ${questions.length} · Poeng: ${score}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts">
+      ${q.opts.map((o, i) => `<button class="quiz-opt" onclick="answer(${i})">${o}</button>`).join('')}
+    </div>`;
+  answered = false;
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o, i) => {
+    o.disabled = true;
+    if (i === q.correct) o.classList.add('correct');
+    else if (i === idx) o.classList.add('wrong');
+  });
+  if (idx === q.correct) score++;
+  const box = document.getElementById('quiz-box');
+  box.insertAdjacentHTML('beforeend', `
+    <div class="quiz-explanation">${q.explanation}</div>
+    <button class="quiz-next" onclick="nextQ()">${current + 1 < questions.length ? 'Neste spørsmål →' : 'Se resultatet →'}</button>`);
+}
+
+function nextQ() { current++; renderQuestion(); }
+function restartQuiz() { current = 0; score = 0; renderQuestion(); }
+
+renderQuestion();
+</script>
+</body>
+</html>

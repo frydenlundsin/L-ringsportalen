@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rovdyr – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c06;
+  --surface: #101808;
+  --surface2: #1c2610;
+  --border: #304020;
+  --text: #f0ead8;
+  --muted: #809060;
+  --primary: #d4a020;
+  --secondary: #c06020;
+  --highlight: #e8d080;
+  --green: #408030;
+  --red: #c04020;
+  --gold: #d4a020;
+  --sand: #e8d098;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: rgba(8,12,6,0.95); backdrop-filter: blur(8px); border-bottom: 2px solid var(--border); }
+.nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; padding: 0 1.5rem; }
+.nav-logo { font-family: 'Anton', sans-serif; font-size: 1rem; color: var(--primary); padding: 1rem 1.5rem 1rem 0; border-right: 1px solid var(--border); margin-right: 0.5rem; text-decoration: none; white-space: nowrap; letter-spacing: 0.05em; }
+.nav-tabs { display: flex; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a { display: block; padding: 1.1rem 1.1rem; color: var(--muted); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; transition: color 0.2s; border-bottom: 3px solid transparent; }
+.nav-tabs a:hover, .nav-tabs a.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden; }
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(192,96,32,0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(212,160,32,0.08) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(30deg, transparent, transparent 30px, rgba(48,64,32,0.15) 30px, rgba(48,64,32,0.15) 31px),
+    repeating-linear-gradient(150deg, transparent, transparent 30px, rgba(48,64,32,0.10) 30px, rgba(48,64,32,0.10) 31px);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { display: inline-block; background: var(--secondary); color: white; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 1.2rem; border-radius: 2px; margin-bottom: 1.5rem; }
+.hero h1 { font-family: 'Anton', sans-serif; font-size: clamp(3rem, 10vw, 7rem); font-weight: 400; line-height: 1; color: var(--primary); text-shadow: 0 4px 30px rgba(212,160,32,0.4); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+.hero-sub { font-family: 'Anton', sans-serif; font-size: clamp(1rem, 3vw, 1.4rem); color: var(--sand); margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+.hero-desc { max-width: 560px; color: var(--muted); font-size: 1.05rem; margin: 0 auto 2.5rem; }
+.hero-stats { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+.hero-stat { background: rgba(28,38,16,0.7); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1.5rem; text-align: center; }
+.hero-stat .num { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: var(--primary); font-weight: 400; display: block; }
+.hero-stat .lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: 0.8rem; animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+section { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--secondary); margin-bottom: 0.5rem; }
+.section-title { font-family: 'Anton', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--primary); margin-bottom: 1rem; line-height: 1.2; font-weight: 400; letter-spacing: 0.03em; }
+.section-intro { color: var(--muted); max-width: 640px; margin-bottom: 2.5rem; font-size: 1.05rem; }
+.divider { border: none; border-top: 1px solid var(--border); max-width: 1100px; margin: 0 auto; }
+
+.fact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+.fact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: transform 0.2s, border-color 0.2s; }
+.fact-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 { font-family: 'Anton', sans-serif; font-size: 1.1rem; color: var(--sand); margin-bottom: 0.5rem; }
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+.did-you-know { background: linear-gradient(135deg, rgba(212,160,32,0.12), rgba(192,96,32,0.08)); border: 2px solid var(--primary); border-radius: 16px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+.did-you-know::before { content: "💡"; font-size: 3rem; position: absolute; right: 1.5rem; top: 1rem; opacity: 0.3; }
+.dyk-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem; }
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+.term-note { background: linear-gradient(135deg, rgba(64,128,48,0.1), rgba(28,38,16,0.8)); border: 1px solid rgba(64,128,48,0.3); border-radius: 16px; padding: 1.5rem 2rem; margin: 1.5rem 0; display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start; }
+.term-emoji { font-size: 2.5rem; }
+.term-note h4 { font-family: 'Anton', sans-serif; font-size: 1rem; color: var(--green); margin-bottom: 0.4rem; }
+.term-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+.myth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card { border-radius: 12px; padding: 1.5rem; border: 1px solid; }
+.myth-card.myth { background: rgba(192,64,32,0.1); border-color: var(--red); }
+.myth-card.fact { background: rgba(64,128,48,0.1); border-color: var(--green); }
+.myth-card .badge { display: inline-block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem; }
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+.timeline { position: relative; padding-left: 2rem; margin: 2rem 0; }
+.timeline::before { content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--border)); border-radius: 3px; }
+.timeline-item { position: relative; margin-bottom: 2rem; padding-left: 2rem; cursor: pointer; }
+.timeline-item::before { content: ''; position: absolute; left: -1.45rem; top: 0.35rem; width: 14px; height: 14px; border-radius: 50%; background: var(--primary); border: 3px solid var(--bg); transition: transform 0.2s; }
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year { font-family: 'Anton', sans-serif; font-size: 0.85rem; color: var(--primary); font-weight: 400; margin-bottom: 0.2rem; }
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+.gladiator-picker { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.gladiator-btn { padding: 0.6rem 1.2rem; border: 2px solid var(--border); background: var(--surface); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.gladiator-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gladiator-btn.active { border-color: var(--primary); background: rgba(212,160,32,0.12); color: var(--primary); }
+.gladiator-display { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 2.5rem; display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; transition: all 0.3s; min-height: 280px; }
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 { font-family: 'Anton', sans-serif; font-size: 1.6rem; color: var(--primary); margin-bottom: 0.3rem; }
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag { background: rgba(212,160,32,0.1); border: 1px solid rgba(212,160,32,0.3); color: var(--sand); font-size: 0.8rem; padding: 0.25rem 0.7rem; border-radius: 20px; }
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 100px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--primary); transition: width 0.6s ease; }
+
+.colosseum-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.colo-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+.colo-stat .big { font-family: 'Anton', sans-serif; font-size: 2rem; color: var(--secondary); font-weight: 400; display: block; }
+.colo-stat .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; border-left: 4px solid var(--primary); }
+.day-time { font-family: 'Anton', sans-serif; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem; }
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+.society-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; }
+.society-card h4 { font-family: 'Anton', sans-serif; font-size: 1.1rem; color: var(--primary); margin-bottom: 0.8rem; }
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+.film-note { background: linear-gradient(135deg, rgba(64,128,48,0.12), rgba(28,38,16,0.8)); border: 1px solid rgba(64,128,48,0.4); border-radius: 16px; padding: 2rem; margin: 3rem 0; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start; }
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 { font-family: 'Anton', sans-serif; font-size: 1.1rem; color: #60a840; margin-bottom: 0.5rem; }
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+.quiz-container { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 2.5rem; max-width: 720px; }
+.quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 1.5rem; }
+.quiz-dot { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; transition: background 0.3s; }
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--primary); }
+.quiz-question { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem; line-height: 1.5; }
+.quiz-options { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+.quiz-option { background: var(--surface2); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 600; padding: 0.9rem 1.3rem; border-radius: 10px; text-align: left; cursor: pointer; transition: all 0.15s; }
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.quiz-option.correct { border-color: var(--green); background: rgba(64,128,48,0.2); color: #88d888; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(192,64,32,0.15); color: #ff8870; }
+.quiz-feedback { padding: 1rem 1.3rem; border-radius: 10px; font-size: 0.95rem; margin-bottom: 1rem; display: none; }
+.quiz-feedback.correct { background: rgba(64,128,48,0.15); border: 1px solid var(--green); color: #88d888; }
+.quiz-feedback.wrong { background: rgba(192,64,32,0.1); border: 1px solid var(--red); color: #ff8870; }
+.quiz-btn { background: var(--primary); color: #080c06; border: none; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.9rem 2rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; display: none; }
+.quiz-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.quiz-result { text-align: center; display: none; }
+.quiz-result .score { font-family: 'Anton', sans-serif; font-size: 4rem; color: var(--primary); display: block; margin: 1rem 0; }
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart { background: var(--secondary); color: white; border: none; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.9rem 2rem; border-radius: 10px; cursor: pointer; transition: opacity 0.2s; }
+.quiz-restart:hover { opacity: 0.85; }
+
+footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
+footer a { color: var(--primary); text-decoration: none; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content > * { animation: fadeUp 0.6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">🦁 Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hva er rovdyr?</a></li>
+      <li><a href="#historien">Tidslinje</a></li>
+      <li><a href="#rovdyrene">Rovdyrene</a></li>
+      <li><a href="#jakt">Jaktteknikker</a></li>
+      <li><a href="#truet">Truede rovdyr</a></li>
+      <li><a href="#norge">I Norge</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌿 Natur & Dyr</div>
+    <h1>ROVDYR</h1>
+    <p class="hero-sub">Naturens mektigste jegere</p>
+    <p class="hero-desc">Løver, haier, ulver og ørner – disse dyrene er skapt for å jakte. Men de er også naturens vaktmestere. Lær om livet på toppen av næringskjeden!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">500+</span><span class="lbl">Rovdyrarter i verden</span></div>
+      <div class="hero-stat"><span class="num">350 km/t</span><span class="lbl">Falkens stupdykk</span></div>
+      <div class="hero-stat"><span class="num">400</span><span class="lbl">Kilo – largest krokodille</span></div>
+      <div class="hero-stat"><span class="num">5</span><span class="lbl">Store rovdyr i Norge</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hva er et rovdyr?</h2>
+  <p class="section-intro">Rovdyr er ikke bare skremmende – de er livsviktige for naturen. La oss forstå hva de egentlig er!</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🍖</div>
+      <h3>De spiser andre dyr</h3>
+      <p>Et rovdyr (på latin: predator) er et dyr som jakter og spiser andre dyr. De er kjøttspisere – men ikke alle er store og farlige!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">⚖️</div>
+      <h3>Naturens balansekunstnere</h3>
+      <p>Rovdyr holder bestanden av byttedyr i sjakk. Uten ulver ville hjortestammen eksplodere og beite ned skogen. Rovdyr er naturens vaktmestre!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">👑</div>
+      <h3>Topprovdyr (apex predators)</h3>
+      <p>Topprovdyr er dyr øverst i næringskjeden – de har ingen naturlige fiender som jakter på dem. Løven, haien og ørnen er eksempler.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🧬</div>
+      <h3>Skapt for å jakte</h3>
+      <p>Rovdyr har utviklet særegne egenskaper over millioner av år: skarpe klør, nattsyns-øyne, lynraske reflekser, kraftige muskler og ekstremt godt syn.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Det farligste dyret i verden for mennesker er <strong>ikke</strong> løven, haien eller krokodillen. Det er <strong>myggen</strong>! Den dreper over 700 000 mennesker hvert år gjennom sykdommer som malaria. Haier dreper ca. 10 mennesker per år.</p>
+  </div>
+
+  <div class="term-note">
+    <div class="term-emoji">📖</div>
+    <div>
+      <h4>Ord å lære: "Næringskjeden"</h4>
+      <p>Næringskjeden viser hvem som spiser hva i naturen. Planter → planteeterе → rovdyr. Topprovdyr er øverst – ingen spiser dem (unntatt av og til andre topprovdyr, eller... mennesker). Fjerner du et ledd fra kjeden, raser hele systemet.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="historien">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Rovdyr gjennom tidene</h2>
+  <p class="section-intro">Fra forhistoriske kjemperovdyr til dagens truede arter – rovdyrenes historia er naturens drama!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">66 millioner år siden</div>
+      <h4>Dinosaurenes tid slutter</h4>
+      <p>De mektigste rovdyrene gjennom tidene – T-rex, Velociraptor – forsvinner. Pattedyrene begynner å overta.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">40 millioner år siden</div>
+      <h4>Første kattedyr og hundefamilier</h4>
+      <p>De tidligste forfedrene til løver, tigere og ulver dukker opp. Evolusjonen former dem til perfekte jegere over millioner av år.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">10 000 år siden</div>
+      <h4>Istiden og store utryddelser</h4>
+      <p>Sabeltanntigeren, ulvens store forfar (Dire Wolf) og mammuten forsvinner. Klimaendringer og menneskenes jakt feller dem.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1800-tallet</div>
+      <h4>Stor rovdyrjakt begynner</h4>
+      <p>Industrialisering og ekspansjon truer rovdyrene. Ulver, bjørner og løver jages ned i enorme antall. Mange bestander kollapser.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1972</div>
+      <h4>Viltfredningsloven i USA</h4>
+      <p>USA vedtar Endangered Species Act – den første store loven som beskytter truede dyr. Bald Eagle, grizzlybjørn og alligatoren reddes fra kanten av utryddelse.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1995</div>
+      <h4>Ulven gjeninnføres i Yellowstone</h4>
+      <p>14 ulver slippes løs i Yellowstone etter 70 år uten ulv. Resultatet er fantastisk: elgene beveger seg mer, trærne vokser tilbake, elvene endrer kurs. Én ulv forandret hele økosystemet!</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">I dag</div>
+      <h4>Rovdyrene trues av habitattap</h4>
+      <p>Avskoging, klimaendringer og menneskelig ekspansjon er den største trusselen. Ca. 40% av jordas rovdyrarter er truet.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Da ulvene ble gjeninnført i Yellowstone i 1995, endret de bokstavelig talt <strong>elvenes kurs</strong>! Elgene begynte å unngå åpne steder nær elver (av frykt for ulv), trærne vokste tilbake der elgene ikke beitet, røttene stabiliserte jorda, og elvene ble smalere og dypere. Et helt landskap forandret seg fordi én art kom tilbake.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="rovdyrene">
+  <p class="section-label">Utforsk rovdyrene</p>
+  <h2 class="section-title">Verdens store rovdyr</h2>
+  <p class="section-intro">Fra havets dybder til savannens vidder – klikk for å utforske de mektigste jegerne!</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showPredator('love')">Løven</button>
+    <button class="gladiator-btn" onclick="showPredator('hai')">Haien</button>
+    <button class="gladiator-btn" onclick="showPredator('ulv')">Ulven</button>
+    <button class="gladiator-btn" onclick="showPredator('orn')">Ørnen</button>
+    <button class="gladiator-btn" onclick="showPredator('krokodille')">Krokodillen</button>
+  </div>
+
+  <div class="gladiator-display" id="pred-display">
+    <div class="gladiator-emoji" id="p-emoji">🦁</div>
+    <div class="gladiator-info">
+      <h3 id="p-name">Løven</h3>
+      <p class="gladiator-latin" id="p-latin">Panthera leo – Afrikas konge</p>
+      <p id="p-desc">Løven er det eneste kattedyret som lever i grupper – kalt stim. Hunner (løvinnen) gjør det meste av jakten, mens hannen beskytter territoriet med sitt ikoniske manke og brøl. Et løvebrøl kan høres 8 km unna! Løver er sosiale og intelligente – noe som er uvanlig blant kattedyr.</p>
+      <div class="gear-tags" id="p-fakta">
+        <span class="gear-tag">⚖️ Opptil 250 kg</span>
+        <span class="gear-tag">🏃 80 km/t på sprint</span>
+        <span class="gear-tag">👥 Lever i stim</span>
+        <span class="gear-tag">🔊 Brøl høres 8 km unna</span>
+      </div>
+      <div class="strength-bars" id="p-bars">
+        <div class="bar-row"><span class="bar-label">Styrke</span><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Hastighet</span><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Intelligens</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="jakt">
+  <p class="section-label">Jaktteknikker</p>
+  <h2 class="section-title">Slik jakter de store rovdyrene</h2>
+  <p class="section-intro">Hvert rovdyr har sin spesialiserte jaktstrategi – utviklet gjennom millioner av år!</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">Flokk-jakt</div>
+      <h4>Løver og ulver – sammen er de sterkere</h4>
+      <p>Ulver og løver koordinerer jakten i gruppe. Noen driver byttet inn, andre venter i bakholt. Tillater dem å ta byttedyr mye større enn seg selv.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Sniking</div>
+      <h4>Tigeren og leoparden – usynlige jegere</h4>
+      <p>Tigere og leoparder sniker seg inn på byttet i tett vegetasjon. De nærmer seg til under 10 meter – så sprinter de. Første hopp er avgjørende.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Stupdykk</div>
+      <h4>Vandrefalken – verdens raskeste dyr</h4>
+      <p>Vandrefalken stuper ned fra himmelen i 350 km/t og slår byttet med enorm kraft. Det er det raskeste dyret på jorda i sitt stupdykk.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Utmattelse</div>
+      <h4>Afrikansk villhund – utholdenhetsmestrene</h4>
+      <p>Afrikanske villhunder jager ikke raskt – de jager lenge. De kan forfølge en antilope i timevis til den er utmattet. Suksessrate: 85%!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Bakholt</div>
+      <h4>Krokodillen – tålmodigheten selv</h4>
+      <p>Krokodillen kan ligge bomstille i vannet i timer, nesten usynlig. Når byttet nærmer seg vannet for å drikke – slår den til på millisekunder.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Elektrosans</div>
+      <h4>Haien – sanse elektriske felter</h4>
+      <p>Haien har et sjette sanseorgan (ampullae of Lorenzini) som oppdager de elektriske feltene alle levende skapninger avgir. Den kan finne skjulte byttedyr under sand.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Afrikanske villhunder har den <strong>høyeste jaktsuksessen</strong> av alle store rovdyr – rundt 85%. Løver lykkes bare ca. 20% av gangene. Nøkkelen til villhundenes suksess: de gir aldri opp og koordinerer jakten som et perfekt lag!</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="truet">
+  <p class="section-label">Krise</p>
+  <h2 class="section-title">Truede rovdyr</h2>
+  <p class="section-intro">Mange av verdens mektigste rovdyr er nå truet av utryddelse. Hva skjer – og hva kan vi gjøre?</p>
+
+  <div class="colosseum-facts">
+    <div class="colo-stat">
+      <span class="big">~20 000</span>
+      <span class="desc">Løver igjen i Afrika</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">~3 900</span>
+      <span class="desc">Tigere igjen i verden</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">~7 000</span>
+      <span class="desc">Snøleoparder igjen</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">100 år</span>
+      <span class="desc">Siden de fleste løvebestander halverte seg</span>
+    </div>
+  </div>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>🌲 Habitattap</h4>
+      <p>Rovdyrene mister leveområdene sine når skog hugges ned og savanner omdannes til jordbruksland. Uten plass til å jakte, overlever de ikke.</p>
+    </div>
+    <div class="society-card">
+      <h4>🎯 Jakt og konflikt</h4>
+      <p>Bønder som mister husdyr til rovdyr tar noen ganger saken i egne hender. Rovdyr-menneskekonflikter er en av de største truslene mot store rovdyr.</p>
+    </div>
+    <div class="society-card">
+      <h4>🌡️ Klimaendringer</h4>
+      <p>Stigende temperaturer endrer hvilke byttedyr som finnes hvor. Isbjørner mister havisen de jakter fra. Korallrev der haier jakter bleker og dør.</p>
+    </div>
+    <div class="society-card">
+      <h4>💚 Naturvern virker</h4>
+      <p>Nasjonalparker, fredningslovgivning og bærekraftig turisme har reddet mange arter. Bjørnepopulasjonen i Europa er på vei opp takket være vern.</p>
+    </div>
+  </div>
+
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Verden er tryggere uten rovdyr"</h4>
+      <p>Uten rovdyr eksploderer bestanden av planteeterе som beiter ned vegetasjonen. Hele landskap kollapser. Rovdyr er ikke farlige – de er nødvendige.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Rovdyr skaper friskere økosystemer</h4>
+      <p>Forskning viser at områder med store rovdyr har mer biologisk mangfold, sunnere vegetasjon og mer stabile elver. Rovdyr er ingeniørene av naturen.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="norge">
+  <p class="section-label">Hjemme</p>
+  <h2 class="section-title">Rovdyr i Norge</h2>
+  <p class="section-intro">Norge har fem store rovdyr – og debatten om dem er het! Her er fakta om de norske rovdyrene.</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🐺</div>
+      <h3>Ulven</h3>
+      <p>Ca. 100–150 ulver i Norge og Sverige. Svært omdiskutert – bønder frykter for sauene, naturvernere vil ha den tilbake. Ulven ble nesten utryddet i Norge på 1800-tallet.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🐻</div>
+      <h3>Bjørnen</h3>
+      <p>Ca. 140 bjørner i Norge. Lever mest i innlandet. Veldig sky overfor mennesker – angrep er ekstremt sjeldne. Spiser mest bær, insekter og fisk.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🐆</div>
+      <h3>Gaupa</h3>
+      <p>Ca. 500 gauper i Norge. Den vanligste av de store rovdyrene. Jakter harer, rype og rådyr. Er nesten aldri synlig for mennesker – ekstremt sky og stealthy.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🦡</div>
+      <h3>Jerven</h3>
+      <p>Ca. 300–400 jerver i Norge. Verdens sterkeste dyr i forhold til størrelsen – kan ta byttedyr mye større enn seg selv. Lever i fjellet. Nådeløs og modig jeger.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🦅</div>
+      <h3>Kongeørnen</h3>
+      <p>Ca. 1 000 par i Norge. Verdens mektigste ørn. Kan ta lam og rype, men spiser mest åtsel og hare. Vingespenn opp til 2,4 meter!</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌊</div>
+      <h3>Spekkhogger og havert</h3>
+      <p>Havets rovdyr finnes også i norske farvann! Spekkhoggere (orcaer) jakter sild i flokkvis koordinasjon. Havert (sel) er en dyktig fiskejeger langs kysten.</p>
+    </div>
+  </div>
+
+  <div class="film-note">
+    <div class="film-emoji">🎬</div>
+    <div>
+      <h4>Rovdyr i film og natur-TV</h4>
+      <p>Naturserier som "Planet Earth" (BBC/Netflix) og filmen "Never Cry Wolf" har lært millioner om rovdyrenes fascinerende liv. Mange som var redde for ulv og bjørn endret mening etter å se disse dyrene i sin naturlige sammenheng. Kunnskap forandrer frykt til respekt!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Rovdyr-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din om naturens mektigste jegere!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>🦁 <strong style="color:var(--primary)">Rovdyr</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på naturvitenskapelig forskning • Laget for nysgjerrige elever 🌿</p>
+</footer>
+
+<script>
+const predators = {
+  love: {
+    emoji: "🦁",
+    name: "Løven",
+    latin: "Panthera leo – Afrikas konge",
+    desc: "Løven er det eneste kattedyret som lever i grupper – kalt stim. Hunner (løvinnene) gjør det meste av jakten, mens hannen beskytter territoriet med sitt ikoniske manke. Et løvebrøl kan høres 8 km unna! Løver er sosiale og intelligente – noe som er uvanlig blant kattedyr.",
+    fakta: ["⚖️ Opptil 250 kg", "🏃 80 km/t på sprint", "👥 Lever i stim", "🔊 Brøl høres 8 km unna"],
+    bars: [90, 75, 80]
+  },
+  hai: {
+    emoji: "🦈",
+    name: "Den store hvite haien",
+    latin: "Carcharodon carcharias – Havets toppjeger",
+    desc: "Den store hvite haien er et av evolusjonshistoriens perfekte dyr – nesten uendret i 16 millioner år. Haier kan oppdage en dråpe blod i vannet på 400 meters avstand. De har et sjette sanseorgan som oppdager elektriske felter fra levende skapninger. Mye mer intelligent enn man trodde!",
+    fakta: ["🦷 300 tenner i 5 rekker", "🔊 Hører lavfrekvent lyd langt unna", "⚡ Sjette sanseorgan for elektrisitet", "🔄 16 millioner år gamle slektninger"],
+    bars: [85, 95, 70]
+  },
+  ulv: {
+    emoji: "🐺",
+    name: "Ulven",
+    latin: "Canis lupus – Hundens stamfar",
+    desc: "Ulven er hundens vill-forfar – for 15 000 år siden begynte noen ulver å nærme seg menneskenes leirbål, og gradvis ble de tamme. Ulver er ekstremt sosiale og lever i familieflokker med klart hierarki. De kommuniserer med ulehyl, kroppsspråk og duft. Et ulvehyl kan høres 10 km unna.",
+    fakta: ["🏃 Kan løpe 60 km/t", "👃 100 ganger bedre luktesans enn mennesker", "🐕 Stamfar til alle hunder", "🌕 Ulehyl høres 10 km unna"],
+    bars: [70, 88, 95]
+  },
+  orn: {
+    emoji: "🦅",
+    name: "Kongeørnen",
+    latin: "Aquila chrysaetos – Himmeldronningen",
+    desc: "Kongeørnen er en av verdens mektigste rovfugler. Med øyne 8 ganger skarpere enn menneskenes kan den se en hare fra 3 kilometers høyde. Stupdykk i opp til 240 km/t. Den lever i par livet ut – samme par bruker gjerne det samme redet i generasjoner.",
+    fakta: ["👁️ Ser 8× skarpere enn mennesker", "🌊 Vingespenn opptil 2,4 m", "💨 240 km/t i stupdykk", "💑 Lever i par livet ut"],
+    bars: [65, 95, 85]
+  },
+  krokodille: {
+    emoji: "🐊",
+    name: "Nilkrokodillen",
+    latin: "Crocodylus niloticus – Afrikas eldste jeger",
+    desc: "Nilkrokodillen er en av naturens aller eldste skapninger – krokodiller har eksistert nesten uendret i 80 millioner år. De overlevde utryddingen som tok dinosaurene! En krokodille kan holde kjeften igjen lukket med utrolig kraft, men kreftene som åpner kjeften er svake – du kan holde en krokodille-munn lukket med hånden.",
+    fakta: ["⏳ 80 millioner år gammel slekt", "💪 Sterkeste bitt i dyremordet", "🌡️ Blodtemperatur styres av sola", "🥚 Hannens sang bestemmer kjønnet på eggene"],
+    bars: [95, 50, 60]
+  }
+};
+
+function showPredator(key) {
+  const p = predators[key];
+  document.getElementById('p-emoji').textContent = p.emoji;
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-latin').textContent = p.latin;
+  document.getElementById('p-desc').textContent = p.desc;
+  document.getElementById('p-fakta').innerHTML = p.fakta.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Styrke', 'Hastighet', 'Intelligens'];
+  document.getElementById('p-bars').innerHTML = p.bars.map((v, i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+const questions = [
+  {
+    q: "Hva er et 'topprovdyr' (apex predator)?",
+    opts: ["Et rovdyr som spiser planter i tillegg til kjøtt", "Et rovdyr øverst i næringskjeden – uten naturlige fiender", "Det raskeste rovdyret i sin region", "Et rovdyr som lever i grupper"],
+    correct: 1,
+    explanation: "Topprovdyr er øverst i næringskjeden – ingenting jakter på dem (unntatt noen ganger andre topprovdyr eller mennesker). Løven, haien og kongeørnen er eksempler."
+  },
+  {
+    q: "Hva skjedde med Yellowstone-parken da ulvene ble gjeninnført i 1995?",
+    opts: ["Ingenting særlig merkbart", "Bestanden av byttedyr ble utryddet", "Hele økosystemet ble sunnere – til og med elvene endret kurs", "Parken ble for farlig for turister"],
+    correct: 2,
+    explanation: "Da ulvene kom tilbake, beveget elgene seg mer, trærne vokste tilbake, røttene stabiliserte jorda, og elvene ble faktisk smalere og dypere. Et helt landskap ble forandret!"
+  },
+  {
+    q: "Hvilket rovdyr har verdens høyeste jaktsuksessrate (~85%)?",
+    opts: ["Løven", "Den store hvite haien", "Kongeørnen", "Det afrikanske villhundet"],
+    correct: 3,
+    explanation: "Det afrikanske villhundet lykkes i ca. 85% av jaktsituasjonene – det høyeste av alle store rovdyr. De jakter i koordinerte flokker og gir aldri opp. Til sammenligning lykkes løven bare ca. 20% av gangene!"
+  },
+  {
+    q: "Hva er det farligste dyret for mennesker, regnet i antall drepte per år?",
+    opts: ["Den store hvite haien", "Løven", "Krokodillen", "Myggen"],
+    correct: 3,
+    explanation: "Myggen dreper over 700 000 mennesker per år gjennom sykdommer som malaria – langt mer enn alle store rovdyr til sammen. Haier dreper ca. 10 mennesker per år."
+  },
+  {
+    q: "Hva er det spesielle med haiens sjette sanseorgan?",
+    opts: ["Den kan se i mørket", "Den kan oppdage elektriske felter fra levende skapninger", "Den kan høre ultralydbølger", "Den kan lukte over 10 km"],
+    correct: 1,
+    explanation: "Haiens 'ampullae of Lorenzini' er et sanseorgan som oppdager de svake elektriske feltene alle levende vesener avgir. Den kan finne byttedyr skjult under sanden på havbunnen!"
+  },
+  {
+    q: "Hvilke fem store rovdyr lever i Norge?",
+    opts: [
+      "Bjørn, tiger, løve, ulv, gaupe",
+      "Ulv, bjørn, gaupe, jerv og kongeørn",
+      "Ulv, bjørn, hai, gaupe og ørn",
+      "Bjørn, ulv, leopard, jerv og gaupe"
+    ],
+    correct: 1,
+    explanation: "Norges fem store rovdyr er ulv, bjørn, gaupe, jerv og kongeørn. Alle er fredet, og alle skaper debatt om rovdyrpolitikk i Norge."
+  },
+  {
+    q: "Hvorfor er det viktig å bevare rovdyr?",
+    opts: [
+      "Fordi de er fine å se på i dyrehager",
+      "De holder bestanden av planteeterе i sjakk og holder hele økosystemer sunne",
+      "Fordi de er truet av klimaendringer",
+      "Fordi de ikke er farlige for mennesker"
+    ],
+    correct: 1,
+    explanation: "Rovdyr regulerer bestanden av byttedyr og hindrer at de overbeiter vegetasjonen. Uten rovdyr kollapser hele økosystemer. De er naturens ingeniører og vaktmestere!"
+  }
+];
+
+let current = 0, score = 0, answered = false;
+function buildProgress() {
+  document.getElementById('quiz-progress').innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`).join('');
+}
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current + 1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) { score++; opts[idx].classList.add('correct'); fb.textContent = "✅ Riktig! " + q.explanation; fb.className = 'quiz-feedback correct'; }
+  else { opts[idx].classList.add('wrong'); fb.textContent = "❌ Ikke helt! " + q.explanation; fb.className = 'quiz-feedback wrong'; }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+document.getElementById('quiz-next').onclick = function() {
+  current++;
+  if (current >= questions.length) showResult(); else renderQuestion();
+};
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? "Ikke gi opp – naturen er full av overraskelser! Prøv igjen. 🌿" :
+    pct < 0.6 ? "Bra start! Du vet en del om rovdyrene!" :
+    pct < 0.9 ? "Imponerende! Du er en ekte naturekspert! 🦁" :
+    "Topprovdyr! Du er på toppen av quiz-næringskjeden! 🏆";
+}
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+renderQuestion();
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Den kalde krigen – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --surface: #121620;
+  --surface2: #1c2230;
+  --border: #2c3848;
+  --text: #e8eeff;
+  --muted: #6878a0;
+  --primary: #e03030;
+  --secondary: #4080e0;
+  --highlight: #f0a030;
+  --green: #40a060;
+  --red: #e03030;
+  --gold: #f0a030;
+  --sand: #b0c8ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(10,12,16,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+.nav-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--border);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+.nav-tabs {
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a {
+  display: block;
+  padding: 1.1rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 100%, rgba(224,48,48,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 100%, rgba(64,128,224,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(240,160,48,0.05) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(44,56,72,0.15) 50px, rgba(44,56,72,0.15) 51px),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(44,56,72,0.15) 50px, rgba(44,56,72,0.15) 51px);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+  text-shadow: 0 4px 30px rgba(224,48,48,0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+.hero h1 span { color: var(--primary); }
+.hero-sub {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.08em;
+}
+.hero-desc { max-width: 560px; color: var(--muted); font-size: 1.05rem; margin: 0 auto 2.5rem; }
+.hero-stats { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+.hero-stat {
+  background: rgba(28,34,48,0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+}
+.hero-stat .lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  color: var(--muted); font-size: 0.8rem; animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+section { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--secondary); margin-bottom: 0.5rem; }
+.section-title { font-family: 'Oswald', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--text); margin-bottom: 1rem; line-height: 1.2; font-weight: 700; letter-spacing: 0.03em; }
+.section-intro { color: var(--muted); max-width: 640px; margin-bottom: 2.5rem; font-size: 1.05rem; }
+.divider { border: none; border-top: 1px solid var(--border); max-width: 1100px; margin: 0 auto; }
+
+.fact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+.fact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.fact-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--sand); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+.did-you-know {
+  background: linear-gradient(135deg, rgba(224,48,48,0.12), rgba(64,128,224,0.08));
+  border: 2px solid var(--primary); border-radius: 16px; padding: 2rem; margin: 2rem 0;
+  position: relative; overflow: hidden;
+}
+.did-you-know::before { content: "💡"; font-size: 3rem; position: absolute; right: 1.5rem; top: 1rem; opacity: 0.3; }
+.dyk-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem; }
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+.term-note {
+  background: linear-gradient(135deg, rgba(64,128,224,0.1), rgba(28,34,48,0.8));
+  border: 1px solid rgba(64,128,224,0.3); border-radius: 16px; padding: 1.5rem 2rem; margin: 1.5rem 0;
+  display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start;
+}
+.term-emoji { font-size: 2.5rem; }
+.term-note h4 { font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--secondary); margin-bottom: 0.4rem; }
+.term-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+.myth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card { border-radius: 12px; padding: 1.5rem; border: 1px solid; }
+.myth-card.myth { background: rgba(224,48,48,0.1); border-color: var(--red); }
+.myth-card.fact { background: rgba(64,160,96,0.1); border-color: var(--green); }
+.myth-card .badge { display: inline-block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.8rem; }
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+.timeline { position: relative; padding-left: 2rem; margin: 2rem 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--border)); border-radius: 3px;
+}
+.timeline-item { position: relative; margin-bottom: 2rem; padding-left: 2rem; cursor: pointer; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -1.45rem; top: 0.35rem; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--primary); border: 3px solid var(--bg); transition: transform 0.2s;
+}
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year { font-family: 'Oswald', sans-serif; font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-bottom: 0.2rem; }
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+.gladiator-picker { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.gladiator-btn {
+  padding: 0.6rem 1.2rem; border: 2px solid var(--border); background: var(--surface);
+  color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+  border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+.gladiator-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gladiator-btn.active { border-color: var(--primary); background: rgba(224,48,48,0.12); color: var(--primary); }
+.gladiator-display {
+  background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 2.5rem;
+  display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: start; transition: all 0.3s; min-height: 280px;
+}
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 { font-family: 'Oswald', sans-serif; font-size: 1.6rem; color: var(--primary); margin-bottom: 0.3rem; letter-spacing: 0.03em; }
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag { background: rgba(224,48,48,0.1); border: 1px solid rgba(224,48,48,0.3); color: var(--sand); font-size: 0.8rem; padding: 0.25rem 0.7rem; border-radius: 20px; }
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 110px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--primary); transition: width 0.6s ease; }
+
+.colosseum-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.colo-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+.colo-stat .big { font-family: 'Oswald', sans-serif; font-size: 2rem; color: var(--highlight); font-weight: 700; display: block; }
+.colo-stat .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; border-left: 4px solid var(--primary); }
+.day-time { font-family: 'Oswald', sans-serif; font-size: 0.8rem; color: var(--primary); margin-bottom: 0.3rem; font-weight: 700; }
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+.society-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; }
+.society-card h4 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--primary); margin-bottom: 0.8rem; letter-spacing: 0.03em; }
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+.film-note {
+  background: linear-gradient(135deg, rgba(64,128,224,0.12), rgba(28,34,48,0.8));
+  border: 1px solid rgba(64,128,224,0.4); border-radius: 16px; padding: 2rem; margin: 3rem 0;
+  display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;
+}
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--secondary); margin-bottom: 0.5rem; }
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+.quiz-container { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 2.5rem; max-width: 720px; }
+.quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 1.5rem; }
+.quiz-dot { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; transition: background 0.3s; }
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--primary); }
+.quiz-question { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem; line-height: 1.5; }
+.quiz-options { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+.quiz-option {
+  background: var(--surface2); border: 2px solid var(--border); color: var(--text);
+  font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 600;
+  padding: 0.9rem 1.3rem; border-radius: 10px; text-align: left; cursor: pointer; transition: all 0.15s;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.quiz-option.correct { border-color: var(--green); background: rgba(64,160,96,0.2); color: #88d888; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(224,48,48,0.15); color: #ff8870; }
+.quiz-feedback { padding: 1rem 1.3rem; border-radius: 10px; font-size: 0.95rem; margin-bottom: 1rem; display: none; }
+.quiz-feedback.correct { background: rgba(64,160,96,0.15); border: 1px solid var(--green); color: #88d888; }
+.quiz-feedback.wrong { background: rgba(224,48,48,0.1); border: 1px solid var(--red); color: #ff8870; }
+.quiz-btn { background: var(--primary); color: white; border: none; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.9rem 2rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; display: none; }
+.quiz-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.quiz-result { text-align: center; display: none; }
+.quiz-result .score { font-family: 'Oswald', sans-serif; font-size: 4rem; color: var(--primary); display: block; margin: 1rem 0; }
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart { background: var(--secondary); color: white; border: none; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; padding: 0.9rem 2rem; border-radius: 10px; cursor: pointer; transition: opacity 0.2s; }
+.quiz-restart:hover { opacity: 0.85; }
+
+footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem 1.5rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
+footer a { color: var(--primary); text-decoration: none; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.hero-content > * { animation: fadeUp 0.6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">☢ Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hva var det?</a></li>
+      <li><a href="#historien">Historien</a></li>
+      <li><a href="#kapplop">Romkappløpet</a></li>
+      <li><a href="#spioner">Spioner</a></li>
+      <li><a href="#atombombe">Atombomben</a></li>
+      <li><a href="#arv">Arven</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌍 Historie & Politikk</div>
+    <h1>DEN <span>KALDE</span> KRIGEN</h1>
+    <p class="hero-sub">Romkappløp, spioner og atomfrykten</p>
+    <p class="hero-desc">I nesten 50 år sto to supermakter ansikt til ansikt – uten å skyte direkte på hverandre. Men verden ristet likevel. Bli med inn i historiens farligste kappløp!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">1947–1991</span><span class="lbl">Varighet</span></div>
+      <div class="hero-stat"><span class="num">70 000</span><span class="lbl">Atomvåpen på topp</span></div>
+      <div class="hero-stat"><span class="num">2</span><span class="lbl">Supermakter</span></div>
+      <div class="hero-stat"><span class="num">0</span><span class="lbl">Direkte kamper</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hva var den kalde krigen?</h2>
+  <p class="section-intro">Det var krig – men uten slag. Spenning – men uten erklæring. To supermakter i et globalt kappløp om makt, teknologi og innflytelse.</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🥶</div>
+      <h3>Ikke en "ekte" krig</h3>
+      <p>USA og Sovjet skjøt aldri direkte på hverandre. I stedet konkurrerte de om allierte, teknologi og verdensherredømme – derav "kald" krig.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🇺🇸🆚🇷🇺</div>
+      <h3>To ideologier</h3>
+      <p>USA representerte kapitalisme og demokrati. Sovjetunionen representerte kommunisme. Begge mente sin måte å organisere samfunnet på var den riktige.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">☢️</div>
+      <h3>Atomfrykten</h3>
+      <p>Begge sider hadde atomvåpen kraftige nok til å utrydde sivilisasjonen. Det holdt dem fra å starte en ekte krig – men skapte enorm frykt.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🌍</div>
+      <h3>Hele verden ble trukket inn</h3>
+      <p>Korea, Vietnam, Cuba, Afghanistan – overalt i verden kjempet USA og Sovjet om innflytelse gjennom andre land og konflikter.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>På det meste hadde USA og Sovjet til sammen over <strong>70 000 atomvåpen</strong> klare til bruk. I dag er det rundt 12 000 – og det er fortsatt nok til å ødelegge verden mange ganger over.</p>
+  </div>
+
+  <div class="term-note">
+    <div class="term-emoji">📖</div>
+    <div>
+      <h4>Ord å lære: "Jernteppet"</h4>
+      <p>Jernteppet var et begrep for den usynlige grensen som delte Europa i to: de kommunistiske landene i øst (ledet av Sovjet) og de demokratiske landene i vest (ledet av USA). Winston Churchill brukte begrepet i 1946, og det festet seg.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="historien">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Den kalde krigens historie</h2>
+  <p class="section-intro">Fra krigsallierte til bitre rivaler – her er de viktigste hendelsene i 44 år med spenning!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1945</div>
+      <h4>Andre verdenskrig slutter – spenningen starter</h4>
+      <p>USA og Sovjet vant krigen mot Nazi-Tyskland sammen, men tilliten dem imellom var skjør. Verden ble delt i innflytelsessoner ved Jaltakonferansen.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1947</div>
+      <h4>Truman-doktrinen og Marshall-planen</h4>
+      <p>USAs president Truman erklærer at USA vil støtte frie folk mot kommunistisk undertrykkelse. Marshall-planen pumper milliarder inn i Vest-Europa for å hindre kommunismens spredning.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1949</div>
+      <h4>NATO dannes – og Sovjet tester atombombe</h4>
+      <p>Vestlige land danner forsvarsalliansen NATO. Samme år tester Sovjet sin første atombombe – atomkappløpet er offisielt i gang.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1950–1953</div>
+      <h4>Koreakrigen</h4>
+      <p>Nord-Korea (Sovjet-støttet) invaderer Sør-Korea (USA-støttet). Krigen ender i uavgjort – og Korea er fortsatt delt den dag i dag.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1957</div>
+      <h4>Sputnik – romkappløpet starter</h4>
+      <p>Sovjet sender den første satellitten, Sputnik, i bane rundt jorda. USA er sjokkert – og øker dramatisk investeringene i romfart og vitenskap.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1961</div>
+      <h4>Berlinmuren bygges</h4>
+      <p>Øst-Tyskland bygger en mur gjennom Berlin for å stoppe folk fra å flykte til Vest-Berlin. Muren blir et symbol på jernteppet.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1962</div>
+      <h4>Kubakrisen – nærmest atomkrig</h4>
+      <p>Sovjet plasserer atomraketter på Cuba. I 13 dager er verden på randen av atomkrig. Til slutt rygger Sovjet – og USA lover aldri å invadere Cuba.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1969</div>
+      <h4>USA lander på månen</h4>
+      <p>Neil Armstrong setter sin fot på månen. USA vinner romkappløpets prestisjeprosjekt – et enormt propagandatriumf.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1989</div>
+      <h4>Berlinmuren faller</h4>
+      <p>Folkemasser fra øst og vest river ned Berlinmuren med hendene. Det er starten på slutten av den kalde krigen.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1991</div>
+      <h4>Sovjetunionen oppløses</h4>
+      <p>Den 25. desember 1991 senkes det røde flagget over Kreml for siste gang. 15 nye land er født. Den kalde krigen er over.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="kapplop">
+  <p class="section-label">Romkappløpet</p>
+  <h2 class="section-title">Kampen om verdensrommet</h2>
+  <p class="section-intro">Rommet ble en slagmark uten kuler. Den som nådde høyest, viste verden at de var mektigst. Klikk for å utforske de store øyeblikkene!</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showEvent('sputnik')">Sputnik (1957)</button>
+    <button class="gladiator-btn" onclick="showEvent('gagarin')">Gagarin (1961)</button>
+    <button class="gladiator-btn" onclick="showEvent('maanen')">Månelanding (1969)</button>
+    <button class="gladiator-btn" onclick="showEvent('skylab')">Romstasjon</button>
+    <button class="gladiator-btn" onclick="showEvent('hubble')">Romteleskop</button>
+  </div>
+
+  <div class="gladiator-display" id="event-display">
+    <div class="gladiator-emoji" id="ev-emoji">🛰️</div>
+    <div class="gladiator-info">
+      <h3 id="ev-name">Sputnik</h3>
+      <p class="gladiator-latin" id="ev-sub">Sovjet, 1957 – Første satellitt i bane</p>
+      <p id="ev-desc">4. oktober 1957 sender Sovjet den første menneskeskapte satellitten ut i verdensrommet. Sputnik var bare en metallkule på 58 cm med radiosendere – men den forandret verden. Folk over hele USA kunne høre det karakteristiske pip-pip-pip-signalet på radio. Sjokket var totalt: Sovjet var foran!</p>
+      <div class="gear-tags" id="ev-fakta">
+        <span class="gear-tag">📡 58 cm i diameter</span>
+        <span class="gear-tag">⚖️ 83 kg</span>
+        <span class="gear-tag">🌍 Omløp hvert 98. minutt</span>
+        <span class="gear-tag">🔊 Sendte pip-signaler</span>
+      </div>
+      <div class="strength-bars" id="ev-bars">
+        <div class="bar-row"><span class="bar-label">Teknisk prestasjon</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Propagandaeffekt</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Historisk betydning</span><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Etter Sputnik-sjokket bevilget den amerikanske kongressen enorme summer til vitenskap og utdanning. NASA ble grunnlagt i 1958 – og amerikanerne begynte å pøse penger inn i romforskning. <strong>En satellitt endret USAs utdanningssystem!</strong></p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="spioner">
+  <p class="section-label">Hemmelig krig</p>
+  <h2 class="section-title">Spioner og etterretning</h2>
+  <p class="section-intro">Bak kulissene foregikk en annen krig – stille, farlig og full av løgn. CIA mot KGB.</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">CIA (USA)</div>
+      <h4>Den sentrale etterretningsorganisasjonen</h4>
+      <p>Grunnlagt i 1947. Drev spionasje, sabotasje og forsøkte å velte kommunistiske regjeringer. Beryktede operasjoner i Cuba, Iran og Chile.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">KGB (Sovjet)</div>
+      <h4>Statssikkerhetskomitéen</h4>
+      <p>Sovjet-unionens fryktede hemmelige politi og etterretningstjeneste. Spionerte på egne borgere i tillegg til fienden. Vladimir Putin jobbet som KGB-agent.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">U-2-saken 1960</div>
+      <h4>Spionfly skutt ned</h4>
+      <p>USA sendte et spionfly over Sovjet. Det ble skutt ned og piloten Francis Gary Powers ble tatt til fange. En diplomatisk katastrofe for USA.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Dobbelt-agenter</div>
+      <h4>Spioner på begge sider</h4>
+      <p>Mange spioner jobbet for begge sider samtidig. Kim Philby – britisk etterretningssjef – var egentlig Sovjet-agent i årevis!</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Berlins ganges</div>
+      <h4>Berlin – spionenes by</h4>
+      <p>Berlin var verdens mest aktive spionby. Her byttet begge sider ut fangede spioner – på dramatiske broer midt på natten.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Pop-kultur</div>
+      <h4>James Bond og spionromantikk</h4>
+      <p>Den kalde krigen skapte James Bond-filmene, Jason Bourne og utallige spionserier. Men ekte spionasje var langt mindre glamorøs!</p>
+    </div>
+  </div>
+
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Spioner var James Bond-figurer med gadgets og actioneventyr"</h4>
+      <p>Ekte spionasje var mest ventetid, dokumentfotografering, koding og sosial manipulasjon – sjelden skyting.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>Spionasje avverget faktisk atomkrig</h4>
+      <p>I 1983 hindret en sovjetisk offiser en feilalarm fra å starte atomkrig – ved å stole på sin intuisjon fremfor systemet. Ekte helter finnes!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="atombombe">
+  <p class="section-label">Det ultimate våpenet</p>
+  <h2 class="section-title">Atombomben og atomfrykten</h2>
+  <p class="section-intro">Atomvåpenet var både det som holdt freden og det som truet med å ødelegge alt. Paradokset som definerte den kalde krigen.</p>
+
+  <div class="colosseum-facts">
+    <div class="colo-stat">
+      <span class="big">70 000</span>
+      <span class="desc">Atomvåpen på topp (1986)</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">MAD</span>
+      <span class="desc">Mutual Assured Destruction</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">13</span>
+      <span class="desc">Dager i Kubakrisen 1962</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">2 min</span>
+      <span class="desc">Til midnatt på Dommedagsklokken</span>
+    </div>
+  </div>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>☢️ MAD – Gjensidig sikker ødeleggelse</h4>
+      <p>Prinsippet om Mutual Assured Destruction betød at hvis én side skjøt, ville den andre skyte tilbake – og begge ville bli utslettet. Paradokset: atomvåpen var for farlige til å bruke, og det var det som holdt freden!</p>
+    </div>
+    <div class="society-card">
+      <h4>🏫 Bombeøvelser i skolene</h4>
+      <p>Amerikanske skolebarn lærte å krype under pulten sin ved atomalarmer ("Duck and Cover"). I ettertid er det omdiskutert om det faktisk ville hjelpe – men det viser hvor reell atomfrykten var.</p>
+    </div>
+    <div class="society-card">
+      <h4>⏱️ Dommedagsklokken</h4>
+      <p>Siden 1947 har atomforskere hvert år stilt "Dommedagsklokken" som viser hvor nær atomkrig verden er. To minutter på midnatt var det nærmest vi kom (1953 og 2023).</p>
+    </div>
+    <div class="society-card">
+      <h4>🕊️ Nedrustningsavtaler</h4>
+      <p>Etter Kubakrisen innså begge sider at atomkrig måtte unngås for enhver pris. SALT-avtalene og START-avtalen reduserte antallet atomvåpen kraftig – selv om de aldri ble eliminert.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>I 1983 advarte et Sovjet-datasystem om at USA hadde skutt fem raketter mot Sovjet. Offiseren Stanislav Petrov valgte å <strong>ikke</strong> rapportere det som et ekte angrep – fordi det ikke ga mening at USA bare skjøt fem. Det var en feil. Petrov kan ha reddet verden.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="arv">
+  <p class="section-label">Ettervirkninger</p>
+  <h2 class="section-title">Arven etter den kalde krigen</h2>
+  <p class="section-intro">Den kalde krigen er over – men sporene den etterlot seg former verden den dag i dag.</p>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>🌐 Internett som kald-krigsprodukt</h4>
+      <p>ARPANET – forgjengeren til internett – ble skapt av det amerikanske forsvaret. Tanken var et nettverk som kunne overleve et atomkrig-angrep. Internett er altså et direkte barn av den kalde krigen!</p>
+    </div>
+    <div class="society-card">
+      <h4>🚀 Romfarten lever videre</h4>
+      <p>NASA og den russiske romfartsorganisasjonen Roskosmos samarbeider i dag på Den internasjonale romstasjonen (ISS). Det er en av historiens vakreste ironer – tidligere rivaler bygger nå noe felles.</p>
+    </div>
+    <div class="society-card">
+      <h4>⚠️ Atomvåpen finnes fortsatt</h4>
+      <p>I dag finnes det ca. 12 000 atomvåpen i verden – langt færre enn på topp, men fortsatt nok til å ødelegge sivilisasjonen. Spørsmålet om nedrustning er fortsatt ikke løst.</p>
+    </div>
+    <div class="society-card">
+      <h4>📺 Kulturarven</h4>
+      <p>Spionfilmer, science fiction, kald-krigsromaner og TV-serier er inspirert av perioden. Serien "The Americans", filmen "Dr. Strangelove" og "Bridge of Spies" gir et glimt inn i epoken.</p>
+    </div>
+  </div>
+
+  <div class="film-note">
+    <div class="film-emoji">🎬</div>
+    <div>
+      <h4>Den kalde krigen i film og TV</h4>
+      <p>Stanley Kubricks "Dr. Strangelove" (1964) er en mørk komedie om atomkrig som faktisk ble laget midt under den kalde krigen. Filmen er bisarr og morsom – men la deg ikke lure: Den er også et alvorlig stykke satire som viste hvor absurd situasjonen egentlig var. En flott film for dem som vil forstå frykten folk følte!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Den kalde krigen-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din om historiens farligste spenningsperiode!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>☢️ <strong style="color:var(--primary)">Den kalde krigen</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på historiske kilder • Laget for nysgjerrige elever 🌍</p>
+</footer>
+
+<script>
+const events = {
+  sputnik: {
+    emoji: "🛰️",
+    name: "Sputnik",
+    sub: "Sovjet, 1957 – Første satellitt i bane",
+    desc: "4. oktober 1957 sender Sovjet den første menneskeskapte satellitten ut i verdensrommet. Sputnik var bare en metallkule på 58 cm med radiosendere – men den forandret verden. Folk over hele USA kunne høre det karakteristiske pip-pip-pip-signalet på radio. Sjokket var totalt: Sovjet var foran!",
+    fakta: ["📡 58 cm i diameter", "⚖️ 83 kg", "🌍 Omløp hvert 98. minutt", "🔊 Sendte pip-signaler"],
+    bars: [70, 100, 95]
+  },
+  gagarin: {
+    emoji: "👨‍🚀",
+    name: "Juri Gagarin",
+    sub: "Sovjet, 1961 – Første menneske i verdensrommet",
+    desc: "12. april 1961 ble Juri Gagarin det første mennesket i verdensrommet. Han fløy én gang rundt jorda på 108 minutter i romskipet Vostok 1. Da han kom tilbake var han en verdensstjerne. Hans ord fra rommet – 'Jorda er blå!' – er blant historiens mest kjente sitater.",
+    fakta: ["🌍 108 minutter i verdensrommet", "✈️ Én omkretsning av jorda", "🎖️ Ble nasjonal helt", "💬 'Jorda er blå!'"],
+    bars: [85, 95, 90]
+  },
+  maanen: {
+    emoji: "🌕",
+    name: "Månelandingen",
+    sub: "USA, 1969 – 'Et lite steg for et menneske...'",
+    desc: "20. juli 1969 lander Neil Armstrong og Buzz Aldrin på månen med Apollo 11. 600 millioner mennesker ser det på TV. 'Det er ett lite skritt for et menneske, men et gigantisk sprang for menneskeheten,' sier Armstrong. USA har vunnet det største prestisjeprosjektet i romkappløpet.",
+    fakta: ["📺 600 millioner TV-seere", "🚀 Apollo 11", "👨‍🚀 Neil Armstrong og Buzz Aldrin", "🏆 USA vinner prestisjeprosjektet"],
+    bars: [100, 100, 100]
+  },
+  skylab: {
+    emoji: "🛸",
+    name: "Romstasjonene",
+    sub: "USA og Sovjet, 1970–1980-tallet",
+    desc: "Etter månelandingen skiftet romkappløpet fokus til romstasjoner – permanent tilstedeværelse i verdensrommet. Sovjet hadde Mir-stasjonen, USA hadde Skylab. I dag jobber begge lands astronauter side om side på Den internasjonale romstasjonen (ISS) – et symbol på at kappløpet ble til samarbeid.",
+    fakta: ["🏠 Permanent liv i rommet", "🤝 Nå samarbeider de på ISS", "🔬 Vitenskapelig forskning", "🌍 Internasjonalt prosjekt"],
+    bars: [90, 60, 80]
+  },
+  hubble: {
+    emoji: "🔭",
+    name: "Romteleskopet Hubble",
+    sub: "USA, 1990 – Arven etter kappløpet",
+    desc: "Hubble-romteleskopet, skutt opp i 1990, er et direkte resultat av teknologien som romkappløpet skapte. Det har gitt oss de vakreste bildene av universet noensinne – galakser milliarder av lysår unna. Den kalde krigens kappløp skapte teknologi som hjelper oss å forstå kosmos.",
+    fakta: ["🌌 Milliarder av lysår bort", "📸 Ikoniske bilder av universet", "🔧 Reparert i rommet av astronauter", "🏆 Arven etter romkappløpet"],
+    bars: [95, 40, 85]
+  }
+};
+
+function showEvent(key) {
+  const e = events[key];
+  document.getElementById('ev-emoji').textContent = e.emoji;
+  document.getElementById('ev-name').textContent = e.name;
+  document.getElementById('ev-sub').textContent = e.sub;
+  document.getElementById('ev-desc').textContent = e.desc;
+  document.getElementById('ev-fakta').innerHTML = e.fakta.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Teknisk prestasjon', 'Propagandaeffekt', 'Historisk bet.'];
+  document.getElementById('ev-bars').innerHTML = e.bars.map((v, i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+const questions = [
+  {
+    q: "Hva betyr 'kald' i 'den kalde krigen'?",
+    opts: ["Det var krig om de kalde polområdene", "USA og Sovjet kjempet aldri direkte mot hverandre", "Krigen foregikk om vinteren", "Det var krig i Sibir"],
+    correct: 1,
+    explanation: "Krigen var 'kald' fordi USA og Sovjet aldri skjøt direkte på hverandre. I stedet konkurrerte de om teknologi, allierte og innflytelse."
+  },
+  {
+    q: "Hva het den første satellitten Sovjet sendte ut i rommet i 1957?",
+    opts: ["Gagarin", "Sputnik", "Mir", "Vostok"],
+    correct: 1,
+    explanation: "Sputnik ble skutt opp 4. oktober 1957 og ble verdens første menneskeskapte satellitt. Pip-signalene fra Sputnik sjokkerte hele verden!"
+  },
+  {
+    q: "Hva er prinsippet om MAD (Mutual Assured Destruction)?",
+    opts: [
+      "En lov mot bruk av atomvåpen",
+      "Begge sider ville bli utsletter hvis én skjøt – noe som hindret atomkrig",
+      "En avtale om å dele atomvåpen",
+      "Et hemmelig prosjekt for å lage kraftigere bomber"
+    ],
+    correct: 1,
+    explanation: "MAD betyr at hvis én side brukte atomvåpen, ville den andre svare – og begge ville bli utsletter. Paradokset er at dette faktisk holdt freden!"
+  },
+  {
+    q: "I hvilket år falt Berlinmuren?",
+    opts: ["1979", "1985", "1989", "1991"],
+    correct: 2,
+    explanation: "Berlinmuren falt 9. november 1989. Folkemasser fra øst og vest rev den ned med hendene – et av historiens mest dramatiske øyeblikk."
+  },
+  {
+    q: "Hvem var den første amerikaneren på månen?",
+    opts: ["Buzz Aldrin", "Neil Armstrong", "John Glenn", "Alan Shepard"],
+    correct: 1,
+    explanation: "Neil Armstrong tok det første steget på månen 20. juli 1969 med de berømte ordene: 'Et lite skritt for et menneske, et gigantisk sprang for menneskeheten.'"
+  },
+  {
+    q: "Hva forårsaket Kubakrisen i 1962?",
+    opts: [
+      "Cuba angrep USA",
+      "USA sendte spioner til Cuba",
+      "Sovjet plasserte atomraketter på Cuba",
+      "Cuba ble medlem av NATO"
+    ],
+    correct: 2,
+    explanation: "Sovjet plasserte atomraketter på Cuba – bare 150 km fra USA. I 13 dramatiske dager var verden nærmere atomkrig enn noen gang."
+  },
+  {
+    q: "Hva var ARPANET – og hva ble det til?",
+    opts: [
+      "Et spionnettverk som ble til CIA",
+      "Et militært kommunikasjonsnettverk som ble til internett",
+      "Et atomvåpenprogram som ble til NASA",
+      "En satellittprogrammet som ble til romstasjonen"
+    ],
+    correct: 1,
+    explanation: "ARPANET ble skapt av det amerikanske forsvaret som et kommunikasjonssystem som kunne overleve atomkrig. Det er direkte forgjengeren til internett vi bruker i dag!"
+  }
+];
+
+let current = 0, score = 0, answered = false;
+function buildProgress() {
+  document.getElementById('quiz-progress').innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`).join('');
+}
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current + 1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) { score++; opts[idx].classList.add('correct'); fb.textContent = "✅ Riktig! " + q.explanation; fb.className = 'quiz-feedback correct'; }
+  else { opts[idx].classList.add('wrong'); fb.textContent = "❌ Ikke helt! " + q.explanation; fb.className = 'quiz-feedback wrong'; }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+document.getElementById('quiz-next').onclick = function() {
+  current++;
+  if (current >= questions.length) showResult(); else renderQuestion();
+};
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? "Ikke gi opp – historien er viktig! Les gjennom og prøv igjen. 📚" :
+    pct < 0.6 ? "Bra start! Du vet en del om den kalde krigen!" :
+    pct < 0.9 ? "Imponerende! Du er en ekte historieekspert! 🌍" :
+    "Kaldt. Kontrollert. Komplett ekspert! 🏆☢️";
+}
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+renderQuestion();
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+});
+</script>
+</body>
+</html>

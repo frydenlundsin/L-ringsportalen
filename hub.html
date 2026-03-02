@@ -87,31 +87,6 @@
     margin-bottom: 3rem;
   }
 
-  /* SEARCH */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.9rem 1.4rem;
-    max-width: 480px;
-    gap: 0.8rem;
-    transition: border-color 0.2s;
-  }
-  .search-bar:focus-within { border-color: var(--accent); }
-  .search-bar input {
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    flex: 1;
-  }
-  .search-bar input::placeholder { color: var(--muted); }
-  .search-icon { color: var(--muted); font-size: 1rem; }
-
   /* STATS */
   .stats {
     display: flex;
@@ -152,26 +127,6 @@
     font-size: 1.8rem;
     font-weight: 300;
   }
-  .filter-row {
-    display: flex;
-    gap: 0.6rem;
-  }
-  .filter-btn {
-    padding: 0.4rem 1rem;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
   /* TOPIC GRID */
   .topic-grid {
     display: grid;
@@ -214,7 +169,6 @@
     font-weight: 500;
   }
   .badge-new { background: rgba(232,213,163,0.15); color: var(--accent); }
-  .badge-updated { background: rgba(100,180,100,0.15); color: #88d888; }
 
   .card-icon {
     font-size: 2rem;
@@ -250,29 +204,6 @@
     color: var(--accent);
     opacity: 0;
     transition: all 0.2s;
-  }
-
-  /* FEATURED / BIG CARD */
-  .topic-card.featured {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: center;
-    padding: 3rem;
-  }
-  @media (max-width: 700px) {
-    .topic-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
-  }
-
-  .featured-visual {
-    height: 160px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    opacity: 0.8;
   }
 
   /* GETTING STARTED */
@@ -366,9 +297,8 @@
 <nav>
   <div class="logo">Læringsportalen</div>
   <ul class="nav-links">
-    <li><a href="#">Alle temaer</a></li>
-    <li><a href="#">Kom i gang</a></li>
-    <li><a href="#">Om siden</a></li>
+    <li><a href="#temaer">Alle temaer</a></li>
+    <li><a href="#komgang">Kom i gang</a></li>
   </ul>
 </nav>
 
@@ -376,121 +306,32 @@
   <p class="hero-eyebrow">Din samling av læringsressurser</p>
   <h1>Utforsk og <em>lær</em><br>hva som helst.</h1>
   <p>En samling interaktive temaguider bygget for å gjøre det enkelt å gå i dybden på det du er nysgjerrig på.</p>
-
-  <div class="search-bar">
-    <span class="search-icon">⌕</span>
-    <input type="text" placeholder="Søk i alle temaer...">
-  </div>
 </section>
 
 <div class="stats">
   <div class="stat-item">
-    <div class="stat-number">8</div>
-    <div class="stat-label">Temaer</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">120+</div>
-    <div class="stat-label">Fakta</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">24</div>
-    <div class="stat-label">Quizer</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">6</div>
-    <div class="stat-label">Tidslinjer</div>
+    <div class="stat-number">1</div>
+    <div class="stat-label">Tema</div>
   </div>
 </div>
 
-<section class="section">
+<section class="section" id="temaer">
   <div class="section-header">
     <h2 class="section-title">Alle temaer</h2>
-    <div class="filter-row">
-      <button class="filter-btn active">Alle</button>
-      <button class="filter-btn">Historie</button>
-      <button class="filter-btn">Vitenskap</button>
-      <button class="filter-btn">Kultur</button>
-    </div>
   </div>
 
   <div class="topic-grid">
 
-    <!-- Featured card -->
-    <a class="topic-card featured" href="#" style="--c:#e8d5a3">
-      <div>
-        <div class="card-accent-bar" style="background:#e8d5a3"></div>
-        <div class="card-badge badge-new">Ny</div>
-        <div class="card-title" style="font-size:1.8rem">Norgeshistorie<br>fra vikingtiden</div>
-        <div class="card-desc">En grundig gjennomgang av norsk historie – fra de første bosetningene til et moderne demokrati. Med tidslinje, kart og quizer.</div>
-        <div class="card-meta">
-          <span>📖 18 seksjoner</span>
-          <span>🧩 5 quizer</span>
-          <span>🗺 2 kart</span>
-        </div>
-      </div>
-      <div class="featured-visual" style="background: rgba(232,213,163,0.08)">🏔</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <!-- Regular cards -->
-    <a class="topic-card" href="#">
-      <div class="card-accent-bar" style="background:#a3c4e8"></div>
-      <div class="card-icon">🧬</div>
-      <div class="card-title">DNA og genetikk</div>
-      <div class="card-desc">Hvordan arvemateriale fungerer, fra dobbeltheliks til genredigering.</div>
-      <div class="card-meta">
-        <span>📖 12 seksjoner</span>
-        <span>🧩 3 quizer</span>
-      </div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="topic-card" href="#">
-      <div class="card-accent-bar" style="background:#c4a3e8"></div>
-      <div class="card-badge badge-updated">Oppdatert</div>
-      <div class="card-icon">🌌</div>
-      <div class="card-title">Verdensrommet</div>
-      <div class="card-desc">Fra solsystemet til mørk materie – universet forklart.</div>
-      <div class="card-meta">
-        <span>📖 15 seksjoner</span>
-        <span>🧩 4 quizer</span>
-      </div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="topic-card" href="#">
-      <div class="card-accent-bar" style="background:#a3e8b4"></div>
-      <div class="card-icon">🌿</div>
-      <div class="card-title">Klimaet og naturen</div>
-      <div class="card-desc">Klimaendringer, økosystemer og hva vi kan gjøre.</div>
-      <div class="card-meta">
-        <span>📖 10 seksjoner</span>
-        <span>🧩 2 quizer</span>
-      </div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="topic-card" href="#">
+    <a class="topic-card" href="gladiator.html">
       <div class="card-accent-bar" style="background:#e8a3a3"></div>
-      <div class="card-icon">🏛</div>
-      <div class="card-title">Antikkens Hellas</div>
-      <div class="card-desc">Filosofi, demokrati og mytologi fra sivilisasjonens vugge.</div>
-      <div class="card-meta">
-        <span>📖 9 seksjoner</span>
-        <span>🧩 3 quizer</span>
-      </div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="topic-card" href="#">
-      <div class="card-accent-bar" style="background:#e8c9a3"></div>
       <div class="card-badge badge-new">Ny</div>
-      <div class="card-icon">🤖</div>
-      <div class="card-title">Kunstig intelligens</div>
-      <div class="card-desc">Hvordan AI fungerer, historikken og hva fremtiden kan bringe.</div>
+      <div class="card-icon">⚔️</div>
+      <div class="card-title">Gladiatorer</div>
+      <div class="card-desc">Livet i arenaen – hvem gladiatorene var, hvordan de trente, kjempet og levde i Romerriket.</div>
       <div class="card-meta">
-        <span>📖 11 seksjoner</span>
-        <span>🧩 3 quizer</span>
+        <span>📖 Seksjoner</span>
+        <span>🧩 Quizer</span>
+        <span>📜 Tidslinje</span>
       </div>
       <div class="card-arrow">↗</div>
     </a>
@@ -498,7 +339,7 @@
   </div>
 </section>
 
-<div class="getting-started">
+<div class="getting-started" id="komgang">
   <div>
     <p class="gs-label">Ny her?</p>
     <h3 class="gs-title">Slik kommer<br>du i gang</h3>

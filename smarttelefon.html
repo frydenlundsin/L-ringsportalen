@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smarttelefonen – Læringsportalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #101828;
+  --surface2: #1a2540;
+  --border: #2a3a58;
+  --text: #e8f0ff;
+  --muted: #7090b8;
+  --primary: #3d9bff;
+  --secondary: #00d4aa;
+  --highlight: #ffffff;
+  --orange: #ff7a30;
+  --green: #40c870;
+  --red: #e05060;
+  --gold: #3d9bff;
+  --sand: #b0d0ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(8,12,20,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--border);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tabs a {
+  display: block;
+  padding: 1.1rem 1.1rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(61,155,255,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(0,212,170,0.08) 0%, transparent 70%);
+}
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(42,58,88,0.2) 60px, rgba(42,58,88,0.2) 61px),
+    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(42,58,88,0.2) 60px, rgba(42,58,88,0.2) 61px);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.2rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+  text-shadow: 0 4px 30px rgba(61,155,255,0.3);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.hero-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--sand);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+.hero-desc {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin: 0 auto 2.5rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(26,37,64,0.7);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* SECTIONS */
+section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.section-intro {
+  color: var(--muted);
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* FACT BOXES */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.fact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.fact-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.fact-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+.fact-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 0.5rem;
+}
+.fact-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* DID YOU KNOW */
+.did-you-know {
+  background: linear-gradient(135deg, rgba(61,155,255,0.12), rgba(0,212,170,0.08));
+  border: 2px solid var(--primary);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.did-you-know::before {
+  content: "💡";
+  font-size: 3rem;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
+  opacity: 0.3;
+}
+.dyk-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.did-you-know p { color: var(--text); font-size: 1.05rem; max-width: 80%; }
+
+/* TERM NOTE */
+.term-note {
+  background: linear-gradient(135deg, rgba(61,155,255,0.1), rgba(26,37,64,0.8));
+  border: 1px solid rgba(61,155,255,0.3);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+.term-emoji { font-size: 2.5rem; }
+.term-note h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+}
+.term-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* MYTH VS FACT */
+.myth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid;
+}
+.myth-card.myth {
+  background: rgba(224,80,96,0.1);
+  border-color: var(--red);
+}
+.myth-card.fact {
+  background: rgba(64,200,112,0.1);
+  border-color: var(--green);
+}
+.myth-card .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+.myth-card.myth .badge { background: var(--red); color: white; }
+.myth-card.fact .badge { background: var(--green); color: white; }
+.myth-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--sand); }
+.myth-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--border));
+  border-radius: 3px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  cursor: pointer;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.45rem;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--bg);
+  transition: transform 0.2s;
+}
+.timeline-item:hover::before { transform: scale(1.4); }
+.timeline-year {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.timeline-item h4 { font-size: 1rem; color: var(--sand); margin-bottom: 0.3rem; }
+.timeline-item p { font-size: 0.88rem; color: var(--muted); }
+
+/* PICKER */
+.gladiator-picker {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.gladiator-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gladiator-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gladiator-btn.active {
+  border-color: var(--primary);
+  background: rgba(61,155,255,0.12);
+  color: var(--primary);
+}
+.gladiator-display {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  transition: all 0.3s;
+  min-height: 280px;
+}
+@media (max-width: 600px) { .gladiator-display { grid-template-columns: 1fr; } }
+.gladiator-emoji { font-size: 6rem; text-align: center; }
+.gladiator-info h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.gladiator-latin { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-bottom: 1rem; }
+.gladiator-info p { font-size: 0.95rem; color: var(--text); margin-bottom: 1.2rem; line-height: 1.7; }
+.gear-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.gear-tag {
+  background: rgba(61,155,255,0.1);
+  border: 1px solid rgba(61,155,255,0.3);
+  color: var(--sand);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+.strength-bars { margin-top: 1rem; }
+.bar-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+.bar-label { font-size: 0.8rem; color: var(--muted); width: 80px; }
+.bar-track { flex: 1; background: var(--surface2); border-radius: 4px; height: 8px; }
+.bar-fill { height: 8px; border-radius: 4px; background: var(--primary); transition: width 0.6s ease; }
+
+/* COLOSSEUM STATS */
+.colosseum-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.colo-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+.colo-stat .big {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  color: var(--orange);
+  font-weight: 700;
+  display: block;
+}
+.colo-stat .desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+/* DAY GRID */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.3rem;
+  border-left: 4px solid var(--primary);
+}
+.day-time {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+.day-card h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 0.3rem; }
+.day-card p { font-size: 0.85rem; color: var(--muted); }
+
+/* SOCIETY GRID */
+.society-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+@media (max-width: 600px) { .society-grid { grid-template-columns: 1fr; } }
+.society-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+}
+.society-card h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+.society-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* FILM NOTE */
+.film-note {
+  background: linear-gradient(135deg, rgba(255,122,48,0.1), rgba(26,37,64,0.8));
+  border: 1px solid rgba(255,122,48,0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 3rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 600px) { .film-note { grid-template-columns: 1fr; } }
+.film-emoji { font-size: 3rem; }
+.film-note h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 0.5rem;
+}
+.film-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+/* QUIZ */
+.quiz-container {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 720px;
+}
+.quiz-progress {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-dot {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+.quiz-dot.done { background: var(--green); }
+.quiz-dot.current { background: var(--primary); }
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.quiz-option {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem 1.3rem;
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.quiz-option.correct { border-color: var(--green); background: rgba(64,200,112,0.2); color: #80ffb0; }
+.quiz-option.wrong { border-color: var(--red); background: rgba(224,80,96,0.15); color: #ff8890; }
+.quiz-feedback {
+  padding: 1rem 1.3rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.quiz-feedback.correct { background: rgba(64,200,112,0.15); border: 1px solid var(--green); color: #80ffb0; }
+.quiz-feedback.wrong { background: rgba(224,80,96,0.1); border: 1px solid var(--red); color: #ff8890; }
+.quiz-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+.quiz-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.quiz-result { text-align: center; display: none; }
+.quiz-result .score {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 4rem;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+  margin: 1rem 0;
+}
+.quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+.quiz-restart {
+  background: var(--secondary);
+  color: #080c14;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.quiz-restart:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a { color: var(--primary); text-decoration: none; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * { animation: fadeUp 0.6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="hub.html">📱 Læringsportalen</a>
+    <ul class="nav-tabs">
+      <li><a href="#intro" class="active">Hva er det?</a></li>
+      <li><a href="#historie">Historien</a></li>
+      <li><a href="#modeller">Modeller</a></li>
+      <li><a href="#inni">Hva er inni?</a></li>
+      <li><a href="#hverdagen">I hverdagen</a></li>
+      <li><a href="#fremtiden">Fremtiden</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="toppen">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">📱 Teknologi & Innovasjon</div>
+    <h1>SMARTTELEFONEN</h1>
+    <p class="hero-sub">Fra mursteintelefon til supercomputer i lomma</p>
+    <p class="hero-desc">Hvordan gikk vi fra store, tunge mobiltelefoner til enheter kraftigere enn romfartscomputere? Bli med på teknologireisen!</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">1983</span><span class="lbl">Første mobiltelefon</span></div>
+      <div class="hero-stat"><span class="num">2007</span><span class="lbl">iPhone lanseres</span></div>
+      <div class="hero-stat"><span class="num">6,8 mrd</span><span class="lbl">Smarttelefoner i verden</span></div>
+      <div class="hero-stat"><span class="num">1000×</span><span class="lbl">Kraftigere enn Apollo 11</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned for å lære mer</div>
+</div>
+
+<!-- INTRO -->
+<section id="intro">
+  <p class="section-label">Introduksjon</p>
+  <h2 class="section-title">Hva er en smarttelefon?</h2>
+  <p class="section-intro">En smarttelefon er mye mer enn bare en telefon. La oss finne ut hva som gjør den så smart!</p>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <div class="fact-icon">🖥️</div>
+      <h3>Mer enn bare telefon</h3>
+      <p>En smarttelefon er egentlig en liten datamaskin du kan ringe med. Den har internett, kamera, GPS, sensorer og tusenvis av apper.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">📲</div>
+      <h3>Hva er en app?</h3>
+      <p>En app (kort for applikasjon) er et lite program du kan laste ned. Det finnes over 5 millioner apper i verden – fra spill til leksehjelp.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🤖</div>
+      <h3>Operativsystem</h3>
+      <p>Akkurat som en PC har Windows eller Mac, har smarttelefoner Android (Google) eller iOS (Apple). Det er "hjernen" som styrer alt.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">👆</div>
+      <h3>Berøringsskjermen</h3>
+      <p>Det som virkelig forandret alt var berøringsskjermen – du kan styre hele telefonen med fingrene, uten fysiske knapper.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Din smarttelefon er mer enn <strong>1 000 ganger kraftigere</strong> enn datamaskinene NASA brukte da de sendte Apollo 11 til månen i 1969! Og den er tusenvis av ganger lettere.</p>
+  </div>
+
+  <div class="term-note">
+    <div class="term-emoji">📖</div>
+    <div>
+      <h4>Ord å lære: "Prosessor"</h4>
+      <p>Prosessoren er telefonens hjerne. Den utfører milliarder av beregninger hvert sekund for å kjøre alle appene dine. Jo raskere prosessor, jo raskere telefon!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HISTORIEN -->
+<section id="historie">
+  <p class="section-label">Tidslinje</p>
+  <h2 class="section-title">Mobiltelefon-historien</h2>
+  <p class="section-intro">Fra en 1,1 kg murstein i 1973 til en ultratynn supercomputer i dag – her er reisen!</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">1973</div>
+      <h4>Den første mobilsamtalen</h4>
+      <p>Martin Cooper fra Motorola ringer den aller første mobilsamtalen – til en konkurrent hos Bell Labs! Telefonen veide 1,1 kg og var 23 cm lang.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1983</div>
+      <h4>Motorola DynaTAC 8000X</h4>
+      <p>Den første kommersielle mobiltelefonen selges. Den koster nesten 4 000 dollar og batteriet holder 30 minutter. Men det var fremtiden!</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1992</div>
+      <h4>Den første SMS-meldingen</h4>
+      <p>Neil Papworth sender verdens første tekstmelding: "Merry Christmas" til Richard Jarvis 3. desember 1992 i Storbritannia.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1999</div>
+      <h4>Nokia dominerer og WAP-internett</h4>
+      <p>Nokia 3210 og 3310 er overalt. Det første internett på mobil (WAP) introduseres – ekstremt tregt, men starten på noe enormt.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2007</div>
+      <h4>Steve Jobs lanserer iPhone</h4>
+      <p>Apple-sjef Steve Jobs holder en av historiens mest berømte presentasjoner og viser iPhone: "et revolusjonerende produkt" med berøringsskjerm, iPod og internett i én enhet.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2008</div>
+      <h4>Android og App Store</h4>
+      <p>Google lanserer Android og Apple åpner App Store. Plutselig kan hvem som helst lage og selge apper. Smarttelefonrevolusjonen er i gang!</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2010-t.</div>
+      <h4>Kameraer, 4G og sosiale medier</h4>
+      <p>Smarttelefonkameraer blir bedre enn de fleste kompaktkameraer. 4G gir rask internettilgang overalt. Instagram, Snapchat og TikTok forandrer verden.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2020-t.</div>
+      <h4>5G og sammenfolbare telefoner</h4>
+      <p>5G-nettverk gir ultraraske hastigheter. Sammenfolbare telefoner med bøybare skjermer dukker opp. AI integreres direkte i telefonene.</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>Det tok telefonselskaper <strong>16 år</strong> å selge de første 50 millioner smarttelefonene. Instagram nådde 50 millioner brukere på bare <strong>18 måneder</strong> etter lansering!</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MODELLER -->
+<section id="modeller">
+  <p class="section-label">Interaktiv utforskning</p>
+  <h2 class="section-title">Viktige modeller</h2>
+  <p class="section-intro">Fra den første mobiltelefonen til dagens supertelefoner – klikk for å lære om milepælene!</p>
+
+  <div class="gladiator-picker">
+    <button class="gladiator-btn active" onclick="showPhone('dynaTAC')">DynaTAC (1983)</button>
+    <button class="gladiator-btn" onclick="showPhone('nokia3310')">Nokia 3310 (2000)</button>
+    <button class="gladiator-btn" onclick="showPhone('iphone1')">iPhone (2007)</button>
+    <button class="gladiator-btn" onclick="showPhone('galaxyS')">Galaxy S (2010)</button>
+    <button class="gladiator-btn" onclick="showPhone('modern')">I dag</button>
+  </div>
+
+  <div class="gladiator-display" id="phone-display">
+    <div class="gladiator-emoji" id="p-emoji">📡</div>
+    <div class="gladiator-info">
+      <h3 id="p-name">Motorola DynaTAC 8000X</h3>
+      <p class="gladiator-latin" id="p-year">År: 1983</p>
+      <p id="p-desc">Den første kommersielle mobiltelefonen. Så tung og stor at folk kalte den "mursteintelefonen". Batteritid: 30 minutter samtale. Kostet 3 995 dollar (ca. 45 000 kr i dag). Men det var fremtiden – og det visste alle som så den!</p>
+      <div class="gear-tags" id="p-specs">
+        <span class="gear-tag">⚖️ 794 gram</span>
+        <span class="gear-tag">📏 33 cm lang</span>
+        <span class="gear-tag">🔋 30 min batteritid</span>
+        <span class="gear-tag">💰 ~45 000 kr i dag</span>
+      </div>
+      <div class="strength-bars" id="p-bars">
+        <div class="bar-row"><span class="bar-label">Ytelse</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Batteri</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div></div>
+        <div class="bar-row"><span class="bar-label">Kamera</span><div class="bar-track"><div class="bar-fill" style="width:3%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HVA ER INNI -->
+<section id="inni">
+  <p class="section-label">Teknologien</p>
+  <h2 class="section-title">Hva er inni en smarttelefon?</h2>
+  <p class="section-intro">En moderne smarttelefon er et under av teknologi. La oss se hva som gjemmer seg inni!</p>
+
+  <div class="colosseum-facts">
+    <div class="colo-stat">
+      <span class="big">200+</span>
+      <span class="desc">Megapixel i beste kamera</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">5G</span>
+      <span class="desc">Hastigheter opp til 10 Gbit/s</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">16GB</span>
+      <span class="desc">RAM i toppmodeller</span>
+    </div>
+    <div class="colo-stat">
+      <span class="big">50+</span>
+      <span class="desc">Sensorer i en moderne telefon</span>
+    </div>
+  </div>
+
+  <div class="fact-grid" style="margin-top:1.5rem;">
+    <div class="fact-card">
+      <div class="fact-icon">🧠</div>
+      <h3>Prosessoren (CPU/GPU)</h3>
+      <p>Hjernen i telefonen. Utfører milliarder av operasjoner per sekund for å kjøre apper, spill og AI.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">🔋</div>
+      <h3>Batteriet</h3>
+      <p>Lithium-ion-batterier gir strøm. Forskning på bedre batterier er et av teknologiens mest spennende felt.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">📸</div>
+      <h3>Kamerasystemet</h3>
+      <p>Moderne telefoner har 3–5 kameralinser og bruker AI til å automatisk forbedre bilder, selv i mørket.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-icon">📡</div>
+      <h3>Sensorene</h3>
+      <p>Akselerometer, gyroscop, nærhetssensor, fingeravtrykksleser og mye mer – over 50 sensorer jobber hele tiden!</p>
+    </div>
+  </div>
+
+  <div class="did-you-know">
+    <p class="dyk-label">Visste du at...?</p>
+    <p>En moderne smarttelefon inneholder sjeldne metaller fra over <strong>30 land</strong>! Litium fra Bolivia, kobolt fra Kongo, neodym fra Kina – en liten telefon er resultat av verdenshandel i global skala.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- I HVERDAGEN -->
+<section id="hverdagen">
+  <p class="section-label">Påvirkning</p>
+  <h2 class="section-title">Smarttelefonen i hverdagen</h2>
+  <p class="section-intro">Smarttelefonen har forandret nesten alle deler av livet vårt. Men hvordan – og er det alltid bra?</p>
+
+  <div class="society-grid">
+    <div class="society-card">
+      <h4>💬 Kommunikasjon forandret seg</h4>
+      <p>Vi ringer nesten ikke lenger – vi sender meldinger, bilder, GIF-er og videoer. Facetime og WhatsApp gjør at besteforeldre kan se barnebarn på andre siden av jorda.</p>
+    </div>
+    <div class="society-card">
+      <h4>🗺️ Navigasjon og kart</h4>
+      <p>Husker du veibeskrivelser? Google Maps og lignende apper har gjort oss mye bedre til å finne frem – men kanskje litt dårligere til å lære kart utenat.</p>
+    </div>
+    <div class="society-card">
+      <h4>📚 Skole og læring</h4>
+      <p>Leksehjelp-apper, YouTube-videoer, ordbøker – alt er tilgjengelig umiddelbart. Men det er også lett å bli distrahert av andre apper.</p>
+    </div>
+    <div class="society-card">
+      <h4>⏱️ Utfordringer med skjermtid</h4>
+      <p>Forskning viser at mye skjermtid kan påvirke søvn og konsentrasjon. Det er viktig å ta pauser og ha "telefonfrie soner" hjemme.</p>
+    </div>
+  </div>
+
+  <div class="myth-grid">
+    <div class="myth-card myth">
+      <span class="badge">❌ Myte</span>
+      <h4>"Smarttelefoner gjør oss dumme"</h4>
+      <p>Forskning støtter ikke dette. Smarttelefoner er et verktøy – som alt annet, handler det om hvordan vi bruker dem.</p>
+    </div>
+    <div class="myth-card fact">
+      <span class="badge">✅ Fakta</span>
+      <h4>De har reddet millioner av liv</h4>
+      <p>Smarttelefoner har gitt adgang til utdanning, helsetjenester og nødhjelp for milliarder av mennesker verden over.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FREMTIDEN -->
+<section id="fremtiden">
+  <p class="section-label">Hva kommer?</p>
+  <h2 class="section-title">Fremtidens smarttelefon</h2>
+  <p class="section-intro">Hva vil smarttelefonen se ut om 10 år? Her er noen av de spennende mulighetene!</p>
+
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-time">Nær fremtid</div>
+      <h4>Sammenfolbare skjermer</h4>
+      <p>Telefoner som brettes ut til nettbrett-størrelse er allerede her – prisen er fortsatt høy, men synker.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">5–10 år</div>
+      <h4>AR-briller erstatter telefonen?</h4>
+      <p>Mange tror neste store plattform er briller med utvidet virkelighet (AR) – Pokemon GO, men overalt hele tiden.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Allerede nå</div>
+      <h4>AI i alt</h4>
+      <p>Kunstig intelligens er allerede i kameraet. Snart vil AI kanskje skrive tekstmeldinger for deg og oversette i sanntid.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Nær fremtid</div>
+      <h4>Bedre batterier</h4>
+      <p>Solid-state-batterier lover dobbelt batteritid og hurtiglading på minutter – teknologien er nær kommersielt nivå.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Viktig nå</div>
+      <h4>Bærekraft</h4>
+      <p>Produksjon av telefoner bruker mye ressurser. Selskaper jobber med mer gjenbruk og bedre reparerbarhet.</p>
+    </div>
+    <div class="day-card">
+      <div class="day-time">Fremtid</div>
+      <h4>Helsemonitorering</h4>
+      <p>Fremtidens telefoner vil kanskje oppdage sykdommer, måle blodtrykk og analysere helsen din løpende.</p>
+    </div>
+  </div>
+
+  <div class="film-note">
+    <div class="film-emoji">🎬</div>
+    <div>
+      <h4>Smarttelefoner i filmer og serier</h4>
+      <p>Husker du Wall-E, Her, eller Black Mirror? Science fiction har lenge forestilt seg fremtidens teknologi – og noen ganger slår virkeligheten fiksjonen! I filmen "Her" fra 2013 har karakteren et AI-operativsystem han blir kjæreste med. I dag finnes AI-chatboter du kan snakke med akkurat slik... interessant å tenke på!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- QUIZ -->
+<section id="quiz">
+  <p class="section-label">Test deg selv!</p>
+  <h2 class="section-title">Smarttelefon-quizen</h2>
+  <p class="section-intro">Har du fulgt med? Test kunnskapen din om smarttelefonens historie!</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-body">
+      <p class="quiz-question" id="quiz-q"></p>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <button class="quiz-btn" id="quiz-next">Neste spørsmål →</button>
+    </div>
+    <div class="quiz-result" id="quiz-result">
+      <p>Du fikk</p>
+      <span class="score" id="quiz-score"></span>
+      <p id="quiz-msg"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Prøv igjen!</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>📱 <strong style="color:var(--primary)">Smarttelefonen</strong> – Del av <a href="hub.html">Læringsportalen</a></p>
+  <p style="margin-top:0.5rem;">Innhold basert på teknologihistorie • Laget for nysgjerrige elever 💻</p>
+</footer>
+
+<script>
+// ===== PHONE DATA =====
+const phones = {
+  dynaTAC: {
+    emoji: "📡",
+    name: "Motorola DynaTAC 8000X",
+    year: "År: 1983",
+    desc: 'Den første kommersielle mobiltelefonen. Så tung og stor at folk kalte den "mursteintelefonen". Batteritid: 30 minutter samtale. Kostet 3 995 dollar (ca. 45 000 kr i dag). Men det var fremtiden – og det visste alle som så den!',
+    specs: ["⚖️ 794 gram", "📏 33 cm lang", "🔋 30 min batteritid", "💰 ~45 000 kr i dag"],
+    bars: [5, 10, 3]
+  },
+  nokia3310: {
+    emoji: "🟦",
+    name: "Nokia 3310",
+    year: "År: 2000",
+    desc: 'En av tidenes mest populære telefoner! Enkel, nesten uknuselig, og med Snake-spillet alle elsket. Nokia 3310 er blitt et symbol på en enklere tid. Den hadde ingen internett, men trengte det heller ikke!',
+    specs: ["🐍 Snake-spillet innebygd", "💪 Legendarisk holdbarhet", "📨 SMS og ringetoner", "⚡ Uke lang batteritid"],
+    bars: [15, 95, 0]
+  },
+  iphone1: {
+    emoji: "⬛",
+    name: "iPhone (1. generasjon)",
+    year: "År: 2007",
+    desc: 'Steve Jobs kalte den "et revolusjonerende produkt". Den første iPhonen kombinerte telefon, iPod og internett i ett. Berøringsskjermen uten fysiske knapper var revolusjonerende. Den forandret alt – selv konkurrentene måtte kopiere den.',
+    specs: ["👆 Multi-touch berøringsskjerm", "🎵 iPod innebygget", "🌐 Safari nettleser", "📸 2 megapixel kamera"],
+    bars: [40, 30, 20]
+  },
+  galaxyS: {
+    emoji: "🌌",
+    name: "Samsung Galaxy S (første)",
+    year: "År: 2010",
+    desc: 'Samsung svarte på iPhone med Galaxy S – og det var begynnelsen på verdens største Android-serie. Galaxy-serien har siden solgt over 1 milliard enheter totalt. Android og iOS ble de to dominerende plattformene – og slik er det fortsatt.',
+    specs: ["🤖 Android operativsystem", "📺 Super AMOLED-skjerm", "📸 5 megapixel kamera", "🌍 Lansert globalt"],
+    bars: [50, 50, 40]
+  },
+  modern: {
+    emoji: "✨",
+    name: "Moderne smarttelefon (2020-tallet)",
+    year: "År: 2020–nå",
+    desc: 'Dagens smarttelefoner er utrolige datamaskiner. Kameraene har AI-assistanse og tar bilder i mørket. 5G gir internett raskere enn mange hjemme-internett-forbindelser. Skjermene er skarpe som verdens beste TV-er. Og de gjør alt dette i en tynnere enhet enn en blyant.',
+    specs: ["🧠 AI-prosessor innebygd", "📸 200+ megapixel kamera", "⚡ 5G internett", "🌙 Under 7mm tynn"],
+    bars: [99, 80, 98]
+  }
+};
+
+function showPhone(key) {
+  const p = phones[key];
+  document.getElementById('p-emoji').textContent = p.emoji;
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-year').textContent = p.year;
+  document.getElementById('p-desc').textContent = p.desc;
+  document.getElementById('p-specs').innerHTML = p.specs.map(t => `<span class="gear-tag">${t}</span>`).join('');
+  const barLabels = ['Ytelse', 'Batteri', 'Kamera'];
+  document.getElementById('p-bars').innerHTML = p.bars.map((v, i) =>
+    `<div class="bar-row"><span class="bar-label">${barLabels[i]}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%"></div></div></div>`
+  ).join('');
+  document.querySelectorAll('.gladiator-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ===== QUIZ =====
+const questions = [
+  {
+    q: "Hvem foretok den aller første mobiltelefon-samtalen i 1973?",
+    opts: ["Steve Jobs", "Bill Gates", "Martin Cooper", "Elon Musk"],
+    correct: 2,
+    explanation: "Martin Cooper fra Motorola ringte den første mobilsamtalen – til sin rival hos Bell Labs! Han er 'mobiltelefonstjerna' ingen husker."
+  },
+  {
+    q: "Hva sa Steve Jobs da han lanserte iPhone i 2007?",
+    opts: ["Den beste telefonen noensinne", "Et revolusjonerende produkt", "Fremtidens datamaskin", "En magisk enhet"],
+    correct: 1,
+    explanation: "Steve Jobs kalte den 'et revolusjonerende produkt' og holdt en av historiens mest berømte produktlanseringer!"
+  },
+  {
+    q: "Hva var innholdet i verdens første SMS-melding i 1992?",
+    opts: ["Hello World", "Merry Christmas", "Testing 1 2 3", "Happy New Year"],
+    correct: 1,
+    explanation: "'Merry Christmas' ble sendt av Neil Papworth til Richard Jarvis 3. desember 1992 – verdens første tekstmelding!"
+  },
+  {
+    q: "Hva er et 'operativsystem' på en smarttelefon?",
+    opts: ["Et spill du kan laste ned", "Batteriet i telefonen", "Programvaren som styrer hele telefonen – som Android eller iOS", "Kameralinsen"],
+    correct: 2,
+    explanation: "Operativsystemet er 'hjernen' – det som kobler alt hardware og software sammen. Android (Google) og iOS (Apple) er de to dominerende systemene."
+  },
+  {
+    q: "Omtrent hvor mange ganger kraftigere er en moderne smarttelefon enn Apollo 11s romfartscomputer?",
+    opts: ["10 ganger", "100 ganger", "Over 1 000 ganger", "Omtrent like kraftig"],
+    correct: 2,
+    explanation: "En moderne smarttelefon er over 1 000 ganger kraftigere enn datamaskinene NASA brukte til månelandingen i 1969 – og veier tusenvis av ganger mindre!"
+  },
+  {
+    q: "Hva er 5G?",
+    opts: ["Den femte generasjonen mobilnett med mye raskere hastigheter", "En type batteri", "Et kamerasystem", "Et operativsystem"],
+    correct: 0,
+    explanation: "5G er den femte generasjonen mobilnett – det kan gi nedlastingshastigheter opp til 10 Gbit/s, altså ekstremt raskt internett overalt!"
+  },
+  {
+    q: "Hvilken telefon er kjent for å være nesten uknuselig og for spillet Snake?",
+    opts: ["iPhone 1", "Samsung Galaxy S", "Nokia 3310", "Motorola DynaTAC"],
+    correct: 2,
+    explanation: "Nokia 3310 fra år 2000 er legendarisk for sin holdbarhet og Snake-spillet – den er blitt et popkultursymbol på en enklere teknologitid!"
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function buildProgress() {
+  document.getElementById('quiz-progress').innerHTML = questions.map((_, i) =>
+    `<div class="quiz-dot${i < current ? ' done' : i === current ? ' current' : ''}"></div>`
+  ).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('quiz-q').textContent = `Spørsmål ${current + 1} av ${questions.length}: ${q.q}`;
+  document.getElementById('quiz-opts').innerHTML = q.opts.map((o, i) =>
+    `<button class="quiz-option" onclick="answer(${i})">${o}</button>`
+  ).join('');
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+  buildProgress();
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('quiz-feedback');
+  if (idx === q.correct) {
+    score++;
+    opts[idx].classList.add('correct');
+    fb.textContent = "✅ Riktig! " + q.explanation;
+    fb.className = 'quiz-feedback correct';
+  } else {
+    opts[idx].classList.add('wrong');
+    fb.textContent = "❌ Ikke helt! " + q.explanation;
+    fb.className = 'quiz-feedback wrong';
+  }
+  fb.style.display = 'block';
+  const btn = document.getElementById('quiz-next');
+  btn.style.display = 'inline-block';
+  btn.textContent = current < questions.length - 1 ? 'Neste spørsmål →' : 'Se resultatet! 🏆';
+}
+
+document.getElementById('quiz-next').onclick = function () {
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQuestion();
+};
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-score').textContent = `${score} / ${questions.length}`;
+  const pct = score / questions.length;
+  document.getElementById('quiz-msg').textContent =
+    pct < 0.4 ? "Ikke gi opp – teknologi er et stort tema! Prøv igjen. 📱" :
+    pct < 0.6 ? "Bra start! Du vet en del om smarttelefoner allerede!" :
+    pct < 0.9 ? "Imponerende! Du er på god vei til å bli en ekte tech-nerd! 💻" :
+    "Teknologigeni! Du vet alt om smarttelefonens historie! 🚀";
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  renderQuestion();
+}
+
+renderQuestion();
+
+// NAV ACTIVE ON SCROLL
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+});
+</script>
+
+</body>
+</html>
